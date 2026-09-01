@@ -69,6 +69,7 @@ npm run dev                  # http://localhost:3000
 | `npm run lint` | ESLint |
 | `npm run verificar` | contraste + contenido + pruebas + lint + tipos + build. **Antes de cada commit.** |
 | `npm run verificar:fuentes` | Comprueba glifo a glifo que las fuentes cubren el español |
+| `npm run verificar:busqueda` | Pruebas de la búsqueda sin tildes |
 | `npm run semilla` | Regenera contenido/preguntas.json y noticias.json |
 | `npm run format` | Prettier sobre todo el proyecto |
 | `npm run demo:acceso` | El demo de enlace mágico, en el puerto 4321 |
@@ -95,5 +96,6 @@ encadena a mano — es fácil creer que el build te cubre cuando no lo hace.
 | 4 · Portal de entrada | ✅ |
 | 5 · Página principal | ✅ |
 | 6 · ConsejeRed | ✅ `v0.3.0` |
-| 7 · Preguntas y Guías | ⏳ siguiente |
-| 8–16 | Ver `docs/10-PLAN-DE-ENTREGAS.md` |
+| 7 · Preguntas y Guías | ✅ |
+| 8 · Noticias | ⏳ siguiente |
+| 9–16 | Ver `docs/10-PLAN-DE-ENTREGAS.md` |
