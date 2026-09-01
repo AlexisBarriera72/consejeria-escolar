@@ -40,6 +40,15 @@ const PALETA = {
   papel: '#fbfaf7',
   gris: '#5b6676',
   blanco: '#ffffff',
+
+  // Colores propios de las plantillas de anuncios (doc 03 §6). Van aquí
+  // porque son justo donde el contraste se pierde sin que nadie lo note:
+  // la decoración tienta a bajar el contraste "para que se vea bonito".
+  'papel-prensa': '#f5f2e8',
+  pizarra: '#2b4a3f',
+  tiza: '#f0ede2',
+  corcho: '#b8935f',
+  libreta: '#fdfcf5',
 };
 
 /** Umbrales de WCAG 2.1 nivel AA. */
@@ -73,6 +82,15 @@ const REGLAS = [
   ['tinta', 'salvia', AA_TEXTO, 'superficie tranquila'],
   ['tinta', 'azul-300', AA_TEXTO, 'superficie azul'],
   ['tinta', 'azul-100', AA_TEXTO, 'superficie azul clara'],
+
+  // Plantillas de anuncios
+  ['tinta', 'papel-prensa', AA_TEXTO, 'plantilla periódico'],
+  ['tiza', 'pizarra', AA_TEXTO, 'plantilla pizarra'],
+  ['tinta', 'libreta', AA_TEXTO, 'plantilla notita'],
+  ['tinta', 'corcho', AA_TEXTO, 'plantilla tablón — sello sobre el corcho'],
+  ['tinta', 'naranja', AA_TEXTO, 'plantilla afiche'],
+  ['blanco', 'rosa-700', AA_TEXTO, 'plantilla urgente — franja superior'],
+  ['azul-900', 'blanco', AA_TEXTO, 'plantilla comunicado'],
 
   // Elementos que no son texto (SC 1.4.11)
   // El foco es un aro doble a propósito: el aro oscuro se ve sobre el papel,
