@@ -48,6 +48,21 @@
   --font-titulo: var(--fuente-titulo), Georgia, 'Times New Roman', serif;
   --font-cuerpo: var(--fuente-cuerpo), system-ui, -apple-system, sans-serif;
 
+  /* Decorativas: solo para titulares dentro de las plantillas de anuncios.
+     Nunca para texto corrido — una manuscrita a 17px es preciosa y también
+     ilegible para quien tiene dislexia o baja visión. */
+  --font-periodico: var(--fuente-periodico), Georgia, serif;
+  --font-manuscrita: var(--fuente-manuscrita), 'Segoe Script', cursive;
+  --font-tiza: var(--fuente-tiza), system-ui, sans-serif;
+
+  /* Colores propios de las plantillas (doc 03 §6). Verificados en
+     scripts/verificar-contraste.mjs igual que el resto. */
+  --color-papel-prensa: #f5f2e8;
+  --color-pizarra: #2b4a3f;
+  --color-tiza: #f0ede2;
+  --color-corcho: #b8935f;
+  --color-libreta: #fdfcf5;
+
   /* 17px de base, no 16. La mayoría de las visitas van a ser en teléfonos
      baratos y ese medio punto se nota. */
   --text-base: 1.0625rem;

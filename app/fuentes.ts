@@ -1,4 +1,10 @@
-import { Fraunces, Source_Sans_3 } from 'next/font/google';
+import {
+  Caveat,
+  Fraunces,
+  Playfair_Display,
+  Shantell_Sans,
+  Source_Sans_3,
+} from 'next/font/google';
 
 /**
  * Las dos fuentes del sitio. Verificadas glifo por glifo con
@@ -27,4 +33,46 @@ export const fuenteCuerpo = Source_Sans_3({
   display: 'swap',
 });
 
-export const clasesDeFuente = `${fuenteTitulo.variable} ${fuenteCuerpo.variable}`;
+/**
+ * Fuentes decorativas — SOLO para las plantillas de anuncios.
+ *
+ * `preload: false` a propósito: solo aparecen en algunos anuncios, así que
+ * precargarlas en todas las páginas gastaría datos de gente que nunca las va
+ * a ver. Se descargan cuando hacen falta.
+ *
+ * Las tres pasan `npm run verificar:fuentes` — traen á é í ó ú ü ñ Ñ ¿ ¡ y
+ * las mayúsculas acentuadas. En tipografías manuscritas eso no se da por
+ * hecho: se diseñan en inglés y muchas no llevan ñ.
+ */
+
+/** Cabecera del periódico. */
+export const fuentePeriodico = Playfair_Display({
+  subsets: ['latin', 'latin-ext'],
+  variable: '--fuente-periodico',
+  display: 'swap',
+  preload: false,
+});
+
+/** La "notita" escrita a mano. */
+export const fuenteManuscrita = Caveat({
+  subsets: ['latin', 'latin-ext'],
+  variable: '--fuente-manuscrita',
+  display: 'swap',
+  preload: false,
+});
+
+/** La tiza de la pizarra. */
+export const fuenteTiza = Shantell_Sans({
+  subsets: ['latin', 'latin-ext'],
+  variable: '--fuente-tiza',
+  display: 'swap',
+  preload: false,
+});
+
+export const clasesDeFuente = [
+  fuenteTitulo.variable,
+  fuenteCuerpo.variable,
+  fuentePeriodico.variable,
+  fuenteManuscrita.variable,
+  fuenteTiza.variable,
+].join(' ');
