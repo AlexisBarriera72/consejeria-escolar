@@ -48,3 +48,42 @@ Spanish. Body copy is Lorem Ipsum until the district supplies real text.
    PR Ley 229, COPPA and FERPA don't bind it. Doc 07's checklist stays anyway —
    because blind and dyslexic students use this site, and because the day the
    school adopts it, every obligation lands at once. Doc 09 §3.
+
+---
+
+## Desarrollo local
+
+```bash
+npm install
+cp .env.example .env.local   # opcional hasta la Sección 11
+npm run dev                  # http://localhost:3000
+```
+
+| Comando | Qué hace |
+|---|---|
+| `npm run dev` | Servidor de desarrollo |
+| `npm run build` | Build de producción (falla si hay errores de tipo) |
+| `npm run lint` | ESLint |
+| `npm run verificar` | lint + tipos + build. **Corre esto antes de cada commit.** |
+| `npm run format` | Prettier sobre todo el proyecto |
+| `npm run demo:acceso` | El demo de enlace mágico, en el puerto 4321 |
+
+### Stack
+
+Next.js 16 (App Router) · React 19 · TypeScript 6 · Tailwind 4 · Node 24
+
+Tailwind 4 configura el tema **en CSS**, dentro de `@theme` en
+`app/globals.css`. No hay `tailwind.config.js` y no debe haberlo.
+
+En Next 16 `next lint` ya no existe y la clave `eslint` de `next.config.ts`
+tampoco: el build **no** corre ESLint. Por eso `npm run verificar` los
+encadena a mano — es fácil creer que el build te cubre cuando no lo hace.
+
+### Estado
+
+| Sección | Estado |
+|---|---|
+| 0 · Documentos de planificación | ✅ `v0.1.0` |
+| 1 · Andamiaje | ✅ |
+| 2 · Sistema de diseño | ⏳ siguiente |
+| 3–16 | Ver `docs/10-PLAN-DE-ENTREGAS.md` |
