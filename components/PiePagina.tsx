@@ -23,6 +23,12 @@ export function PiePagina() {
           <Link href="/consejered" className="text-azul-700 rounded underline">
             Profesionales
           </Link>
+          <Link
+            href="/accesibilidad"
+            className="text-azul-700 rounded underline"
+          >
+            Accesibilidad
+          </Link>
           {/* La puerta discreta al panel. No es seguridad — la seguridad
               está en el servidor (doc 01 §3) — es para que el personal
               no tenga que acordarse de una dirección secreta. */}
