@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import { clasesDeFuente } from './fuentes';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -25,7 +26,7 @@ export default function RootLayout({
   return (
     // lang="es" no es decorativo: sin esto un lector de pantalla lee el
     // español con voz y reglas de pronunciación en inglés.
-    <html lang="es">
+    <html lang="es" className={clasesDeFuente}>
       <body>
         <a href="#contenido" className="salto-contenido">
           Saltar al contenido
