@@ -89,5 +89,8 @@ encadena a mano — es fácil creer que el build te cubre cuando no lo hace.
 | 1 · Andamiaje | ✅ |
 | 2 · Sistema de diseño | ✅ |
 | 3 · Tipos y datos de prueba | ✅ `v0.2.0` |
-| 4 · Portal de entrada | ⏳ siguiente |
-| 5–16 | Ver `docs/10-PLAN-DE-ENTREGAS.md` |
+| 4 · Portal de entrada | ✅ |
+| 5 · Página principal | ✅ |
+| 6 · ConsejeRed | ✅ `v0.3.0` |
+| 7 · Preguntas y Guías | ⏳ siguiente |
+| 8–16 | Ver `docs/10-PLAN-DE-ENTREGAS.md` |
