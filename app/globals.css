@@ -1,38 +1,91 @@
 @import 'tailwindcss';
 
-/* Los tokens de color y tipografía llegan en la Sección 2 (doc 03).
-   Aquí solo va la base estructural mínima para que la página no salga
-   sin estilo. */
+/* ───────────────────────────────────────────────────────────────────────────
+   Tokens de diseño (doc 03)
+
+   Tailwind 4 se configura AQUÍ, no en un tailwind.config.js — ese archivo
+   ya no existe y no debe crearse. Cada `--color-x` de este bloque genera
+   automáticamente `bg-x`, `text-x`, `border-x`, etc.
+
+   Los contrastes están verificados por `node scripts/verificar-contraste.mjs`.
+   Dos reglas que salen de esos números y que no son opinables:
+
+     1. Solo --color-azul-700, --color-rosa-700, --color-turquesa-700 y
+        --color-azul-900 pueden llevar texto BLANCO encima.
+     2. Todo lo demás es un fondo que lleva --color-tinta encima.
+        --color-azul-500 incluido: da 4.43 sobre blanco y AA pide 4.5.
+   ─────────────────────────────────────────────────────────────────────── */
+
+@theme {
+  /* Azul — la columna vertebral del sitio */
+  --color-azul-900: #1e3f73;
+  --color-azul-700: #2f5ea8;
+  --color-azul-500: #4378c6;
+  --color-azul-300: #899dd9;
+  --color-azul-100: #dbe4f6;
+
+  /* Acentos por sección */
+  --color-turquesa-700: #0a7d85;
+  --color-turquesa-500: #00bdc9;
+  --color-menta: #75d2c1;
+  --color-rosa-700: #c4166b;
+  --color-rosa-500: #f83f98;
+  --color-magenta: #e51a68;
+  --color-coral: #ff6e53;
+  --color-durazno: #ff987f;
+  --color-naranja: #fc7f47;
+  --color-ambar: #ffc226;
+  --color-amarillo: #ffed76;
+  --color-salvia: #bcd298;
+
+  /* Neutrales */
+  --color-tinta: #16202e;
+  --color-papel: #fbfaf7;
+  --color-gris: #5b6676;
+  --color-borde: #e4e8ef;
+
+  /* Tipografía */
+  --font-titulo: var(--fuente-titulo), Georgia, 'Times New Roman', serif;
+  --font-cuerpo: var(--fuente-cuerpo), system-ui, -apple-system, sans-serif;
+
+  /* 17px de base, no 16. La mayoría de las visitas van a ser en teléfonos
+     baratos y ese medio punto se nota. */
+  --text-base: 1.0625rem;
+}
 
 @layer base {
   html {
-    /* Que los enlaces internos no aterricen pegados al borde superior. */
     scroll-padding-block-start: 5rem;
   }
 
   body {
-    background: #fbfaf7;
-    color: #16202e;
-    font-family:
-      system-ui,
-      -apple-system,
-      'Segoe UI',
-      sans-serif;
+    background: var(--color-papel);
+    color: var(--color-tinta);
+    font-family: var(--font-cuerpo);
+    font-size: var(--text-base);
     line-height: 1.6;
-    /* 17px, no 16. Doc 03: la mayoría de las visitas serán en teléfonos
-       baratos y este medio punto se nota. */
-    font-size: 17px;
+    -webkit-font-smoothing: antialiased;
   }
 
-  /* Un anillo de foco visible en TODO lo interactivo, desde el primer día.
-     Es mucho más fácil no romperlo nunca que arreglarlo al final. */
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-titulo);
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Un anillo de foco visible en TODO lo interactivo. */
   :focus-visible {
-    outline: 3px solid #ffc226;
+    outline: 3px solid var(--color-ambar);
     outline-offset: 2px;
     border-radius: 2px;
   }
 
-  /* Respetar la preferencia del sistema desde el principio (doc 03 §4). */
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -46,16 +99,13 @@
 }
 
 @layer components {
-  /* Enlace para saltar la navegación. Invisible hasta que recibe foco,
-     y entonces aparece arriba a la izquierda. Es lo primero que encuentra
-     quien navega con teclado o lector de pantalla. */
   .salto-contenido {
     position: absolute;
     inset-inline-start: 0.5rem;
     inset-block-start: -100vh;
     z-index: 100;
     padding: 0.75rem 1.25rem;
-    background: #2f5ea8;
+    background: var(--color-azul-700);
     color: #fff;
     font-weight: 600;
     border-radius: 0 0 0.5rem 0.5rem;
