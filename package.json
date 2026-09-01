@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write .",
-    "verificar": "npm run verificar:contraste && npm run verificar:contenido && npm run verificar:mutuos && npm run verificar:busqueda && npm run lint && npx tsc --noEmit && npm run build && npm run verificar:a11y",
+    "verificar": "npm run verificar:contraste && npm run verificar:contenido && npm run verificar:mutuos && npm run verificar:busqueda && npm run verificar:semaforo && npm run lint && npx tsc --noEmit && npm run build && npm run verificar:a11y",
     "demo:acceso": "node demo/magic-link/servidor.mjs",
     "verificar:fuentes": "node scripts/verificar-fuentes.mjs",
     "verificar:contraste": "node scripts/verificar-contraste.mjs",
@@ -17,9 +17,14 @@
     "verificar:mutuos": "node scripts/verificar-mutuos.mjs",
     "semilla": "node scripts/generar-semilla.mjs",
     "verificar:busqueda": "node scripts/verificar-busqueda.mjs",
-    "verificar:a11y": "node scripts/verificar-accesibilidad.mjs"
+    "verificar:a11y": "node scripts/verificar-accesibilidad.mjs",
+    "verificar:semaforo": "node scripts/verificar-semaforo.mjs"
   },
   "dependencies": {
+    "@tiptap/extension-link": "^3.31.0",
+    "@tiptap/pm": "^3.31.0",
+    "@tiptap/react": "^3.31.0",
+    "@tiptap/starter-kit": "^3.31.0",
     "next": "^16.3.4",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
