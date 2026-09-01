@@ -119,3 +119,56 @@
     inset-block-start: 0;
   }
 }
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Impresión
+
+   Una parte real de los encargados no va a leer esto en pantalla: lo va a
+   recibir en papel, en la mochila de un estudiante. Las guías de requisitos,
+   becas y graduación se fotocopian y se reparten. La versión impresa es una
+   versión del producto, no un accidente.
+
+   La Sección 10 amplía esto a las noticias y los perfiles.
+   ─────────────────────────────────────────────────────────────────────── */
+
+@media print {
+  /* Navegación, botones y cualquier cosa que en papel no se pueda pulsar. */
+  .not-print,
+  body > header,
+  body > footer,
+  .salto-contenido {
+    display: none !important;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+    font-size: 11.5pt;
+  }
+
+  main {
+    max-width: none;
+  }
+
+  /* Un enlace impreso sin su destino es texto azul subrayado que no lleva a
+     ningún sitio. Solo los externos: poner la URL de cada enlace interno
+     llenaría la hoja de ruido. */
+  a[href^='http']::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.85em;
+    color: #444;
+    word-break: break-all;
+  }
+
+  /* Que no se parta una guía justo después de su título. */
+  h1,
+  h2,
+  h3 {
+    break-after: avoid;
+  }
+
+  img,
+  figure {
+    break-inside: avoid;
+  }
+}
