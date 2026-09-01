@@ -1,5 +1,9 @@
 import type { Metadata, Viewport } from 'next';
 import { clasesDeFuente } from './fuentes';
+import { ProveedorRol } from '@/components/ProveedorRol';
+import { PortalEntrada } from '@/components/PortalEntrada';
+import { Encabezado } from '@/components/Encabezado';
+import { PiePagina } from '@/components/PiePagina';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -27,11 +31,18 @@ export default function RootLayout({
     // lang="es" no es decorativo: sin esto un lector de pantalla lee el
     // español con voz y reglas de pronunciación en inglés.
     <html lang="es" className={clasesDeFuente}>
-      <body>
-        <a href="#contenido" className="salto-contenido">
-          Saltar al contenido
-        </a>
-        <main id="contenido">{children}</main>
+      <body className="flex min-h-dvh flex-col">
+        <ProveedorRol>
+          <a href="#contenido" className="salto-contenido">
+            Saltar al contenido
+          </a>
+          <PortalEntrada />
+          <Encabezado />
+          <main id="contenido" className="flex-1">
+            {children}
+          </main>
+          <PiePagina />
+        </ProveedorRol>
       </body>
     </html>
   );
