@@ -1,0 +1,171 @@
+/**
+ * Modelo de contenido (doc 02).
+ *
+ * `locale` va incluido aunque hoy solo se llene con 'es'. Añadirlo ahora es
+ * gratis; meterlo después obliga a tocar cada consulta del proyecto.
+ */
+
+export type Estado = 'borrador' | 'publicado';
+export type Locale = 'es';
+
+export type Base = {
+  id: string;
+  estado: Estado;
+  locale: Locale;
+  creadoEn: string;
+  actualizadoEn: string;
+  actualizadoPor: string;
+  eliminadoEn: string | null;
+};
+
+/** Color de acento, alineado con los tokens de app/globals.css. */
+export type Acento =
+  | 'azul'
+  | 'turquesa'
+  | 'menta'
+  | 'rosa'
+  | 'coral'
+  | 'naranja'
+  | 'ambar'
+  | 'salvia';
+
+export type Imagen = {
+  url: string;
+  /** Obligatorio para publicar. En el panel se pregunta como
+   *  "¿Qué se ve en la foto?" — nadie sabe responder "alt text". */
+  alt: string;
+  ancho: number;
+  alto: number;
+  /** 0..1. Qué parte debe sobrevivir a cualquier recorte, para que nadie
+   *  salga decapitado en una miniatura. */
+  focoX: number;
+  focoY: number;
+};
+
+export type Video = {
+  tipo: 'youtube' | 'vimeo' | 'archivo';
+  url: string;
+  titulo: string;
+  /** .vtt — obligatorio si tipo === 'archivo'. */
+  subtitulosUrl: string | null;
+  duracionSeg: number | null;
+};
+
+export type Adjunto = {
+  url: string;
+  nombre: string;
+  tipo: string;
+  tamanoBytes: number;
+  /** Confirmado por quien lo sube. Un PDF escaneado no se puede leer con
+   *  lector de pantalla y es la forma más común de fallar una auditoría. */
+  esAccesible: boolean;
+};
+
+// ── Guías ──────────────────────────────────────────────────────────────────
+
+export type Categoria = Base & {
+  titulo: string;
+  descripcion: string;
+  acento: Acento;
+  orden: number;
+};
+
+export type Pregunta = Base & {
+  categoriaId: string;
+  slug: string;
+  pregunta: string;
+  /** HTML del editor limitado a seis botones (doc 04). */
+  respuesta: string;
+  video: Video | null;
+  adjuntos: Adjunto[];
+  /** IDs de perfil, no nombres sueltos: si alguien se va, todas las guías
+   *  que lo mencionan se actualizan solas. */
+  responsables: string[];
+  orden: number;
+};
+
+// ── Noticias ───────────────────────────────────────────────────────────────
+
+export type PlantillaId =
+  | 'periodico'
+  | 'blog'
+  | 'notita'
+  | 'corcho'
+  | 'comunicado'
+  | 'afiche'
+  | 'pizarra'
+  | 'urgente';
+
+export const PLANTILLAS: { id: PlantillaId; nombre: string }[] = [
+  { id: 'periodico', nombre: 'Periódico' },
+  { id: 'blog', nombre: 'Artículo' },
+  { id: 'notita', nombre: 'Notita' },
+  { id: 'corcho', nombre: 'Tablón' },
+  { id: 'comunicado', nombre: 'Comunicado Oficial' },
+  { id: 'afiche', nombre: 'Afiche' },
+  { id: 'pizarra', nombre: 'Pizarra' },
+  { id: 'urgente', nombre: 'Urgente' },
+];
+
+export type Anuncio = Base & {
+  slug: string;
+  plantilla: PlantillaId;
+  titulo: string;
+  bajada: string | null;
+  cuerpo: string;
+  imagen: Imagen | null;
+  etiquetas: string[];
+  fechaEvento: string | null;
+  /** Texto libre a propósito. Los selectores de hora en teléfono son
+   *  horribles y las maestras escriben "durante el receso". */
+  horaTexto: string | null;
+  lugar: string | null;
+  autorPerfilId: string | null;
+  destacado: boolean;
+  publicarEn: string;
+  /** El campo anti-podredumbre. Sin esto el sitio se ve muerto en marzo. */
+  expiraEn: string | null;
+};
+
+export type Aviso = {
+  activo: boolean;
+  mensaje: string;
+  nivel: 'info' | 'urgente';
+  enlace: string | null;
+  actualizadoEn: string;
+};
+
+// ── Perfiles (ConsejeRed) ──────────────────────────────────────────────────
+
+export type Credencial = {
+  titulo: string;
+  institucion: string;
+  anio: number | null;
+};
+
+export type Contacto = {
+  email: string | null;
+  extension: string | null;
+  /** Escrito como referencia física: "al lado de la biblioteca" es como
+   *  un estudiante encuentra un salón, no "Salón 12". */
+  oficina: string | null;
+  horario: string | null;
+};
+
+export type Perfil = Base & {
+  slug: string;
+  nombre: string;
+  puesto: string;
+  escuela: string;
+  foto: Imagen | null;
+  acento: Acento;
+  estadoDelDia: string | null;
+  frase: string | null;
+  bio: string;
+  credenciales: Credencial[];
+  trabajaEn: string[];
+  /** IDs de perfil. El lector los vuelve mutuos — ver lib/contenido.ts. */
+  trabajaCon: string[];
+  contacto: Contacto;
+  orden: number;
+};
