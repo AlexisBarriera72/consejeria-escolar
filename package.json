@@ -9,14 +9,15 @@
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write .",
-    "verificar": "npm run verificar:contraste && npm run verificar:contenido && npm run verificar:mutuos && npm run verificar:busqueda && npm run lint && npx tsc --noEmit && npm run build",
+    "verificar": "npm run verificar:contraste && npm run verificar:contenido && npm run verificar:mutuos && npm run verificar:busqueda && npm run lint && npx tsc --noEmit && npm run build && npm run verificar:a11y",
     "demo:acceso": "node demo/magic-link/servidor.mjs",
     "verificar:fuentes": "node scripts/verificar-fuentes.mjs",
     "verificar:contraste": "node scripts/verificar-contraste.mjs",
     "verificar:contenido": "node scripts/verificar-contenido.mjs",
     "verificar:mutuos": "node scripts/verificar-mutuos.mjs",
     "semilla": "node scripts/generar-semilla.mjs",
-    "verificar:busqueda": "node scripts/verificar-busqueda.mjs"
+    "verificar:busqueda": "node scripts/verificar-busqueda.mjs",
+    "verificar:a11y": "node scripts/verificar-accesibilidad.mjs"
   },
   "dependencies": {
     "next": "^16.3.4",
@@ -28,8 +29,10 @@
     "@types/node": "^26.4.0",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.5",
+    "axe-core": "^4.13.0",
     "eslint": "^9.39.5",
     "eslint-config-next": "^16.3.4",
+    "jsdom": "^30.0.1",
     "prettier": "^3.9.6",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "tailwindcss": "^4.3.3",
