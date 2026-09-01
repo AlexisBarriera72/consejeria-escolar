@@ -70,6 +70,8 @@ npm run dev                  # http://localhost:3000
 | `npm run verificar` | contraste + contenido + pruebas + lint + tipos + build. **Antes de cada commit.** |
 | `npm run verificar:fuentes` | Comprueba glifo a glifo que las fuentes cubren el español |
 | `npm run verificar:busqueda` | Pruebas de la búsqueda sin tildes |
+| `npm run verificar:a11y` | axe-core sobre cada página construida |
+| `npm run verificar:semaforo` | Pruebas del semáforo de accesibilidad |
 | `npm run semilla` | Regenera contenido/preguntas.json y noticias.json |
 | `npm run format` | Prettier sobre todo el proyecto |
 | `npm run demo:acceso` | El demo de enlace mágico, en el puerto 4321 |
@@ -99,5 +101,10 @@ encadena a mano — es fácil creer que el build te cubre cuando no lo hace.
 | 7 · Preguntas y Guías | ✅ |
 | 8 · Noticias | ✅ |
 | 9 · Las ocho plantillas | ✅ `v0.4.0` |
-| 10 · Accesibilidad, pase 1 | ⏳ siguiente |
-| 11–16 | Ver `docs/10-PLAN-DE-ENTREGAS.md` |
+| 10 · Accesibilidad, pase 1 | ✅ |
+| 11 · Contenido y acceso | ✅ |
+| 12 · Panel: Guías | ✅ |
+| 13 · Panel: Noticias | ⏳ siguiente |
+| 14 · Panel: Perfiles, papelera, estadísticas | |
+| 15 · Calendario y Modo Calma | |
+| 16 · PWA y lanzamiento | |
