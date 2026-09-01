@@ -151,5 +151,56 @@
     "destacado": false,
     "publicarEn": "2026-06-05T09:00:00.000Z",
     "expiraEn": null
+  },
+  {
+    "id": "a-7",
+    "estado": "publicado",
+    "locale": "es",
+    "creadoEn": "2026-08-28T09:00:00.000Z",
+    "actualizadoEn": "2026-08-28T09:00:00.000Z",
+    "actualizadoPor": "Sra. Rivera",
+    "eliminadoEn": null,
+    "slug": "a-7-lorem-ipsum-dolor-sit-amet",
+    "plantilla": "pizarra",
+    "titulo": "Lorem Ipsum Dolor Sit Amet",
+    "bajada": "Consectetur adipiscing elit, sed do eiusmod tempor.",
+    "cuerpo": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor.</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>",
+    "imagen": null,
+    "etiquetas": [
+      "Avisos"
+    ],
+    "fechaEvento": null,
+    "horaTexto": null,
+    "lugar": null,
+    "autorPerfilId": "p-mendez",
+    "destacado": false,
+    "publicarEn": "2026-08-28T09:00:00.000Z",
+    "expiraEn": "2026-10-28T23:59:59.000Z"
+  },
+  {
+    "id": "a-8",
+    "estado": "publicado",
+    "locale": "es",
+    "creadoEn": "2026-08-12T09:00:00.000Z",
+    "actualizadoEn": "2026-08-12T09:00:00.000Z",
+    "actualizadoPor": "Sra. Rivera",
+    "eliminadoEn": null,
+    "slug": "a-8-lorem-ipsum-dolor-sit-amet",
+    "plantilla": "urgente",
+    "titulo": "Lorem Ipsum Dolor Sit Amet",
+    "bajada": "Consectetur adipiscing elit, sed do eiusmod tempor.",
+    "cuerpo": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor.</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>",
+    "imagen": null,
+    "etiquetas": [
+      "Eventos",
+      "Becas"
+    ],
+    "fechaEvento": null,
+    "horaTexto": null,
+    "lugar": null,
+    "autorPerfilId": "p-rivera",
+    "destacado": false,
+    "publicarEn": "2026-08-12T09:00:00.000Z",
+    "expiraEn": "2026-09-12T23:59:59.000Z"
   }
 ]

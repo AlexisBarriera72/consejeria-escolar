@@ -74,7 +74,7 @@ for (const [categoriaId, pre, responsables] of CATS) {
   }
 }
 
-// ── Noticias: 6 anuncios, 4 meses, una plantilla distinta cada uno ─────────
+// ── Noticias: 8 anuncios, uno por plantilla ───────────────────────────────
 
 const NOTICIAS = [
   ['a-1', 'periodico', '2026-09-01', '2026-11-01', true, null],
@@ -85,6 +85,8 @@ const NOTICIAS = [
   // funciona y que el archivo lo sigue mostrando.
   ['a-5', 'corcho', '2026-06-20', '2026-07-20', false, null],
   ['a-6', 'blog', '2026-06-05', null, false, null],
+  ['a-7', 'pizarra', '2026-08-28', '2026-10-28', false, null],
+  ['a-8', 'urgente', '2026-08-12', '2026-09-12', false, null],
 ];
 
 const AUTORES = [
@@ -93,6 +95,8 @@ const AUTORES = [
   'p-santos',
   'p-rivera',
   null,
+  'p-rivera',
+  'p-mendez',
   'p-rivera',
 ];
 
