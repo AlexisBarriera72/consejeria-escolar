@@ -97,5 +97,7 @@ encadena a mano — es fácil creer que el build te cubre cuando no lo hace.
 | 5 · Página principal | ✅ |
 | 6 · ConsejeRed | ✅ `v0.3.0` |
 | 7 · Preguntas y Guías | ✅ |
-| 8 · Noticias | ⏳ siguiente |
-| 9–16 | Ver `docs/10-PLAN-DE-ENTREGAS.md` |
+| 8 · Noticias | ✅ |
+| 9 · Las ocho plantillas | ✅ `v0.4.0` |
+| 10 · Accesibilidad, pase 1 | ⏳ siguiente |
+| 11–16 | Ver `docs/10-PLAN-DE-ENTREGAS.md` |
