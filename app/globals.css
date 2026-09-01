@@ -186,4 +186,29 @@
   figure {
     break-inside: avoid;
   }
+
+  /* Las plantillas decorativas se imprimen en tinta sobre papel.
+     La pizarra en pantalla es verde oscuro con letras claras; impresa tal
+     cual sería un rectángulo negro que se come un cartucho y encima no se
+     lee. Lo mismo el corcho y el afiche naranja. En papel, todas las
+     plantillas son el mismo documento limpio. */
+  article,
+  article * {
+    background: transparent !important;
+    color: #000 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  article {
+    border: none !important;
+    rotate: none !important;
+    padding: 0 !important;
+  }
+
+  /* Las cintas adhesivas, chinchetas y manchas de borrador no aportan nada
+     en papel. */
+  [aria-hidden='true'] {
+    display: none !important;
+  }
 }
