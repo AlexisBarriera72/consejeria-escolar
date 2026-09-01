@@ -1,0 +1,31 @@
+# dependencias
+node_modules/
+.pnp
+.pnp.js
+
+# next.js
+.next/
+out/
+build/
+next-env.d.ts
+
+# variables de entorno — NUNCA subir
+.env
+.env*.local
+.env.production
+
+# vercel
+.vercel
+
+# sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# editores
+.idea/
+*.swp
+
+# registros
+*.log
+npm-debug.log*
