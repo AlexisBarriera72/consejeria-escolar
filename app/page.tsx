@@ -1,34 +1,42 @@
+import { EnlaceBoton } from '@/components/ui/Boton';
+import { Tarjeta } from '@/components/ui/Tarjeta';
+
 export default function PaginaInicio() {
   return (
     <div className="mx-auto max-w-2xl px-6 py-20">
-      <p className="text-sm font-semibold tracking-wide text-[#0a7d85] uppercase">
-        Sección 1 · Andamiaje
+      <p className="text-turquesa-700 text-sm font-semibold tracking-wide uppercase">
+        Secciones 1–3 · Andamiaje, diseño y datos
       </p>
 
-      <h1 className="mt-3 text-4xl font-bold tracking-tight text-[#1e3f73]">
+      <h1 className="text-azul-900 mt-3 text-4xl font-bold">
         Consejería Escolar
       </h1>
 
-      <p className="mt-4 text-[#5b6676]">
+      <p className="text-gris mt-4">
         El proyecto arranca aquí. Esta página se reemplaza en la Sección 5 por
         la página principal con el avatar y las tres tarjetas.
       </p>
 
-      <ul className="mt-10 space-y-2 text-[#5b6676]">
-        <li>✓ Next.js, TypeScript y Tailwind configurados</li>
-        <li>✓ Idioma del documento en español</li>
-        <li>✓ Enlace para saltar al contenido (prueba con la tecla Tab)</li>
-        <li>✓ Anillo de foco visible</li>
-        <li>✓ Animación reducida si el sistema lo pide</li>
-      </ul>
+      <Tarjeta acento="turquesa" className="mt-10">
+        <h2 className="text-azul-900 text-lg font-bold">Listo hasta ahora</h2>
+        <ul className="text-gris mt-3 space-y-1.5 text-sm">
+          <li>Next.js, TypeScript y Tailwind configurados</li>
+          <li>Idioma del documento en español</li>
+          <li>Enlace para saltar al contenido (prueba con Tab)</li>
+          <li>Aro de foco doble, visible sobre claro y sobre oscuro</li>
+          <li>Animación reducida si el sistema lo pide</li>
+          <li>Paleta y tipografía verificadas por script</li>
+        </ul>
+      </Tarjeta>
 
-      <p className="mt-10 text-sm text-[#5b6676]">
-        Próximo: <strong>Sección 2</strong> — sistema de diseño y verificación
-        de tildes en las fuentes.
-      </p>
+      <div className="mt-8">
+        <EnlaceBoton href="/estilo" variante="secundario">
+          Ver la guía de estilo
+        </EnlaceBoton>
+      </div>
 
-      <p className="mt-6 border-t border-[#e4e8ef] pt-6 text-sm text-[#5b6676]">
-        Prueba de diacríticos: ¿Cómo estás, Señor Núñez? ¡Qué bien! ÁÉÍÓÚ ñÑ üÜ
+      <p className="text-gris border-borde mt-10 border-t pt-6 text-sm">
+        Prueba de tildes: ¿Cómo estás, Señor Núñez? ¡Qué bien! ÁÉÍÓÚ ñÑ üÜ
       </p>
     </div>
   );
