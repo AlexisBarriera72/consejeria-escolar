@@ -79,7 +79,9 @@ prueba('soloTexto quita las etiquetas', () => {
 });
 
 prueba('la semilla real es buscable', () => {
-  const preguntas = JSON.parse(readFileSync('contenido/preguntas.json', 'utf8'));
+  const preguntas = JSON.parse(
+    readFileSync('contenido/preguntas.json', 'utf8'),
+  );
   const hallados = preguntas.filter((p) =>
     coincide('lorem', p.pregunta, soloTexto(p.respuesta)),
   );
