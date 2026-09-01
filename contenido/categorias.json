@@ -1,0 +1,41 @@
+[
+  {
+    "id": "c-academico",
+    "estado": "publicado",
+    "locale": "es",
+    "creadoEn": "2026-08-01T10:00:00.000Z",
+    "actualizadoEn": "2026-08-01T10:00:00.000Z",
+    "actualizadoPor": "Sra. Rivera",
+    "eliminadoEn": null,
+    "titulo": "Académico",
+    "descripcion": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "acento": "turquesa",
+    "orden": 1
+  },
+  {
+    "id": "c-personal",
+    "estado": "publicado",
+    "locale": "es",
+    "creadoEn": "2026-08-01T10:05:00.000Z",
+    "actualizadoEn": "2026-08-01T10:05:00.000Z",
+    "actualizadoPor": "Sra. Rivera",
+    "eliminadoEn": null,
+    "titulo": "Personal y Social",
+    "descripcion": "Sed do eiusmod tempor incididunt ut labore et dolore magna.",
+    "acento": "menta",
+    "orden": 2
+  },
+  {
+    "id": "c-vocacional",
+    "estado": "publicado",
+    "locale": "es",
+    "creadoEn": "2026-08-01T10:10:00.000Z",
+    "actualizadoEn": "2026-08-01T10:10:00.000Z",
+    "actualizadoPor": "Sra. Rivera",
+    "eliminadoEn": null,
+    "titulo": "Vocacional y Universidad",
+    "descripcion": "Ut enim ad minim veniam, quis nostrud exercitation ullamco.",
+    "acento": "salvia",
+    "orden": 3
+  }
+]

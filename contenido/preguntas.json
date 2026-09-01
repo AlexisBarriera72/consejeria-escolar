@@ -1,0 +1,258 @@
+[
+  {
+    "id": "q-aca-1",
+    "estado": "publicado",
+    "locale": "es",
+    "creadoEn": "2026-08-01T12:00:00.000Z",
+    "actualizadoEn": "2026-08-01T12:00:00.000Z",
+    "actualizadoPor": "Sra. Rivera",
+    "eliminadoEn": null,
+    "categoriaId": "c-academico",
+    "slug": "aca-pregunta-1",
+    "pregunta": "Lorem ipsum dolor sit amet aca 1?",
+    "respuesta": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor.</p>",
+    "video": {
+      "tipo": "youtube",
+      "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "titulo": "Lorem ipsum dolor sit amet",
+      "subtitulosUrl": null,
+      "duracionSeg": 212
+    },
+    "adjuntos": [],
+    "responsables": [
+      "p-rivera"
+    ],
+    "orden": 1
+  },
+  {
+    "id": "q-aca-2",
+    "estado": "publicado",
+    "locale": "es",
+    "creadoEn": "2026-08-02T12:00:00.000Z",
+    "actualizadoEn": "2026-08-02T12:00:00.000Z",
+    "actualizadoPor": "Sra. Rivera",
+    "eliminadoEn": null,
+    "categoriaId": "c-academico",
+    "slug": "aca-pregunta-2",
+    "pregunta": "Lorem ipsum dolor sit amet aca 2?",
+    "respuesta": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor.</p>",
+    "video": null,
+    "adjuntos": [],
+    "responsables": [
+      "p-rivera"
+    ],
+    "orden": 2
+  },
+  {
+    "id": "q-aca-3",
+    "estado": "publicado",
+    "locale": "es",
+    "creadoEn": "2026-08-03T12:00:00.000Z",
+    "actualizadoEn": "2026-08-03T12:00:00.000Z",
+    "actualizadoPor": "Sra. Rivera",
+    "eliminadoEn": null,
+    "categoriaId": "c-academico",
+    "slug": "aca-pregunta-3",
+    "pregunta": "Lorem ipsum dolor sit amet aca 3?",
+    "respuesta": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor.</p>",
+    "video": null,
+    "adjuntos": [],
+    "responsables": [
+      "p-rivera"
+    ],
+    "orden": 3
+  },
+  {
+    "id": "q-aca-4",
+    "estado": "publicado",
+    "locale": "es",
+    "creadoEn": "2026-08-04T12:00:00.000Z",
+    "actualizadoEn": "2026-08-04T12:00:00.000Z",
+    "actualizadoPor": "Sra. Rivera",
+    "eliminadoEn": null,
+    "categoriaId": "c-academico",
+    "slug": "aca-pregunta-4",
+    "pregunta": "Lorem ipsum dolor sit amet aca 4?",
+    "respuesta": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor.</p>",
+    "video": null,
+    "adjuntos": [],
+    "responsables": [
+      "p-rivera"
+    ],
+    "orden": 4
+  },
+  {
+    "id": "q-per-1",
+    "estado": "publicado",
+    "locale": "es",
+    "creadoEn": "2026-08-01T12:00:00.000Z",
+    "actualizadoEn": "2026-08-01T12:00:00.000Z",
+    "actualizadoPor": "Sra. Rivera",
+    "eliminadoEn": null,
+    "categoriaId": "c-personal",
+    "slug": "per-pregunta-1",
+    "pregunta": "Lorem ipsum dolor sit amet per 1?",
+    "respuesta": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor.</p>",
+    "video": null,
+    "adjuntos": [],
+    "responsables": [
+      "p-colon",
+      "p-rivera"
+    ],
+    "orden": 1
+  },
+  {
+    "id": "q-per-2",
+    "estado": "publicado",
+    "locale": "es",
+    "creadoEn": "2026-08-02T12:00:00.000Z",
+    "actualizadoEn": "2026-08-02T12:00:00.000Z",
+    "actualizadoPor": "Sra. Rivera",
+    "eliminadoEn": null,
+    "categoriaId": "c-personal",
+    "slug": "per-pregunta-2",
+    "pregunta": "Lorem ipsum dolor sit amet per 2?",
+    "respuesta": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor.</p>",
+    "video": {
+      "tipo": "youtube",
+      "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "titulo": "Lorem ipsum dolor sit amet",
+      "subtitulosUrl": null,
+      "duracionSeg": 212
+    },
+    "adjuntos": [],
+    "responsables": [
+      "p-colon",
+      "p-rivera"
+    ],
+    "orden": 2
+  },
+  {
+    "id": "q-per-3",
+    "estado": "publicado",
+    "locale": "es",
+    "creadoEn": "2026-08-03T12:00:00.000Z",
+    "actualizadoEn": "2026-08-03T12:00:00.000Z",
+    "actualizadoPor": "Sra. Rivera",
+    "eliminadoEn": null,
+    "categoriaId": "c-personal",
+    "slug": "per-pregunta-3",
+    "pregunta": "Lorem ipsum dolor sit amet per 3?",
+    "respuesta": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor.</p>",
+    "video": null,
+    "adjuntos": [],
+    "responsables": [
+      "p-colon",
+      "p-rivera"
+    ],
+    "orden": 3
+  },
+  {
+    "id": "q-per-4",
+    "estado": "publicado",
+    "locale": "es",
+    "creadoEn": "2026-08-04T12:00:00.000Z",
+    "actualizadoEn": "2026-08-04T12:00:00.000Z",
+    "actualizadoPor": "Sra. Rivera",
+    "eliminadoEn": null,
+    "categoriaId": "c-personal",
+    "slug": "per-pregunta-4",
+    "pregunta": "Lorem ipsum dolor sit amet per 4?",
+    "respuesta": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor.</p>",
+    "video": null,
+    "adjuntos": [],
+    "responsables": [
+      "p-colon",
+      "p-rivera"
+    ],
+    "orden": 4
+  },
+  {
+    "id": "q-voc-1",
+    "estado": "publicado",
+    "locale": "es",
+    "creadoEn": "2026-08-01T12:00:00.000Z",
+    "actualizadoEn": "2026-08-01T12:00:00.000Z",
+    "actualizadoPor": "Sra. Rivera",
+    "eliminadoEn": null,
+    "categoriaId": "c-vocacional",
+    "slug": "voc-pregunta-1",
+    "pregunta": "Lorem ipsum dolor sit amet voc 1?",
+    "respuesta": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor.</p>",
+    "video": null,
+    "adjuntos": [],
+    "responsables": [
+      "p-rivera",
+      "p-santos"
+    ],
+    "orden": 1
+  },
+  {
+    "id": "q-voc-2",
+    "estado": "publicado",
+    "locale": "es",
+    "creadoEn": "2026-08-02T12:00:00.000Z",
+    "actualizadoEn": "2026-08-02T12:00:00.000Z",
+    "actualizadoPor": "Sra. Rivera",
+    "eliminadoEn": null,
+    "categoriaId": "c-vocacional",
+    "slug": "voc-pregunta-2",
+    "pregunta": "Lorem ipsum dolor sit amet voc 2?",
+    "respuesta": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor.</p>",
+    "video": null,
+    "adjuntos": [],
+    "responsables": [
+      "p-rivera",
+      "p-santos"
+    ],
+    "orden": 2
+  },
+  {
+    "id": "q-voc-3",
+    "estado": "publicado",
+    "locale": "es",
+    "creadoEn": "2026-08-03T12:00:00.000Z",
+    "actualizadoEn": "2026-08-03T12:00:00.000Z",
+    "actualizadoPor": "Sra. Rivera",
+    "eliminadoEn": null,
+    "categoriaId": "c-vocacional",
+    "slug": "voc-pregunta-3",
+    "pregunta": "Lorem ipsum dolor sit amet voc 3?",
+    "respuesta": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor.</p>",
+    "video": null,
+    "adjuntos": [
+      {
+        "url": "/adjuntos/lorem-ipsum.pdf",
+        "nombre": "Lorem ipsum dolor.pdf",
+        "tipo": "application/pdf",
+        "tamanoBytes": 184320,
+        "esAccesible": true
+      }
+    ],
+    "responsables": [
+      "p-rivera",
+      "p-santos"
+    ],
+    "orden": 3
+  },
+  {
+    "id": "q-voc-4",
+    "estado": "publicado",
+    "locale": "es",
+    "creadoEn": "2026-08-04T12:00:00.000Z",
+    "actualizadoEn": "2026-08-04T12:00:00.000Z",
+    "actualizadoPor": "Sra. Rivera",
+    "eliminadoEn": null,
+    "categoriaId": "c-vocacional",
+    "slug": "voc-pregunta-4",
+    "pregunta": "Lorem ipsum dolor sit amet voc 4?",
+    "respuesta": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor.</p>",
+    "video": null,
+    "adjuntos": [],
+    "responsables": [
+      "p-rivera",
+      "p-santos"
+    ],
+    "orden": 4
+  }
+]

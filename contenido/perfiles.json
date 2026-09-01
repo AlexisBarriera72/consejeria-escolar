@@ -1,0 +1,148 @@
+[
+  {
+    "id": "p-rivera",
+    "estado": "publicado",
+    "locale": "es",
+    "creadoEn": "2026-08-01T09:00:00.000Z",
+    "actualizadoEn": "2026-08-20T14:30:00.000Z",
+    "actualizadoPor": "Sra. Rivera",
+    "eliminadoEn": null,
+    "slug": "maria-rivera",
+    "nombre": "María Rivera",
+    "puesto": "Consejera Escolar",
+    "escuela": "Escuela Superior [Nombre]",
+    "foto": null,
+    "acento": "naranja",
+    "estadoDelDia": "Hoy: aceptando citas",
+    "frase": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "bio": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>",
+    "credenciales": [
+      {
+        "titulo": "M.A. en Consejería Escolar",
+        "institucion": "Universidad de Puerto Rico",
+        "anio": 2014
+      },
+      {
+        "titulo": "B.A. en Psicología",
+        "institucion": "Universidad de Puerto Rico",
+        "anio": 2011
+      }
+    ],
+    "trabajaEn": [
+      "Lorem ipsum",
+      "Dolor sit amet",
+      "Consectetur adipiscing",
+      "Sed do eiusmod"
+    ],
+    "trabajaCon": ["p-colon", "p-santos"],
+    "contacto": {
+      "email": null,
+      "extension": "204",
+      "oficina": "Salón 12, al lado de la biblioteca",
+      "horario": "Lunes a jueves, 8:00–11:00 am"
+    },
+    "orden": 1
+  },
+  {
+    "id": "p-colon",
+    "estado": "publicado",
+    "locale": "es",
+    "creadoEn": "2026-08-01T09:10:00.000Z",
+    "actualizadoEn": "2026-08-18T11:00:00.000Z",
+    "actualizadoPor": "Sra. Rivera",
+    "eliminadoEn": null,
+    "slug": "luis-colon",
+    "nombre": "Luis Colón",
+    "puesto": "Trabajador Social",
+    "escuela": "Escuela Superior [Nombre]",
+    "foto": null,
+    "acento": "turquesa",
+    "estadoDelDia": null,
+    "frase": "Ut enim ad minim veniam, quis nostrud exercitation.",
+    "bio": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit esse.</p>",
+    "credenciales": [
+      {
+        "titulo": "M.S.W. Trabajo Social",
+        "institucion": "Universidad Interamericana",
+        "anio": 2017
+      }
+    ],
+    "trabajaEn": ["Lorem ipsum", "Dolor sit amet"],
+    "trabajaCon": ["p-rivera"],
+    "contacto": {
+      "email": null,
+      "extension": "207",
+      "oficina": "Salón 14, frente al comedor",
+      "horario": "Martes y jueves, 9:00 am–12:00 pm"
+    },
+    "orden": 2
+  },
+  {
+    "id": "p-santos",
+    "estado": "publicado",
+    "locale": "es",
+    "creadoEn": "2026-08-01T09:20:00.000Z",
+    "actualizadoEn": "2026-08-15T16:45:00.000Z",
+    "actualizadoPor": "Sra. Rivera",
+    "eliminadoEn": null,
+    "slug": "ana-santos",
+    "nombre": "Ana Santos",
+    "puesto": "Bibliotecaria",
+    "escuela": "Escuela Superior [Nombre]",
+    "foto": null,
+    "acento": "rosa",
+    "estadoDelDia": null,
+    "frase": null,
+    "bio": "<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>",
+    "credenciales": [
+      {
+        "titulo": "M.L.S. Ciencias de la Información",
+        "institucion": "Universidad de Puerto Rico",
+        "anio": 2012
+      }
+    ],
+    "trabajaEn": ["Lorem ipsum", "Consectetur adipiscing", "Sed do eiusmod"],
+    "trabajaCon": [],
+    "contacto": {
+      "email": null,
+      "extension": "211",
+      "oficina": "Biblioteca, segundo piso",
+      "horario": "Lunes a viernes, 7:30 am–2:30 pm"
+    },
+    "orden": 3
+  },
+  {
+    "id": "p-mendez",
+    "estado": "publicado",
+    "locale": "es",
+    "creadoEn": "2026-08-02T08:00:00.000Z",
+    "actualizadoEn": "2026-08-02T08:00:00.000Z",
+    "actualizadoPor": "Sra. Rivera",
+    "eliminadoEn": null,
+    "slug": "carmen-mendez",
+    "nombre": "Carmen Méndez",
+    "puesto": "Enfermera Escolar",
+    "escuela": "Escuela Superior [Nombre]",
+    "foto": null,
+    "acento": "salvia",
+    "estadoDelDia": null,
+    "frase": null,
+    "bio": "<p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.</p>",
+    "credenciales": [
+      {
+        "titulo": "B.S.N. Enfermería",
+        "institucion": "Universidad del Turabo",
+        "anio": 2015
+      }
+    ],
+    "trabajaEn": ["Lorem ipsum"],
+    "trabajaCon": ["p-colon"],
+    "contacto": {
+      "email": null,
+      "extension": "202",
+      "oficina": "Enfermería, entrada principal",
+      "horario": "Lunes a viernes, 7:30 am–3:00 pm"
+    },
+    "orden": 4
+  }
+]
