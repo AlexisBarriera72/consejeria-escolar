@@ -1,7 +1,10 @@
-# Consejería Escolar — Planning Package
+# Consejería Escolar
 
-Planning-only repo. No app code yet. Open this folder in VS Code and work
-through `docs/` in order.
+Sitio de la oficina de consejería escolar: guías, noticias y perfiles del
+personal. Next.js 16 · TypeScript · Tailwind 4.
+
+Ve a **Desarrollo local** para arrancarlo. El diseño y las decisiones del
+proyecto están en `docs/`; empieza por `docs/09-DECISIONES.md`.
 
 **Language convention:** these docs are dev-facing and written in English so the
 implementation is unambiguous. Every string that a student, parent, or teacher
