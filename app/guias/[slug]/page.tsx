@@ -68,7 +68,7 @@ export default async function PaginaGuia({ params }: Props) {
       </h1>
 
       <div className="mt-8">
-        <CuerpoPregunta datos={{ pregunta, responsables }} />
+        <CuerpoPregunta datos={{ pregunta, responsables }} nivel="h2" />
       </div>
 
       <div className="border-borde not-print mt-10 flex flex-wrap gap-3 border-t pt-6">
