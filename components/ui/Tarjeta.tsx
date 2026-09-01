@@ -26,6 +26,17 @@ export const BANDA_ACENTO: Record<Acento, string> = {
   salvia: 'bg-salvia',
 };
 
+export const BORDE_ACENTO: Record<Acento, string> = {
+  azul: 'border-azul-500',
+  turquesa: 'border-turquesa-500',
+  menta: 'border-menta',
+  rosa: 'border-rosa-500',
+  coral: 'border-coral',
+  naranja: 'border-naranja',
+  ambar: 'border-ambar',
+  salvia: 'border-salvia',
+};
+
 export const TINTE_ACENTO: Record<Acento, string> = {
   azul: 'bg-azul-100',
   turquesa: 'bg-turquesa-500/15',
