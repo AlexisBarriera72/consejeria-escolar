@@ -79,11 +79,15 @@
     text-wrap: pretty;
   }
 
-  /* Un anillo de foco visible en TODO lo interactivo. */
+  /* Anillo de foco doble, visible sobre CUALQUIER fondo.
+     El aro oscuro se ve sobre el papel; el halo ámbar se ve sobre el azul
+     oscuro del encabezado. Con uno solo, la mitad del sitio se queda sin
+     indicador de foco visible — ver el commit que arregló esto. */
   :focus-visible {
-    outline: 3px solid var(--color-ambar);
+    outline: 3px solid var(--color-azul-900);
     outline-offset: 2px;
-    border-radius: 2px;
+    box-shadow: 0 0 0 6px var(--color-ambar);
+    border-radius: 3px;
   }
 
   @media (prefers-reduced-motion: reduce) {
