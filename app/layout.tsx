@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { clasesDeFuente } from './fuentes';
 import { ProveedorRol } from '@/components/ProveedorRol';
 import { PortalEntrada } from '@/components/PortalEntrada';
+import { BannerAviso } from '@/components/BannerAviso';
 import { Encabezado } from '@/components/Encabezado';
 import { PiePagina } from '@/components/PiePagina';
 import './globals.css';
@@ -37,6 +38,9 @@ export default function RootLayout({
             Saltar al contenido
           </a>
           <PortalEntrada />
+          {/* Encima de todo, en todas las páginas. Cuando cierra la escuela
+              por un aviso de huracán, esto es lo único que importa. */}
+          <BannerAviso />
           <Encabezado />
           <main id="contenido" className="flex-1">
             {children}
