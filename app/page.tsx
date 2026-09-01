@@ -1,43 +1,35 @@
-import { EnlaceBoton } from '@/components/ui/Boton';
-import { Tarjeta } from '@/components/ui/Tarjeta';
+import { Inicio, type Vistas } from '@/components/Inicio';
+import {
+  obtenerNoticias,
+  obtenerPerfiles,
+  obtenerPreguntas,
+} from '@/lib/contenido';
+import { fechaCorta } from '@/lib/fechas';
 
-export default function PaginaInicio() {
-  return (
-    <div className="mx-auto max-w-2xl px-6 py-20">
-      <p className="text-turquesa-700 text-sm font-semibold tracking-wide uppercase">
-        Secciones 1–3 · Andamiaje, diseño y datos
-      </p>
+/**
+ * Componente de servidor: aquí se leen los datos y se formatean las fechas.
+ * Lo interactivo (hover, foco, la lente según el rol) vive en <Inicio>, que
+ * sí es de cliente. Así el HTML llega completo desde el servidor —
+ * importante cuando alguien abre esto con datos móviles en un pasillo.
+ */
+export default async function PaginaInicio() {
+  const [preguntas, noticias, perfiles] = await Promise.all([
+    obtenerPreguntas(),
+    obtenerNoticias(),
+    obtenerPerfiles(),
+  ]);
 
-      <h1 className="text-azul-900 mt-3 text-4xl font-bold">
-        Consejería Escolar
-      </h1>
+  const vistas: Vistas = {
+    guias: preguntas.slice(0, 3).map((p) => p.pregunta),
+    noticias: noticias.slice(0, 2).map((n) => ({
+      titulo: n.titulo,
+      fecha: fechaCorta(n.publicarEn),
+    })),
+    consejered: perfiles.slice(0, 3).map((p) => ({
+      nombre: p.nombre,
+      puesto: p.puesto,
+    })),
+  };
 
-      <p className="text-gris mt-4">
-        El proyecto arranca aquí. Esta página se reemplaza en la Sección 5 por
-        la página principal con el avatar y las tres tarjetas.
-      </p>
-
-      <Tarjeta acento="turquesa" className="mt-10">
-        <h2 className="text-azul-900 text-lg font-bold">Listo hasta ahora</h2>
-        <ul className="text-gris mt-3 space-y-1.5 text-sm">
-          <li>Next.js, TypeScript y Tailwind configurados</li>
-          <li>Idioma del documento en español</li>
-          <li>Enlace para saltar al contenido (prueba con Tab)</li>
-          <li>Aro de foco doble, visible sobre claro y sobre oscuro</li>
-          <li>Animación reducida si el sistema lo pide</li>
-          <li>Paleta y tipografía verificadas por script</li>
-        </ul>
-      </Tarjeta>
-
-      <div className="mt-8">
-        <EnlaceBoton href="/estilo" variante="secundario">
-          Ver la guía de estilo
-        </EnlaceBoton>
-      </div>
-
-      <p className="text-gris border-borde mt-10 border-t pt-6 text-sm">
-        Prueba de tildes: ¿Cómo estás, Señor Núñez? ¡Qué bien! ÁÉÍÓÚ ñÑ üÜ
-      </p>
-    </div>
-  );
+  return <Inicio vistas={vistas} />;
 }
