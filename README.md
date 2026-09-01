@@ -64,7 +64,9 @@ npm run dev                  # http://localhost:3000
 | `npm run dev` | Servidor de desarrollo |
 | `npm run build` | Build de producción (falla si hay errores de tipo) |
 | `npm run lint` | ESLint |
-| `npm run verificar` | lint + tipos + build. **Corre esto antes de cada commit.** |
+| `npm run verificar` | contraste + contenido + pruebas + lint + tipos + build. **Antes de cada commit.** |
+| `npm run verificar:fuentes` | Comprueba glifo a glifo que las fuentes cubren el español |
+| `npm run semilla` | Regenera contenido/preguntas.json y noticias.json |
 | `npm run format` | Prettier sobre todo el proyecto |
 | `npm run demo:acceso` | El demo de enlace mágico, en el puerto 4321 |
 
@@ -85,5 +87,7 @@ encadena a mano — es fácil creer que el build te cubre cuando no lo hace.
 |---|---|
 | 0 · Documentos de planificación | ✅ `v0.1.0` |
 | 1 · Andamiaje | ✅ |
-| 2 · Sistema de diseño | ⏳ siguiente |
-| 3–16 | Ver `docs/10-PLAN-DE-ENTREGAS.md` |
+| 2 · Sistema de diseño | ✅ |
+| 3 · Tipos y datos de prueba | ✅ `v0.2.0` |
+| 4 · Portal de entrada | ⏳ siguiente |
+| 5–16 | Ver `docs/10-PLAN-DE-ENTREGAS.md` |
