@@ -26,8 +26,14 @@ export const ROLES: { id: Rol; etiqueta: string; corta: string }[] = [
 const CLAVE = 'consejeria:rol';
 const DIAS = 30;
 
-type Guardado = { rol: Rol; vence: number };
+type Guardado = { rol: Rol; nombre: string | null; vence: number };
 
+/**
+ * El nombre es OPCIONAL y se queda en este navegador (decisión que afina el
+ * doc 09 §1: sigue sin irse al servidor, y seguir sin nombre sigue siendo
+ * válido — el botón de invitado y Escape funcionan igual). Sirve para una
+ * sola cosa: el saludo «Hola, Ana» en la portada.
+ */
 export function leerRol(): Rol | null {
   if (typeof window === 'undefined') return null;
   try {
@@ -46,10 +52,27 @@ export function leerRol(): Rol | null {
   }
 }
 
-export function guardarRol(rol: Rol): void {
+export function leerNombre(): string | null {
+  if (typeof window === 'undefined') return null;
   try {
+    const crudo = window.localStorage.getItem(CLAVE);
+    if (!crudo) return null;
+    const dato = JSON.parse(crudo) as Guardado;
+    if (Date.now() > dato.vence) return null;
+    return typeof dato.nombre === 'string' && dato.nombre.trim()
+      ? dato.nombre.trim().slice(0, 60)
+      : null;
+  } catch {
+    return null;
+  }
+}
+
+export function guardarRol(rol: Rol, nombre?: string | null): void {
+  try {
+    const limpio = nombre?.trim().slice(0, 60) || null;
     const dato: Guardado = {
       rol,
+      nombre: limpio,
       vence: Date.now() + DIAS * 24 * 60 * 60 * 1000,
     };
     window.localStorage.setItem(CLAVE, JSON.stringify(dato));
@@ -98,6 +121,10 @@ export function suscribirRol(avisar: () => void): () => void {
  *  por valor sin riesgo de bucle infinito. */
 export function instantaneaRol(): Rol | null {
   return leerRol();
+}
+
+export function instantaneaNombre(): string | null {
+  return leerNombre();
 }
 
 /** En el servidor no hay localStorage. Devolver siempre null hace que el

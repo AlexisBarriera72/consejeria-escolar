@@ -4,7 +4,7 @@ import {
   obtenerPerfiles,
   obtenerPreguntas,
 } from '@/lib/contenido';
-import { fechaCorta } from '@/lib/fechas';
+import { fechaCorta, fechaLarga } from '@/lib/fechas';
 
 /**
  * Componente de servidor: aquí se leen los datos y se formatean las fechas.
@@ -20,15 +20,20 @@ export default async function PaginaInicio() {
   ]);
 
   const vistas: Vistas = {
-    guias: preguntas.slice(0, 3).map((p) => p.pregunta),
+    // Todas las preguntas, no tres: el buscador de la portada necesita la
+    // lista completa para encontrar "matrícula" aunque esté la novena.
+    guias: preguntas.map((p) => ({ pregunta: p.pregunta, slug: p.slug })),
     noticias: noticias.slice(0, 2).map((n) => ({
       titulo: n.titulo,
       fecha: fechaCorta(n.publicarEn),
+      slug: n.slug,
     })),
+    ultimaEdicion: noticias[0] ? fechaLarga(noticias[0].publicarEn) : null,
     consejered: perfiles.slice(0, 3).map((p) => ({
       nombre: p.nombre,
       puesto: p.puesto,
     })),
+    totalPerfiles: perfiles.length,
   };
 
   return <Inicio vistas={vistas} />;

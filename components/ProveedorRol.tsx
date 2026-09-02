@@ -9,6 +9,7 @@ import {
 import {
   contarVisitaUnaVez,
   guardarRol,
+  instantaneaNombre,
   instantaneaRol,
   instantaneaServidor,
   olvidarRol,
@@ -18,9 +19,11 @@ import {
 
 type Contexto = {
   rol: Rol | null;
+  /** Nombre opcional que la persona escribió en la puerta. null = no dijo. */
+  nombre: string | null;
   /** false durante el render del servidor y la hidratación. */
   montado: boolean;
-  elegir: (rol: Rol) => void;
+  elegir: (rol: Rol, nombre?: string | null) => void;
   reiniciar: () => void;
 };
 
@@ -43,15 +46,20 @@ export function ProveedorRol({ children }: { children: React.ReactNode }) {
   // Hace falta separar "todavía no sabemos" de "eligió invitado": con solo
   // `rol === null` el portal parpadearía en cada carga antes de hidratar.
   const montado = useSyncExternalStore(sinCambios, enCliente, enServidor);
+  const nombre = useSyncExternalStore(
+    suscribirRol,
+    instantaneaNombre,
+    instantaneaServidor,
+  );
 
-  const elegir = useCallback((nuevo: Rol) => {
-    guardarRol(nuevo);
+  const elegir = useCallback((nuevo: Rol, nombre?: string | null) => {
+    guardarRol(nuevo, nombre);
     contarVisitaUnaVez(nuevo);
   }, []);
   const reiniciar = useCallback(() => olvidarRol(), []);
 
   return (
-    <CtxRol.Provider value={{ rol, montado, elegir, reiniciar }}>
+    <CtxRol.Provider value={{ rol, nombre, montado, elegir, reiniciar }}>
       {children}
     </CtxRol.Provider>
   );

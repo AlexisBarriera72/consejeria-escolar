@@ -13,11 +13,14 @@ import { ROLES, type Rol } from '@/lib/rol';
  * para los lectores de pantalla. Un <div> con role="dialog" tiene que
  * reimplementar las cuatro cosas y casi nadie las implementa bien.
  *
- * No pide nombre ni correo (doc 09 §1). Solo cuál de tres botones.
+ * Pregunta cómo te llamas (opcional) y cuál de tres botones. El nombre se
+ * queda en este navegador y solo sirve para el saludo de la portada; el
+ * correo no se pide en ninguna parte (doc 09 §1).
  */
 export function PortalEntrada() {
   const { rol, montado, elegir } = useRol();
   const ref = useRef<HTMLDialogElement>(null);
+  const refNombre = useRef<HTMLInputElement>(null);
   const debeAbrir = montado && rol === null;
 
   useEffect(() => {
@@ -31,8 +34,8 @@ export function PortalEntrada() {
   // quiere decir quién es, y volver a preguntarle sería no escucharla.
   const cerrarComoInvitado = () => elegir('invitado');
 
-  function alPulsar(id: Rol) {
-    elegir(id);
+  function alPulsar(id: Rol, nombre?: string) {
+    elegir(id, nombre);
   }
 
   return (
@@ -72,16 +75,36 @@ export function PortalEntrada() {
             ¿Quién nos visita hoy?
           </h2>
           <p className="text-gris mt-2 text-sm">
-            Solo para saber cuánta gente nos visita. No guardamos ningún dato
-            personal.
+            Si quieres, dinos cómo te llamas para saludarte. Nada se guarda
+            fuera de este navegador.
           </p>
 
-          <div className="mt-7 grid gap-3 sm:grid-cols-2">
+          <div className="mt-6">
+            <label
+              htmlFor="nombre-portal"
+              className="text-azul-900 text-sm font-semibold"
+            >
+              Tu nombre{' '}
+              <span className="text-gris font-normal">(opcional)</span>
+            </label>
+            <input
+              ref={refNombre}
+              id="nombre-portal"
+              type="text"
+              name="nombre"
+              autoComplete="given-name"
+              maxLength={60}
+              placeholder=" p. ej. Ana"
+              className="border-borde focus:border-azul-500 mt-1.5 w-full rounded-lg border-2 bg-white px-3 py-2.5 text-base outline-none focus:ring-2 focus:ring-[var(--color-azul-500)]/30"
+            />
+          </div>
+
+          <div className="mt-5 grid gap-3 sm:grid-cols-2">
             {ROLES.filter((r) => r.id !== 'invitado').map((r, i) => (
               <button
                 key={r.id}
                 type="button"
-                onClick={() => alPulsar(r.id)}
+                onClick={() => alPulsar(r.id, refNombre.current?.value)}
                 className={
                   'min-h-16 rounded-xl border-2 px-4 py-3 font-semibold ' +
                   'transition-colors ' +
