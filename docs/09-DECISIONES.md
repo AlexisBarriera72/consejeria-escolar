@@ -273,63 +273,72 @@ ever appears.
 
 ---
 
-## 7. Despliegue: dos cuentas de GitHub y por qué Vercel bloqueaba
+## 7. Despliegue: por qué Vercel bloquea los despliegues por git
 
 El repositorio vive en **AlexisBarriera72** (privado) y la cuenta de Vercel es
-**TastyWetNut** (`wetnut's projects`, plan hobby). Son cuentas distintas y esa
-asimetría tiene consecuencias reales.
+**TastyWetNut** (`wetnut's projects`, plan hobby). Esa asimetría es la causa
+de todo lo que sigue.
 
-### El bloqueo
+### El síntoma
 
-Un `git push` disparaba un despliegue que Vercel dejaba en estado `BLOCKED`,
-**sin una sola línea de registro de construcción** y con `errorLink` apuntando
-a `troubleshoot-project-collaboration#team-configuration`. No es un fallo del
+Cada `git push` deja un despliegue en estado `BLOCKED`, **sin una sola línea
+de registro de construcción**, con `errorLink` apuntando a
+`troubleshoot-project-collaboration#team-configuration`. No es un fallo del
 código: Vercel se niega antes de empezar a construir.
 
-La comparación entre los dos primeros despliegues lo deja claro:
+Los despliegues lanzados a mano —desde el panel o por la API— sí funcionan:
 
-|     | commit    | `source`                          | estado  |
-| --- | --------- | --------------------------------- | ------- |
-| #1  | `1aa2ae9` | `importSource: import-candidates` | READY   |
-| #2  | `a4dad36` | `source: "git"`                   | BLOCKED |
+|     | commit    | origen                         | estado  |
+| --- | --------- | ------------------------------ | ------- |
+| #1  | `1aa2ae9` | importado desde el panel       | READY   |
+| #2  | `a4dad36` | push de git                    | BLOCKED |
+| #3  | `a4dad36` | API, como el usuario de Vercel | READY   |
+| #4  | `78e21a7` | push de git                    | BLOCKED |
 
-Mismo repositorio, misma rama y **el mismo autor** (`TastyWetNut` en los dos).
-Lo único que cambia es quién lo inicia: el primero se lanzó a mano desde el
-panel, como el usuario que había iniciado sesión; el segundo lo disparó el
-webhook del push, hecho con el token de AlexisBarriera72.
+### La causa, según la documentación de Vercel
 
-En el plan hobby, Vercel solo acepta despliegues por git cuando la identidad
-de GitHub que empuja es la que está conectada a la cuenta de Vercel.
+> El plan Hobby **no admite colaboración en repositorios privados**. Para
+> desplegar en un equipo Hobby, **el autor del commit tiene que ser el dueño
+> del equipo**, y se comprueba comparando las _Login Connections_ del dueño
+> con el autor del commit.
+>
+> La colaboración **es gratis en repositorios públicos**.
 
-### Lo que NO lo arregla
+Es decir: repositorio **privado** + plan **hobby** + **dos identidades de
+GitHub** en juego. Los despliegues manuales pasan porque los lanza el propio
+usuario de Vercel y esa comprobación no llega a hacerse.
 
-Añadir TastyWetNut como colaborador del repositorio. Eso cambia los permisos
-**de GitHub**; la comprobación que falla es **de Vercel**, sobre qué cuenta de
-GitHub está conectada. Son dos capas distintas y tocar la primera no mueve la
-segunda.
+### Dos cosas que NO lo arreglan
 
-### El arreglo
+- **Añadir TastyWetNut como colaborador del repositorio.** Eso cambia los
+  permisos _de GitHub_; la comprobación que falla es _de Vercel_, sobre qué
+  cuenta de GitHub está conectada a la suya. Son dos capas distintas.
+- **Cambiar qué cuenta hace el `push`.** Se probó: se configuró
+  `credential.https://github.com.useHttpPath` para que este repositorio use la
+  credencial de TastyWetNut en vez de la de AlexisBarriera72, se empujó con
+  ella y el despliegue **volvió a quedar bloqueado**. Vercel mira el _autor_
+  del commit, no quién empuja.
 
-La máquina tenía credenciales de las dos cuentas en el Administrador de
-credenciales de Windows, pero Git Credential Manager las busca por _host_, así
-que la de AlexisBarriera72 tapaba la otra. Se resuelve pidiendo la credencial
-por ruta, solo en este repositorio:
+Se ha dejado puesto el `useHttpPath` de todas formas, porque hace que el
+`push` y la autoría del commit sean por fin la misma persona, pero **no
+resuelve el bloqueo**. Es `--local`: vive en `.git/config` y no se versiona.
 
-```
-git config --local credential.https://github.com.useHttpPath true
-```
+### Lo que sí lo arregla
 
-Con eso git pregunta por `github.com/AlexisBarriera72/consejeria-escolar` en
-vez de por `github.com` a secas, y recibe la de TastyWetNut — que tiene
-permiso de escritura en el repositorio. Los demás repositorios de la máquina
-siguen usando la credencial global y no se enteran.
-
-Es `--local`: vive en `.git/config`, no se versiona. **Quien clone este
-repositorio en otra máquina tendrá que volver a ponerlo.**
+1. **Hacer público el repositorio.** La colaboración es gratis en repositorios
+   públicos, así que desaparece la restricción entera. Gratis e inmediato.
+2. **Que el autor de los commits sea la cuenta conectada a Vercel.** Hay que
+   mirar en `vercel.com/account/settings/authentication` qué cuenta de GitHub
+   está en _Login Connections_ y hacer que `git config user.email` case con
+   ella.
+3. **Pasar a Pro.** Cuesta dinero; el presupuesto de este proyecto es $0 (Q4).
+4. **Seguir lanzando los despliegues a mano**, desde el panel o por la API.
+   Funciona siempre, pero es un paso manual en cada cambio.
 
 ### Protección de despliegue
 
 Los proyectos nuevos de Vercel nacen con _Vercel Authentication_ activada, así
 que todas las URL respondían 302 hacia `vercel.com/sso-api` y el sitio no se
-veía sin iniciar sesión en Vercel. Está desactivada a propósito: el sitio es
-para estudiantes y familias, y una pared de inicio de sesión lo hace inútil.
+veía sin iniciar sesión en Vercel. Está **desactivada** a propósito: el sitio
+es para estudiantes y familias, y una pared de inicio de sesión lo hace
+inútil.
