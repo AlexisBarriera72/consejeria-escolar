@@ -30,6 +30,7 @@ const PALETA = {
   'rosa-700': '#c4166b',
   'rosa-500': '#f83f98',
   magenta: '#e51a68',
+  'coral-700': '#b8442a',
   coral: '#ff6e53',
   durazno: '#ff987f',
   naranja: '#fc7f47',
@@ -37,7 +38,8 @@ const PALETA = {
   amarillo: '#ffed76',
   salvia: '#bcd298',
   tinta: '#16202e',
-  papel: '#fbfaf7',
+  papel: '#f5eedf',
+  crema: '#fffdf7',
   gris: '#5b6676',
   blanco: '#ffffff',
 
@@ -60,6 +62,12 @@ const AA_NO_TEXTO = 3.0; // bordes, iconos, indicadores de estado
 const REGLAS = [
   // Texto sobre el fondo de la página
   ['tinta', 'papel', AA_TEXTO, 'texto principal'],
+  ['tinta', 'crema', AA_TEXTO, 'texto sobre superficie elevada'],
+  // La cursiva de acento de los titulares. En la referencia esta palabra
+  // mide 2.88:1; coral-700 existe para que aqui no lo sea.
+  ['coral-700', 'papel', AA_TEXTO, 'cursiva de acento en titulares'],
+  ['rosa-700', 'papel', AA_TEXTO, 'cursiva de acento alterna'],
+  ['azul-900', 'crema', AA_TEXTO, 'titulares sobre superficie elevada'],
   ['gris', 'papel', AA_TEXTO, 'texto secundario'],
   ['azul-900', 'papel', AA_TEXTO, 'titulares'],
   ['azul-700', 'papel', AA_TEXTO, 'enlaces'],

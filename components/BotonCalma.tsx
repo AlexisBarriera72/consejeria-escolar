@@ -20,14 +20,19 @@ export function BotonCalma() {
       type="button"
       onClick={alternarCalma}
       aria-pressed={activo}
-      className="rounded-full border border-white/35 bg-white/10 px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-white/20"
+      className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm transition-colors ${
+        activo
+          ? 'border-salvia bg-salvia text-tinta'
+          : 'border-tinta/55 text-tinta hover:bg-tinta hover:text-white'
+      }`}
     >
       <span aria-hidden>{activo ? '🌙' : '🍃'}</span>
-      <span className="ml-1.5 hidden sm:inline">Modo calma</span>
+      <span className="hidden font-medium lg:inline">Modo calma</span>
       <span className="sr-only">
+        Modo calma.{' '}
         {activo
-          ? '. Activado. Pulsa para desactivarlo.'
-          : '. Pulsa para activarlo.'}
+          ? 'Activado. Pulsa para desactivarlo.'
+          : 'Pulsa para activarlo.'}
       </span>
     </button>
   );

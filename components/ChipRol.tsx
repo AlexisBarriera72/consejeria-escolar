@@ -4,19 +4,24 @@ import { useRol } from './ProveedorRol';
 import { ROLES } from '@/lib/rol';
 
 /**
- * El indicador de "estás viendo como…" del encabezado.
+ * "Estás viendo como…" — el indicador de la lente (doc 06 §1).
  *
- * Existe para que la lente (doc 06 §1) sea visible y reversible. Si el sitio
- * reordena el contenido según quién eres, tienes que poder ver que lo hace y
- * poder cambiarlo. Una personalización que no se puede ver ni deshacer se
- * siente como que el sitio te esconde cosas.
+ * Dos arreglos que venían de la crítica:
+ *
+ *  · Sobre pergamino lleva tinta y un borde sólido. La versión anterior era
+ *    blanco sobre `bg-white/10` (3.70:1) con `border-white/35` (1.80:1
+ *    contra la cabecera). WCAG 1.4.11 pide 3:1 para bordes de componente, y
+ *    el propio CLAUDE.md prohíbe ese patrón por su nombre.
+ *  · Ya no dibuja un chevron. Un `⌄` promete un menú desplegable y lo que
+ *    hacía era borrar el rol y volver a lanzar el portal. Ahora dice
+ *    "Cambiar", que es exactamente lo que ocurre.
  */
 export function ChipRol() {
   const { rol, montado, reiniciar } = useRol();
 
-  // Antes de leer localStorage no se sabe qué poner. Se reserva el hueco con
-  // el mismo tamaño para que el encabezado no dé un salto al montar.
-  if (!montado || !rol) return <span className="h-9 w-32" aria-hidden />;
+  // Reserva el hueco con el ancho real del chip para que la cabecera no dé
+  // un salto al hidratar. El anterior reservaba 128 px y renderizaba 188.
+  if (!montado || !rol) return <span className="h-9 w-[9.5rem]" aria-hidden />;
 
   const etiqueta = ROLES.find((r) => r.id === rol)?.corta ?? 'Invitado';
 
@@ -24,13 +29,13 @@ export function ChipRol() {
     <button
       type="button"
       onClick={reiniciar}
-      className="rounded-full border border-white/35 bg-white/10 px-3.5 py-1.5 text-sm font-medium text-white transition-colors hover:bg-white/20"
+      className="border-tinta/55 text-tinta hover:bg-tinta hidden items-center gap-2 rounded-full border px-3.5 py-1.5 text-sm transition-colors hover:text-white sm:inline-flex"
     >
-      Viendo como: <span className="font-semibold">{etiqueta}</span>
-      <span className="ml-1.5 opacity-70" aria-hidden>
-        ⌄
+      <span className="font-medium">{etiqueta}</span>
+      <span aria-hidden className="opacity-60">
+        ·
       </span>
-      <span className="sr-only">. Pulsa para cambiar.</span>
+      <span className="font-semibold">Cambiar</span>
     </button>
   );
 }

@@ -22,6 +22,11 @@ export const fuenteTitulo = Fraunces({
   subsets: ['latin', 'latin-ext'],
   variable: '--fuente-titulo',
   display: 'swap',
+  // La cursiva es un archivo aparte y next/font solo carga 'normal' si no se
+  // pide. El mundo editorial de la referencia apoya cada titular en UNA
+  // palabra en cursiva y color; sin declararla, el navegador la falsearía
+  // inclinando la romana, que se nota y se ve mal.
+  style: ['normal', 'italic'],
   axes: ['SOFT', 'WONK', 'opsz'],
 });
 

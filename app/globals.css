@@ -31,6 +31,10 @@
   --color-rosa-700: #c4166b;
   --color-rosa-500: #f83f98;
   --color-magenta: #e51a68;
+  /* El paso oscuro de la familia coral: el unico que puede llevar TEXTO.
+     La cursiva de acento de la referencia mide 2.88:1 sobre pergamino; esta
+     mide 4.66:1 y conserva la misma terracota. */
+  --color-coral-700: #b8442a;
   --color-coral: #ff6e53;
   --color-durazno: #ff987f;
   --color-naranja: #fc7f47;
@@ -40,7 +44,11 @@
 
   /* Neutrales */
   --color-tinta: #16202e;
-  --color-papel: #fbfaf7;
+  /* Pergamino, no blanco. Es el fondo de la referencia editorial y lo que
+     hace que el color encima se sienta impreso en vez de proyectado. */
+  --color-papel: #f5eedf;
+  /* Superficie elevada: tarjetas y campos sobre el pergamino. */
+  --color-crema: #fffdf7;
   --color-gris: #5b6676;
   --color-borde: #e4e8ef;
 

@@ -23,7 +23,10 @@ const prueba = (nombre, fn) => {
   }
 };
 
-const bien = { titulo: 'Cómo pedir una cita', cuerpoHtml: '<p>Pasa por el salón 12.</p>' };
+const bien = {
+  titulo: 'Cómo pedir una cita',
+  cuerpoHtml: '<p>Pasa por el salón 12.</p>',
+};
 
 console.log('\n  Semáforo de Accesibilidad\n');
 
@@ -40,7 +43,11 @@ prueba('una foto sin descripción BLOQUEA', () => {
 });
 
 prueba('una foto CON descripción pasa', () => {
-  const h = revisar({ ...bien, tieneImagen: true, imagenAlt: 'Estudiantes en la biblioteca' });
+  const h = revisar({
+    ...bien,
+    tieneImagen: true,
+    imagenAlt: 'Estudiantes en la biblioteca',
+  });
   assert.deepEqual(h, []);
 });
 
@@ -49,7 +56,9 @@ prueba('el cuerpo vacío bloquea', () => {
 });
 
 prueba('el título vacío bloquea', () => {
-  assert.ok(!puedePublicar(revisar({ titulo: '  ', cuerpoHtml: '<p>Hola</p>' })));
+  assert.ok(
+    !puedePublicar(revisar({ titulo: '  ', cuerpoHtml: '<p>Hola</p>' })),
+  );
 });
 
 prueba('un título largo avisa pero deja publicar', () => {
@@ -63,10 +72,13 @@ prueba('MAYÚSCULAS SOSTENIDAS avisan', () => {
   assert.ok(h.some((x) => /deletrean/.test(x.mensaje)));
 });
 
-prueba('acepta título normal con acentos sin confundirlo con mayúsculas', () => {
-  const h = revisar({ ...bien, titulo: 'Información sobre becas' });
-  assert.deepEqual(h, []);
-});
+prueba(
+  'acepta título normal con acentos sin confundirlo con mayúsculas',
+  () => {
+    const h = revisar({ ...bien, titulo: 'Información sobre becas' });
+    assert.deepEqual(h, []);
+  },
+);
 
 prueba('un enlace que dice "aquí" avisa', () => {
   const h = revisar({
