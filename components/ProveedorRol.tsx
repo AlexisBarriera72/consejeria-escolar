@@ -7,6 +7,7 @@ import {
   useSyncExternalStore,
 } from 'react';
 import {
+  contarVisitaUnaVez,
   guardarRol,
   instantaneaRol,
   instantaneaServidor,
@@ -43,7 +44,10 @@ export function ProveedorRol({ children }: { children: React.ReactNode }) {
   // `rol === null` el portal parpadearía en cada carga antes de hidratar.
   const montado = useSyncExternalStore(sinCambios, enCliente, enServidor);
 
-  const elegir = useCallback((nuevo: Rol) => guardarRol(nuevo), []);
+  const elegir = useCallback((nuevo: Rol) => {
+    guardarRol(nuevo);
+    contarVisitaUnaVez(nuevo);
+  }, []);
   const reiniciar = useCallback(() => olvidarRol(), []);
 
   return (

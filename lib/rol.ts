@@ -120,3 +120,28 @@ export const ORDEN_SECCIONES: Record<Rol, ClaveSeccion[]> = {
   encargado: ['noticias', 'guias', 'consejered'],
   invitado: ['guias', 'noticias', 'consejered'],
 };
+
+/**
+ * Cuenta la visita una sola vez por navegador y por mes.
+ *
+ * Sin esta marca, alguien que entra cinco veces en un día contaría cinco
+ * veces y el número dejaría de significar "cuánta gente nos visita". La
+ * marca vive en el navegador de la persona y no viaja a ningún sitio.
+ */
+export function contarVisitaUnaVez(rol: Rol): void {
+  const mes = new Date().toISOString().slice(0, 7);
+  const clave = `consejeria:contado:${mes}`;
+  try {
+    if (window.localStorage.getItem(clave)) return;
+    window.localStorage.setItem(clave, '1');
+  } catch {
+    // Sin almacenamiento no se puede evitar el recuento doble. Se cuenta
+    // igual: es mejor un número algo alto que ningún número.
+  }
+  void fetch('/api/visita', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ rol }),
+    keepalive: true,
+  }).catch(() => {});
+}
