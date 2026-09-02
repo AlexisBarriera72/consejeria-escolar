@@ -3,17 +3,17 @@
 Answers from 2026-09-01. These supersede the recommendations in docs 00–08
 wherever they conflict.
 
-| # | Question | Decision |
-|---|---|---|
-| Q1 | Name + email | **Collect neither.** See section 1. |
-| Q2 | Puerto Rico? | **Yes** |
-| Q3 | Auth | ~~Magic link~~ → **single password** (see section 6) |
-| Q4 | Budget | **$0.** New domain later. |
-| Q5 | Account owner | **You.** Personal project for a family member — *not* district property. See section 3. |
-| Q6 | Video | **YouTube links**, facade embed |
-| Q7 | Real names | TBD |
-| Q8 | Two-way channel | **None.** One addition: a read-only availability calendar. Section 4. |
-| Q9 | Deadline | TBD |
+| #   | Question        | Decision                                                                                |
+| --- | --------------- | --------------------------------------------------------------------------------------- |
+| Q1  | Name + email    | **Collect neither.** See section 1.                                                     |
+| Q2  | Puerto Rico?    | **Yes**                                                                                 |
+| Q3  | Auth            | ~~Magic link~~ → **single password** (see section 6)                                    |
+| Q4  | Budget          | **$0.** New domain later.                                                               |
+| Q5  | Account owner   | **You.** Personal project for a family member — _not_ district property. See section 3. |
+| Q6  | Video           | **YouTube links**, facade embed                                                         |
+| Q7  | Real names      | TBD                                                                                     |
+| Q8  | Two-way channel | **None.** One addition: a read-only availability calendar. Section 4.                   |
+| Q9  | Deadline        | TBD                                                                                     |
 
 Approved from doc 06: student/parent lens · Semáforo de Accesibilidad ·
 `expiraEn` · Imprimir afiche + QR · Offline PWA · ConsejeRed /
@@ -23,8 +23,8 @@ El Pasillo · auto-mutual `trabajaCon` · per-person accent color · diacritic c
 
 ## 1. The stats question — you don't need the data you were about to collect
 
-You want *"stats on a spreadsheet every month to see what students or parents
-access the site."*
+You want _"stats on a spreadsheet every month to see what students or parents
+access the site."_
 
 That is a **count**, not an identity. You never needed the names or the emails.
 
@@ -54,26 +54,26 @@ actually wants.
 
 **What she gets in the admin, and what you export as CSV:**
 
-| Mes | Estudiantes | Encargados | Invitados | Total |
-|---|---|---|---|---|
-| Septiembre 2026 | 412 | 87 | 55 | 554 |
-| Octubre 2026 | 388 | 143 | 61 | 592 |
+| Mes             | Estudiantes | Encargados | Invitados | Total |
+| --------------- | ----------- | ---------- | --------- | ----- |
+| Septiembre 2026 | 412         | 87         | 55        | 554   |
+| Octubre 2026    | 388         | 143        | 61        | 592   |
 
 Plus, free, from the `vistas` counter already in doc 02: **which guides get
 opened most.** That's more useful to a counselor than a visitor list — it tells
 her what students are actually worried about.
 
 You get 100% of the reporting, and the privacy analysis in doc 07 collapses to
-a single sentence: *we don't collect personal information.*
+a single sentence: _we don't collect personal information._
 
-> If she later says she genuinely wants to know *who* visited — that's a
+> If she later says she genuinely wants to know _who_ visited — that's a
 > different product with a different legal footing. Push back once, hard. A
 > counselor knowing which specific students read the guide about anxiety is
 > exactly the kind of chilling effect that stops students from reading it.
 
 **Keep the "Hola, María" greeting?** Optional and easy: one name field, stored
-in `localStorage`, never transmitted. Copy: *"Esto se guarda solo en tu
-navegador. No lo enviamos a ningún lado."* True statement, warm result, zero
+in `localStorage`, never transmitted. Copy: _"Esto se guarda solo en tu
+navegador. No lo enviamos a ningún lado."_ True statement, warm result, zero
 exposure. Your call — the site works fine without it.
 
 ---
@@ -87,13 +87,13 @@ disqualifying detail:
 > unpausing requires someone to log into the dashboard and click a button.
 
 A school site goes quiet over Christmas break and dead-quiet over summer. Your
-aunt's website would break every July, and the fix requires *you*, from
+aunt's website would break every July, and the fix requires _you_, from
 wherever you are. That's the exact failure this project has to avoid.
 
 Also, Supabase's default SMTP allows **2 auth emails per hour** — enough to
 lock her out of her own site on a bad morning.
 
-### New recommendation: the repo *is* the database
+### New recommendation: the repo _is_ the database
 
 ```
 contenido/
@@ -108,13 +108,13 @@ contenido/
 - **Publish:** commit, then `revalidateTag('noticias')` → live in ~2 seconds.
   No rebuild, no 40-second wait.
 
-| Why it fits this project exactly | |
-|---|---|
-| Never pauses, never expires | GitHub and Vercel are accounts you already own |
-| Version history is free | `git log` **is** the "last 20 versions" feature from doc 04 |
-| Survives you | Content is plain JSON in a repo. Even if Vercel vanishes, it's all there. |
-| $0 forever | Not "$0 tier" — actually free |
-| No cold starts | Nothing to wake up |
+| Why it fits this project exactly |                                                                           |
+| -------------------------------- | ------------------------------------------------------------------------- |
+| Never pauses, never expires      | GitHub and Vercel are accounts you already own                            |
+| Version history is free          | `git log` **is** the "last 20 versions" feature from doc 04               |
+| Survives you                     | Content is plain JSON in a repo. Even if Vercel vanishes, it's all there. |
+| $0 forever                       | Not "$0 tier" — actually free                                             |
+| No cold starts                   | Nothing to wake up                                                        |
 
 Auth needs **no database at all** — the demo proves it. Tokens are signed, not
 stored; the staff list is an environment variable. For two editors, that's the
@@ -136,9 +136,9 @@ Video          → YouTube unlisted + facade embed
 
 Four services, all free, none of which pause.
 
-*Rejected: Neon (auto-resumes, unlike Supabase — but free-tier compute hours
+_Rejected: Neon (auto-resumes, unlike Supabase — but free-tier compute hours
 get tight on a site woken by every visitor). Keep it as the upgrade path if
-content volume ever outgrows JSON files, which for ~20 guides it will not.*
+content volume ever outgrows JSON files, which for ~20 guides it will not._
 
 ---
 
@@ -148,11 +148,11 @@ Doc 07 was written assuming this was a district property. **It isn't** — it's 
 personal project for a family member. That changes the analysis, and I'd rather
 correct it than let you over-engineer for a regime that doesn't bind you:
 
-- **ADA Title II** binds *public entities*. A personal site your aunt runs is
+- **ADA Title II** binds _public entities_. A personal site your aunt runs is
   not one. The April 2027/2028 deadlines don't apply to you.
-- **PR Ley 229 de 2003** obligates *"toda entidad pública del Estado Libre
-  Asociado"*. Same reasoning — not you.
-- **COPPA** applies to operators of *commercial* websites and services.
+- **PR Ley 229 de 2003** obligates _"toda entidad pública del Estado Libre
+  Asociado"_. Same reasoning — not you.
+- **COPPA** applies to operators of _commercial_ websites and services.
   Non-commercial and nonprofit operators are generally outside its scope. And
   after section 1, it's doubly moot: you collect nothing.
 - **FERPA** governs education records held by the school. You hold none.
@@ -163,10 +163,10 @@ them legal:
 1. **The audience.** Some students at this school are blind, dyslexic, or use a
    keyboard instead of a mouse. They're the reason, not the deadline.
 2. **Adoption is the goal.** The day the school links to this site or adopts
-   it, it inherits every obligation above *on day one*, with no grace period.
+   it, it inherits every obligation above _on day one_, with no grace period.
    Building it right costs nothing now. Retrofitting it costs a rewrite.
 
-Doc 07's checklist stays exactly as written. Only its *motivation* changes —
+Doc 07's checklist stays exactly as written. Only its _motivation_ changes —
 from "you must" to "you should, and here's the trapdoor if it's ever adopted."
 
 The Semáforo de Accesibilidad is now even more valuable: it's the thing that
@@ -182,7 +182,7 @@ channel."
 ### The privacy trap, stated plainly
 
 **Do not embed her main Google Calendar.** A school counselor's calendar
-contains event titles like *"Reunión con Juan Pérez — seguimiento"*. Publishing
+contains event titles like _"Reunión con Juan Pérez — seguimiento"_. Publishing
 that on a website is a serious disclosure about a specific student. The default
 Google Calendar embed shows event titles.
 
@@ -214,8 +214,8 @@ Use `ical.js` for parsing; her availability will almost certainly be a weekly
 recurring event, and `RRULE` expansion is the part you do not want to hand-roll.
 
 Fallback when the fetch fails: show her office hours as static text from her
-profile (`contacto.horario`, doc 02) and a line — *"Confirma con ella antes de
-venir."* Never show a stale calendar as if it were current.
+profile (`contacto.horario`, doc 02) and a line — _"Confirma con ella antes de
+venir."_ Never show a stale calendar as if it were current.
 
 > Note: the Google Calendar connector in this session isn't authorized, so I
 > can't read her calendar from here. Not needed — the site reads the iCal URL
@@ -243,7 +243,7 @@ venir."* Never show a stale calendar as if it were current.
 once the interview confirmed only one person will ever edit.
 
 The magic link solved a problem this project turns out not to have: knowing
-*which* of several editors made a change. With a single editor it added two
+_which_ of several editors made a change. With a single editor it added two
 dependencies — an email provider and an inbox — plus a failure mode (mail not
 arriving) in exchange for nothing.
 
@@ -251,7 +251,7 @@ arriving) in exchange for nothing.
 HttpOnly session cookie, the constant-time comparison, and the guard
 re-checked inside every write route rather than only on the page.
 
-**What genuinely changed:** a password *can* be brute-forced; a one-time link
+**What genuinely changed:** a password _can_ be brute-forced; a one-time link
 cannot. So the attempt limit stops being a nicety and becomes the primary
 defence — ten tries per IP per fifteen minutes.
 
@@ -265,8 +265,71 @@ Three implementation notes worth keeping:
   truncated and login failed with a bare 401 and no explanation. Do not
   "tidy" this back to the conventional format.
 - The session embeds a fingerprint of the hash, so changing the password
-  invalidates any open session. That is the point: you change it *because*
+  invalidates any open session. That is the point: you change it _because_
   someone saw it.
 
 `demo/magic-link/` stays in the repo as a working reference if a second editor
 ever appears.
+
+---
+
+## 7. Despliegue: dos cuentas de GitHub y por qué Vercel bloqueaba
+
+El repositorio vive en **AlexisBarriera72** (privado) y la cuenta de Vercel es
+**TastyWetNut** (`wetnut's projects`, plan hobby). Son cuentas distintas y esa
+asimetría tiene consecuencias reales.
+
+### El bloqueo
+
+Un `git push` disparaba un despliegue que Vercel dejaba en estado `BLOCKED`,
+**sin una sola línea de registro de construcción** y con `errorLink` apuntando
+a `troubleshoot-project-collaboration#team-configuration`. No es un fallo del
+código: Vercel se niega antes de empezar a construir.
+
+La comparación entre los dos primeros despliegues lo deja claro:
+
+|     | commit    | `source`                          | estado  |
+| --- | --------- | --------------------------------- | ------- |
+| #1  | `1aa2ae9` | `importSource: import-candidates` | READY   |
+| #2  | `a4dad36` | `source: "git"`                   | BLOCKED |
+
+Mismo repositorio, misma rama y **el mismo autor** (`TastyWetNut` en los dos).
+Lo único que cambia es quién lo inicia: el primero se lanzó a mano desde el
+panel, como el usuario que había iniciado sesión; el segundo lo disparó el
+webhook del push, hecho con el token de AlexisBarriera72.
+
+En el plan hobby, Vercel solo acepta despliegues por git cuando la identidad
+de GitHub que empuja es la que está conectada a la cuenta de Vercel.
+
+### Lo que NO lo arregla
+
+Añadir TastyWetNut como colaborador del repositorio. Eso cambia los permisos
+**de GitHub**; la comprobación que falla es **de Vercel**, sobre qué cuenta de
+GitHub está conectada. Son dos capas distintas y tocar la primera no mueve la
+segunda.
+
+### El arreglo
+
+La máquina tenía credenciales de las dos cuentas en el Administrador de
+credenciales de Windows, pero Git Credential Manager las busca por _host_, así
+que la de AlexisBarriera72 tapaba la otra. Se resuelve pidiendo la credencial
+por ruta, solo en este repositorio:
+
+```
+git config --local credential.https://github.com.useHttpPath true
+```
+
+Con eso git pregunta por `github.com/AlexisBarriera72/consejeria-escolar` en
+vez de por `github.com` a secas, y recibe la de TastyWetNut — que tiene
+permiso de escritura en el repositorio. Los demás repositorios de la máquina
+siguen usando la credencial global y no se enteran.
+
+Es `--local`: vive en `.git/config`, no se versiona. **Quien clone este
+repositorio en otra máquina tendrá que volver a ponerlo.**
+
+### Protección de despliegue
+
+Los proyectos nuevos de Vercel nacen con _Vercel Authentication_ activada, así
+que todas las URL respondían 302 hacia `vercel.com/sso-api` y el sitio no se
+veía sin iniciar sesión en Vercel. Está desactivada a propósito: el sitio es
+para estudiantes y familias, y una pared de inicio de sesión lo hace inútil.
