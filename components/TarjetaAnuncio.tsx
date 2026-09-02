@@ -10,7 +10,7 @@ import type { Anuncio, PlantillaId } from '@/lib/tipos';
  * sin duplicar las ocho plantillas en versión pequeña.
  */
 
-const ESTILO: Record<
+export const ESTILO: Record<
   PlantillaId,
   { caja: string; titulo: string; sello: string }
 > = {
