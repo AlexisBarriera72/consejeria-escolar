@@ -32,6 +32,7 @@ Spanish. Body copy is Lorem Ipsum until the district supplies real text.
 | `docs/06-ideas.md` | The unusual suggestions — read this one for fun |
 | `docs/07-accesibilidad-legal.md` | ADA Title II, PR Ley 229, FERPA/COPPA, captions |
 | `docs/08-roadmap.md` | Build order, 8 phases |
+| **`docs/11-GUIA-PARA-EL-PERSONAL.md`** | **Hoja para imprimir y dar al personal** |
 
 ## Three things worth knowing before you open any other file
 
@@ -104,7 +105,7 @@ encadena a mano — es fácil creer que el build te cubre cuando no lo hace.
 | 10 · Accesibilidad, pase 1 | ✅ |
 | 11 · Contenido y acceso | ✅ |
 | 12 · Panel: Guías | ✅ |
-| 13 · Panel: Noticias | ⏳ siguiente |
-| 14 · Panel: Perfiles, papelera, estadísticas | |
-| 15 · Calendario y Modo Calma | |
-| 16 · PWA y lanzamiento | |
+| 13 · Panel: Noticias | ✅ |
+| 14 · Panel: Perfiles, papelera, estadísticas | ✅ |
+| 15 · Calendario y Modo Calma | ✅ |
+| 16 · PWA y lanzamiento | ✅ `v1.0.0` |
