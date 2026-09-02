@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ChipRol } from './ChipRol';
+import { BotonCalma } from './BotonCalma';
 
 export function Encabezado() {
   return (
@@ -18,7 +19,10 @@ export function Encabezado() {
           </span>
           <span className="hidden sm:inline">Consejería Escolar</span>
         </Link>
-        <ChipRol />
+        <div className="flex items-center gap-2">
+          <BotonCalma />
+          <ChipRol />
+        </div>
       </div>
     </header>
   );
