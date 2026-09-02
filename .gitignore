@@ -30,3 +30,9 @@ desktop.ini
 # registros
 *.log
 npm-debug.log*
+
+# impeccable: la configuración sí se versiona; el diario de sesiones no
+.impeccable/live/sessions/
+.impeccable/live/roots.json
+.impeccable/live/inject-journal.json
+.impeccable/config.local.json
