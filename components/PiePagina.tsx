@@ -29,6 +29,12 @@ export function PiePagina() {
           >
             Accesibilidad
           </Link>
+          <Link href="/calendario" className="text-azul-700 rounded underline">
+            Disponibilidad
+          </Link>
+          <Link href="/creditos" className="text-azul-700 rounded underline">
+            Créditos
+          </Link>
           {/* La puerta discreta al panel. No es seguridad — la seguridad
               está en el servidor (doc 01 §3) — es para que el personal
               no tenga que acordarse de una dirección secreta. */}
