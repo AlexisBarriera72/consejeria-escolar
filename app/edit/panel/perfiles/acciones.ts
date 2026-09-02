@@ -80,7 +80,7 @@ export async function guardarPerfil(
     locale: 'es',
     creadoEn: existente?.creadoEn ?? ahora,
     actualizadoEn: ahora,
-    actualizadoPor: sesion.correo,
+    actualizadoPor: sesion.usuario,
     eliminadoEn: existente?.eliminadoEn ?? null,
     slug: d.slug,
     nombre: d.nombre,
@@ -102,7 +102,7 @@ export async function guardarPerfil(
     existente
       ? todos.map((p) => (p.id === d.id ? guardado : p))
       : [...todos, guardado],
-    `${sesion.correo} ${existente ? 'actualizó' : 'creó'} el perfil de ${d.nombre}`,
+    `${sesion.usuario} ${existente ? 'actualizó' : 'creó'} el perfil de ${d.nombre}`,
   );
 
   revalidatePath('/consejered');
@@ -117,7 +117,7 @@ export async function borrarPerfil(id: string): Promise<{ ok: boolean }> {
     todos.map((p) =>
       p.id === id ? { ...p, eliminadoEn: new Date().toISOString() } : p,
     ),
-    `${sesion.correo} envió un perfil a la papelera`,
+    `${sesion.usuario} envió un perfil a la papelera`,
   );
   revalidatePath('/consejered');
   revalidatePath('/edit/panel/perfiles');

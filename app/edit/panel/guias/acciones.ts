@@ -83,7 +83,7 @@ export async function guardarGuia(
         responsables: d.responsables,
         estado: d.publicar ? 'publicado' : 'borrador',
         actualizadoEn: ahora,
-        actualizadoPor: sesion.correo,
+        actualizadoPor: sesion.usuario,
       }
     : {
         id: d.id,
@@ -91,7 +91,7 @@ export async function guardarGuia(
         locale: 'es',
         creadoEn: ahora,
         actualizadoEn: ahora,
-        actualizadoPor: sesion.correo,
+        actualizadoPor: sesion.usuario,
         eliminadoEn: null,
         categoriaId: d.categoriaId,
         slug: d.slug,
@@ -109,7 +109,7 @@ export async function guardarGuia(
 
   await guardarPreguntas(
     siguiente,
-    `${sesion.correo} ${existente ? 'actualizó' : 'creó'} la guía "${d.pregunta}"`,
+    `${sesion.usuario} ${existente ? 'actualizó' : 'creó'} la guía "${d.pregunta}"`,
   );
 
   revalidatePath('/guias');
@@ -132,10 +132,10 @@ export async function borrarGuia(id: string): Promise<{ ok: boolean }> {
   await guardarPreguntas(
     todas.map((p) =>
       p.id === id
-        ? { ...p, eliminadoEn: ahora, actualizadoPor: sesion.correo }
+        ? { ...p, eliminadoEn: ahora, actualizadoPor: sesion.usuario }
         : p,
     ),
-    `${sesion.correo} envió una guía a la papelera`,
+    `${sesion.usuario} envió una guía a la papelera`,
   );
   revalidatePath('/guias');
   revalidatePath('/edit/panel/guias');
@@ -147,7 +147,7 @@ export async function restaurarGuia(id: string): Promise<{ ok: boolean }> {
   const todas = await crudo.preguntas();
   await guardarPreguntas(
     todas.map((p) => (p.id === id ? { ...p, eliminadoEn: null } : p)),
-    `${sesion.correo} recuperó una guía de la papelera`,
+    `${sesion.usuario} recuperó una guía de la papelera`,
   );
   revalidatePath('/guias');
   revalidatePath('/edit/panel/papelera');

@@ -16,7 +16,7 @@ export default async function ListaNoticias() {
 
   return (
     <MarcoPanel
-      correo={sesion.correo}
+      usuario={sesion.usuario}
       titulo="Noticias"
       descripcion="Los anuncios que ven estudiantes y encargados."
       volverA={{ href: '/edit/panel', texto: 'Panel' }}

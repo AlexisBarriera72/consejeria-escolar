@@ -2,13 +2,8 @@ import { redirect } from 'next/navigation';
 import { FormularioAcceso } from '@/components/panel/FormularioAcceso';
 import { sesionActiva } from '@/lib/acceso';
 
-export default async function PaginaAcceso({
-  searchParams,
-}: {
-  searchParams: Promise<{ error?: string }>;
-}) {
+export default async function PaginaAcceso() {
   if (await sesionActiva()) redirect('/edit/panel');
-  const { error } = await searchParams;
 
   return (
     <div className="mx-auto max-w-lg px-5 py-16">
@@ -19,7 +14,7 @@ export default async function PaginaAcceso({
         Esta pantalla es solo para el personal de la escuela.
       </p>
       <div className="mt-8">
-        <FormularioAcceso error={error} />
+        <FormularioAcceso />
       </div>
     </div>
   );

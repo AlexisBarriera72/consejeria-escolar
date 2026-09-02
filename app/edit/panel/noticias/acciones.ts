@@ -98,7 +98,7 @@ export async function guardarNoticia(
     locale: 'es',
     creadoEn: existente?.creadoEn ?? ahora,
     actualizadoEn: ahora,
-    actualizadoPor: sesion.correo,
+    actualizadoPor: sesion.usuario,
     eliminadoEn: existente?.eliminadoEn ?? null,
     slug: d.slug,
     plantilla: d.plantilla as PlantillaId,
@@ -134,7 +134,7 @@ export async function guardarNoticia(
 
   await guardarNoticias(
     siguiente,
-    `${sesion.correo} ${existente ? 'actualizó' : 'creó'} el anuncio "${d.titulo}"`,
+    `${sesion.usuario} ${existente ? 'actualizó' : 'creó'} el anuncio "${d.titulo}"`,
   );
   revalidatePath('/noticias');
   revalidatePath('/edit/panel/noticias');
@@ -148,7 +148,7 @@ export async function borrarNoticia(id: string): Promise<{ ok: boolean }> {
     todas.map((a) =>
       a.id === id ? { ...a, eliminadoEn: new Date().toISOString() } : a,
     ),
-    `${sesion.correo} envió un anuncio a la papelera`,
+    `${sesion.usuario} envió un anuncio a la papelera`,
   );
   revalidatePath('/noticias');
   revalidatePath('/edit/panel/noticias');
@@ -179,7 +179,7 @@ export async function subirFoto(
   const url = await archivos.subir(
     nombre,
     bytes,
-    `${sesion.correo} subió una foto`,
+    `${sesion.usuario} subió una foto`,
   );
   return { ok: true, url };
 }

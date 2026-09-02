@@ -11,7 +11,7 @@ export default async function PaginaEstadisticas() {
 
   return (
     <MarcoPanel
-      correo={sesion.correo}
+      usuario={sesion.usuario}
       titulo="Estadísticas"
       descripcion="Cuánta gente visita el sitio cada mes."
       volverA={{ href: '/edit/panel', texto: 'Panel' }}

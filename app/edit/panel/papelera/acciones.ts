@@ -23,7 +23,7 @@ export async function recuperar(
   id: string,
 ): Promise<{ ok: boolean }> {
   const sesion = await exigirPanel();
-  const nota = `${sesion.correo} recuperó un elemento de la papelera`;
+  const nota = `${sesion.usuario} recuperó un elemento de la papelera`;
   const limpiar = <T extends { id: string; eliminadoEn: string | null }>(
     xs: T[],
   ) => xs.map((x) => (x.id === id ? { ...x, eliminadoEn: null } : x));

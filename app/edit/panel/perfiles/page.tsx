@@ -11,7 +11,7 @@ export default async function ListaPerfiles() {
 
   return (
     <MarcoPanel
-      correo={sesion.correo}
+      usuario={sesion.usuario}
       titulo="Profesionales"
       descripcion="El equipo que aparece en El Pasillo."
       volverA={{ href: '/edit/panel', texto: 'Panel' }}

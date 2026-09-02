@@ -9,16 +9,17 @@ sitio hasta que pulses **Publicar**.
 
 ## 1. Cómo entrar
 
-1. Ve a la página del sitio y, abajo del todo, pulsa **Personal**.
+1. Ve a la página del sitio y, abajo del todo, pulsa **Personal de la escuela**.
    (O escribe la dirección del sitio seguida de `/edit`.)
-2. Escribe tu correo de la escuela y pulsa **Enviar enlace de acceso**.
-3. Abre tu correo y pulsa el botón **Entrar al panel**.
+2. Escribe tu contraseña y pulsa **Entrar**.
 
-**No hay contraseña.** No tienes que recordar nada.
+La sesión dura 8 horas. Si usas una computadora compartida, pulsa
+**Cerrar sesión** al terminar.
 
-- El enlace vence a los 10 minutos. Si tardas, pide otro.
-- Cada enlace sirve una sola vez.
-- Si no llega, mira la carpeta de correo no deseado.
+- Si te equivocas diez veces seguidas, el sitio bloquea los intentos durante
+  quince minutos. Es a propósito: impide que alguien la adivine probando.
+- La contraseña **no se puede recuperar**. El sitio guarda una huella, no la
+  contraseña. Si se pierde, quien montó el sitio genera una nueva.
 
 ---
 

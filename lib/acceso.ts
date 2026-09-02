@@ -1,32 +1,38 @@
 import 'server-only';
-import { createHmac, randomBytes, timingSafeEqual } from 'node:crypto';
+import {
+  createHmac,
+  randomBytes,
+  scryptSync,
+  timingSafeEqual,
+} from 'node:crypto';
 import { cookies } from 'next/headers';
 
 /**
- * Acceso al panel por enlace mágico.
+ * Acceso al panel con UNA contraseña.
  *
- * Es el prototipo de demo/magic-link/ llevado a Next, con las mismas
- * defensas y por las mismas razones:
+ * Antes esto era un enlace mágico por correo. Se cambió porque el producto
+ * cambió: edita una sola persona (PRODUCT.md), no un equipo. Con un solo
+ * editor, el enlace por correo añadía dos dependencias — un proveedor de
+ * envío y la bandeja de entrada — para resolver un problema que no existía:
+ * saber cuál de varias personas hizo cada cambio.
  *
- *  · El token va firmado con HMAC-SHA256: no se puede fabricar sin el secreto.
- *  · Las firmas se comparan en tiempo constante (timingSafeEqual). Un `===`
- *    se rinde en el primer byte distinto, y esa diferencia es medible desde
- *    fuera — deja adivinar la firma byte a byte.
- *  · El enlace vence a los 10 minutos y sirve una sola vez.
- *  · La cookie de sesión es HttpOnly: el JavaScript de la página no la puede
- *    leer, así que un XSS no la puede robar.
- *  · La respuesta es IDÉNTICA exista o no el correo. Si dijera "ese correo no
- *    existe", cualquiera podría averiguar quién trabaja en la escuela
- *    probando direcciones.
+ * Lo que se conserva del diseño anterior, porque sigue siendo lo correcto:
  *
- * Y lo más importante, que es lo que suele fallar: CADA ruta que escribe
- * vuelve a comprobar la sesión. Esconder la página del panel no sirve de
- * nada si la ruta que guarda está abierta — los ataques van a la API, no a
- * la interfaz.
+ *  · La contraseña NO se guarda. Se guarda un hash scrypt con sal, así que
+ *    ver la variable de entorno no basta para entrar.
+ *  · La comparación es en tiempo constante. Un `===` se rinde en el primer
+ *    byte distinto y esa diferencia es medible desde fuera.
+ *  · La cookie de sesión va firmada y es HttpOnly: el navegador no la puede
+ *    fabricar ni leerla desde JavaScript.
+ *  · CADA ruta que escribe vuelve a comprobar la sesión. Esconder la página
+ *    no sirve de nada si la acción que guarda está abierta.
+ *
+ * Lo que CAMBIA de verdad al pasar a contraseña: una contraseña sí se puede
+ * adivinar a fuerza bruta, cosa que un enlace de un solo uso no. Por eso el
+ * límite de intentos deja de ser un adorno y pasa a ser la defensa principal.
  */
 
 const NOMBRE_COOKIE = 'sesion';
-const VIDA_ENLACE_MS = 10 * 60 * 1000;
 const VIDA_SESION_MS = 8 * 60 * 60 * 1000; // un turno escolar
 
 function secreto(): string {
@@ -34,26 +40,71 @@ function secreto(): string {
   if (!s || s.length < 32) {
     throw new Error(
       'SESSION_SECRET no está puesto o es muy corto (mínimo 32 caracteres). ' +
-        "Genera uno con: node -e \"console.log(require('crypto').randomBytes(32).toString('hex'))\"",
+        'Genera uno con: node scripts/generar-clave.mjs',
     );
   }
   return s;
 }
 
-/** El personal autorizado. Añadir o quitar a alguien es editar una variable
- *  de entorno en Vercel — no hay tabla de usuarios que mantener. */
-export function personalAutorizado(): string[] {
-  return (process.env.STAFF_EMAILS ?? '')
-    .split(',')
-    .map((c) => c.trim().toLowerCase())
-    .filter(Boolean);
+/** Nombre que aparece en "Editado por…" y en la franja del panel. */
+export function nombreDelPersonal(): string {
+  return process.env.ADMIN_NOMBRE?.trim() || 'Consejería Escolar';
 }
 
-export function esPersonal(correo: string): boolean {
-  return personalAutorizado().includes(correo.trim().toLowerCase());
+// ── La contraseña ──────────────────────────────────────────────────────────
+
+type Guardada = { sal: Buffer; hash: Buffer };
+
+/**
+ * Formato de ADMIN_PASSWORD_HASH: scrypt:salHex:hashHex
+ *
+ * El separador es dos puntos, NO el dólar que se estila en este tipo de
+ * cadenas. Next pasa los .env por dotenv-expand, que lee un dólar seguido de
+ * caracteres como el nombre de una variable y lo sustituye por vacío. Con el
+ * formato habitual el hash llegaba partido y el panel devolvía 401 sin decir
+ * por qué — media hora de depuración que este comentario evita.
+ */
+function claveGuardada(): Guardada | null {
+  const crudo = process.env.ADMIN_PASSWORD_HASH;
+  if (!crudo) return null;
+  const partes = crudo.split(':');
+  if (partes.length !== 3 || partes[0] !== 'scrypt') return null;
+  try {
+    return {
+      sal: Buffer.from(partes[1]!, 'hex'),
+      hash: Buffer.from(partes[2]!, 'hex'),
+    };
+  } catch {
+    return null;
+  }
 }
 
-// ── Tokens firmados ────────────────────────────────────────────────────────
+export function hayClaveConfigurada(): boolean {
+  return claveGuardada() !== null;
+}
+
+export function claveCorrecta(clave: string): boolean {
+  const guardada = claveGuardada();
+  if (!guardada) return false;
+  const intento = scryptSync(clave, guardada.sal, guardada.hash.length);
+  if (intento.length !== guardada.hash.length) return false;
+  return timingSafeEqual(intento, guardada.hash);
+}
+
+/**
+ * Huella corta del hash, guardada dentro de la sesión.
+ *
+ * Sirve para que cambiar la contraseña cierre las sesiones abiertas: si la
+ * huella de la cookie no coincide con la del hash actual, la cookie deja de
+ * valer. Sin esto, cambiar la contraseña porque alguien la vio no echaría a
+ * quien ya estuviera dentro.
+ */
+function huella(): string {
+  const g = claveGuardada();
+  return g ? g.hash.toString('hex').slice(0, 12) : '';
+}
+
+// ── Sesión ─────────────────────────────────────────────────────────────────
 
 const b64 = (s: string) => Buffer.from(s).toString('base64url');
 const deB64 = (s: string) => Buffer.from(s, 'base64url').toString('utf8');
@@ -69,67 +120,17 @@ function firmaValida(texto: string, recibida: string): boolean {
   return timingSafeEqual(esperada, dada);
 }
 
-type Carga = {
-  correo: string;
-  exp: number;
-  tipo: 'enlace' | 'sesion';
-  jti?: string;
-};
+type Carga = { usuario: string; exp: number; huella: string };
 
-function crearToken(datos: Carga): string {
-  const carga = b64(JSON.stringify(datos));
-  return `${carga}.${firmar(carga)}`;
-}
-
-export function leerToken(token: string | undefined): Carga | null {
-  if (!token || !token.includes('.')) return null;
-  const [carga, firma] = token.split('.');
-  if (!carga || !firma || !firmaValida(carga, firma)) return null;
-  try {
-    const datos = JSON.parse(deB64(carga)) as Carga;
-    if (Date.now() > datos.exp) return null;
-    return datos;
-  } catch {
-    return null;
-  }
-}
-
-export function crearTokenEnlace(correo: string): string {
-  return crearToken({
-    correo: correo.toLowerCase(),
-    exp: Date.now() + VIDA_ENLACE_MS,
-    tipo: 'enlace',
-    jti: randomBytes(9).toString('base64url'),
-  });
-}
-
-// ── Un solo uso ────────────────────────────────────────────────────────────
-//
-// En memoria. En serverless cada instancia tiene la suya, así que un enlace
-// PODRÍA reutilizarse si la segunda petición cae en otra instancia. Para dos
-// personas y una ventana de 10 minutos el riesgo es despreciable; si algún
-// día hace falta cerrarlo del todo, se mueve a Upstash con TTL de 10 min.
-// Se deja escrito para que nadie lo descubra por sorpresa.
-const usados = new Set<string>();
-
-export function quemarToken(jti: string | undefined): boolean {
-  if (!jti) return false;
-  if (usados.has(jti)) return false;
-  usados.add(jti);
-  if (usados.size > 500) usados.clear(); // no crecer sin límite
-  return true;
-}
-
-// ── Sesión ─────────────────────────────────────────────────────────────────
-
-export async function abrirSesion(correo: string): Promise<void> {
-  const token = crearToken({
-    correo: correo.toLowerCase(),
+export async function abrirSesion(): Promise<void> {
+  const carga: Carga = {
+    usuario: nombreDelPersonal(),
     exp: Date.now() + VIDA_SESION_MS,
-    tipo: 'sesion',
-  });
+    huella: huella(),
+  };
+  const cuerpo = b64(JSON.stringify(carga));
   const galletas = await cookies();
-  galletas.set(NOMBRE_COOKIE, token, {
+  galletas.set(NOMBRE_COOKIE, `${cuerpo}.${firmar(cuerpo)}`, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
@@ -143,23 +144,28 @@ export async function cerrarSesion(): Promise<void> {
   galletas.delete(NOMBRE_COOKIE);
 }
 
-export type Sesion = { correo: string; expira: number };
+export type Sesion = { usuario: string; expira: number };
 
-/**
- * La única función que decide si alguien está dentro.
- * Se llama en cada página del panel Y en cada ruta que escribe.
- */
+/** La única función que decide si alguien está dentro. */
 export async function sesionActiva(): Promise<Sesion | null> {
   const galletas = await cookies();
-  const datos = leerToken(galletas.get(NOMBRE_COOKIE)?.value);
-  if (!datos || datos.tipo !== 'sesion') return null;
-  // Revocar a alguien = quitarlo de STAFF_EMAILS. Su cookie deja de valer
-  // aquí mismo, sin esperar a que caduque.
-  if (!esPersonal(datos.correo)) return null;
-  return { correo: datos.correo, expira: datos.exp };
+  const token = galletas.get(NOMBRE_COOKIE)?.value;
+  if (!token || !token.includes('.')) return null;
+
+  const [cuerpo, firma] = token.split('.');
+  if (!cuerpo || !firma || !firmaValida(cuerpo, firma)) return null;
+
+  try {
+    const datos = JSON.parse(deB64(cuerpo)) as Carga;
+    if (Date.now() > datos.exp) return null;
+    // Si cambió la contraseña, las cookies viejas dejan de valer.
+    if (!datos.huella || datos.huella !== huella()) return null;
+    return { usuario: datos.usuario, expira: datos.exp };
+  } catch {
+    return null;
+  }
 }
 
-/** Para usar al principio de cada ruta de escritura. Lanza si no hay sesión. */
 export async function exigirSesion(): Promise<Sesion> {
   const s = await sesionActiva();
   if (!s) throw new Error('SIN_SESION');
@@ -167,14 +173,22 @@ export async function exigirSesion(): Promise<Sesion> {
 }
 
 // ── Límite de intentos ─────────────────────────────────────────────────────
+//
+// Con enlace mágico esto era una molestia para el atacante. Con contraseña es
+// LA defensa: sin límite, un script prueba miles por minuto. Diez intentos
+// cada cuarto de hora hacen la fuerza bruta inviable y no le estorban a quien
+// entra un par de veces por semana.
+//
+// En memoria: en serverless cada instancia lleva su cuenta, así que el límite
+// real es algo más alto que 10. Para cerrarlo del todo habría que llevarlo a
+// Upstash, que ya está en el proyecto para las estadísticas.
 
 const VENTANA_MS = 15 * 60 * 1000;
-const MAX_CORREO = 5;
-const MAX_IP = 20; // una escuela entera sale por una sola IP pública
+const MAX_INTENTOS = 10;
 
 const intentos = new Map<string, { n: number; desde: number }>();
 
-export function excedeLimite(clave: string, maximo: number): boolean {
+export function excedeLimite(clave: string): boolean {
   const ahora = Date.now();
   const reg = intentos.get(clave);
   if (!reg || ahora - reg.desde > VENTANA_MS) {
@@ -182,7 +196,12 @@ export function excedeLimite(clave: string, maximo: number): boolean {
     return false;
   }
   reg.n += 1;
-  return reg.n > maximo;
+  return reg.n > MAX_INTENTOS;
 }
 
-export const LIMITES = { correo: MAX_CORREO, ip: MAX_IP };
+export const LIMITES = { intentos: MAX_INTENTOS, ventanaMin: 15 };
+
+/** Genera un secreto de sesión. Lo usa scripts/generar-clave.mjs. */
+export function nuevoSecreto(): string {
+  return randomBytes(32).toString('hex');
+}

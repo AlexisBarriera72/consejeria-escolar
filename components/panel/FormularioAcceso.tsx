@@ -1,80 +1,83 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Boton } from '@/components/ui/Boton';
 
-export function FormularioAcceso({ error }: { error?: string }) {
-  const [correo, setCorreo] = useState('');
-  const [enviado, setEnviado] = useState(false);
+export function FormularioAcceso() {
+  const router = useRouter();
+  const [clave, setClave] = useState('');
+  const [error, setError] = useState<string | null>(null);
   const [enviando, setEnviando] = useState(false);
 
   async function enviar(e: React.FormEvent) {
     e.preventDefault();
     setEnviando(true);
-    await fetch('/api/acceso', {
+    setError(null);
+
+    const res = await fetch('/api/acceso', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ correo }),
-    }).catch(() => {});
-    setEnviando(false);
-    setEnviado(true);
-  }
+      body: JSON.stringify({ clave }),
+    }).catch(() => null);
 
-  if (enviado) {
-    return (
-      <div className="border-borde rounded-2xl border bg-white p-7">
-        <p className="bg-menta/25 text-tinta rounded-xl px-4 py-3">
-          Si <strong>{correo}</strong> pertenece al personal, le acabamos de
-          enviar un enlace para entrar.
-        </p>
-        <p className="text-gris mt-4 text-sm">
-          El enlace vence en 10 minutos y solo sirve una vez. Si no llega,
-          revisa la carpeta de correo no deseado.
-        </p>
-        <button
-          type="button"
-          onClick={() => setEnviado(false)}
-          className="text-azul-700 mt-4 rounded text-sm underline"
-        >
-          Pedir otro enlace
-        </button>
-      </div>
+    setEnviando(false);
+
+    if (res?.ok) {
+      // `refresh()` antes de navegar para que el servidor vuelva a leer la
+      // cookie recién puesta; sin él, /edit/panel se pinta con la sesión
+      // vieja y rebota a esta misma pantalla.
+      router.refresh();
+      router.push('/edit/panel');
+      return;
+    }
+
+    setError(
+      res?.status === 429
+        ? 'Demasiados intentos. Espera un cuarto de hora y vuelve a probar.'
+        : 'Esa contraseña no es. Inténtalo otra vez.',
     );
   }
 
   return (
     <form
       onSubmit={enviar}
-      className="border-borde rounded-2xl border bg-white p-7"
+      className="border-borde bg-crema rounded-2xl border p-7"
     >
-      {error === 'invalido' ? (
-        <p className="bg-rosa-500/12 border-rosa-700 text-tinta mb-5 rounded-xl border-l-4 px-4 py-3 text-sm">
-          <strong>Ese enlace ya no sirve.</strong> Los enlaces vencen a los 10
-          minutos y solo se pueden usar una vez. Pide uno nuevo.
+      {error ? (
+        <p
+          role="alert"
+          className="border-rosa-700 bg-rosa-500/12 text-tinta mb-5 rounded-xl border-l-4 px-4 py-3 text-sm"
+        >
+          {error}
         </p>
       ) : null}
 
-      <label htmlFor="correo" className="text-tinta block font-semibold">
-        Tu correo electrónico
+      <label htmlFor="clave" className="text-tinta block font-semibold">
+        Contraseña
       </label>
       <input
-        id="correo"
-        name="correo"
-        type="email"
+        id="clave"
+        name="clave"
+        type="password"
         required
-        autoComplete="email"
-        value={correo}
-        onChange={(e) => setCorreo(e.target.value)}
-        placeholder="nombre@escuela.pr"
-        className="border-borde focus:border-azul-700 mt-2 w-full rounded-xl border-2 px-4 py-3.5 text-[17px]"
+        autoComplete="current-password"
+        autoFocus
+        value={clave}
+        onChange={(e) => setClave(e.target.value)}
+        className="border-borde focus:border-azul-700 mt-2 w-full rounded-xl border-2 bg-white px-4 py-3.5 text-[17px]"
       />
+
       <p className="mt-5">
         <Boton type="submit" tamano="grande" disabled={enviando}>
-          {enviando ? 'Enviando…' : 'Enviar enlace de acceso'}
+          {enviando ? 'Entrando…' : 'Entrar'}
         </Boton>
       </p>
+
       <p className="text-gris mt-4 text-sm">
-        No hay contraseña. Te llega un enlace al correo y con eso entras.
+        Si no la recuerdas, quien montó el sitio puede generar una nueva. No se
+        puede recuperar la anterior: el sitio guarda una huella, no la
+        contraseña.
       </p>
     </form>
   );

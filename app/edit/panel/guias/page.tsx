@@ -13,7 +13,7 @@ export default async function ListaGuias() {
 
   return (
     <MarcoPanel
-      correo={sesion.correo}
+      usuario={sesion.usuario}
       titulo="Preguntas y Guías"
       descripcion="Las respuestas que ven estudiantes y encargados."
       volverA={{ href: '/edit/panel', texto: 'Panel' }}

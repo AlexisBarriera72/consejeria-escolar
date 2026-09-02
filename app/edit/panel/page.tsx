@@ -52,7 +52,7 @@ export default async function PaginaPanel() {
 
   return (
     <MarcoPanel
-      correo={sesion.correo}
+      usuario={sesion.usuario}
       titulo="Panel de edición"
       descripcion="Todo lo que publica la oficina de consejería se edita aquí."
     >

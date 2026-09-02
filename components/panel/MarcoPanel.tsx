@@ -9,13 +9,13 @@ import Link from 'next/link';
  * una maestra no vuelva a abrir el panel después del primer día.
  */
 export function MarcoPanel({
-  correo,
+  usuario,
   titulo,
   descripcion,
   volverA,
   children,
 }: {
-  correo: string;
+  usuario: string;
   titulo: string;
   descripcion?: string;
   volverA?: { href: string; texto: string };
@@ -30,7 +30,7 @@ export function MarcoPanel({
             ven esta pantalla.
           </p>
           <div className="flex items-center gap-4 text-sm">
-            <span className="text-gris">{correo}</span>
+            <span className="text-gris">{usuario}</span>
             <form action="/api/acceso/salir" method="POST">
               <button className="border-azul-700 text-azul-700 hover:bg-azul-100 rounded-lg border px-3 py-1.5 font-medium">
                 Cerrar sesión

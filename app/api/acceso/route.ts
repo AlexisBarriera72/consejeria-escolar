@@ -1,53 +1,44 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { z } from 'zod';
 import {
-  LIMITES,
-  crearTokenEnlace,
-  esPersonal,
+  abrirSesion,
+  claveCorrecta,
   excedeLimite,
+  hayClaveConfigurada,
 } from '@/lib/acceso';
-import { enviarEnlace } from '@/lib/correo';
 
-const Cuerpo = z.object({
-  correo: z.string().trim().toLowerCase().email().max(200),
-});
+const Cuerpo = z.object({ clave: z.string().min(1).max(200) });
 
 /**
- * Pide un enlace de acceso.
+ * Entrar al panel con la contraseña.
  *
- * Responde SIEMPRE lo mismo — 200 y "revisa tu correo" — exista o no la
- * dirección. Es deliberado: si respondiera distinto, cualquiera podría
- * averiguar quién trabaja en la escuela probando correos.
+ * La comprobación vive AQUÍ, en el servidor. Una contraseña comparada en el
+ * navegador es pública: cualquiera abre las herramientas de desarrollo y la
+ * lee del bundle. Es el error más común al montar un panel casero.
+ *
+ * La respuesta no distingue entre "contraseña incorrecta" y "no hay ninguna
+ * configurada": los dos casos devuelven lo mismo, para no contarle a nadie en
+ * qué estado está el sitio.
  */
 export async function POST(req: NextRequest) {
-  const datos = Cuerpo.safeParse(await req.json().catch(() => null));
-
-  // Ni siquiera un correo mal formado recibe una respuesta distinta.
-  if (!datos.success) return NextResponse.json({ ok: true });
-
-  const correo = datos.data.correo;
   const ip =
     req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'sin-ip';
 
-  // Se evalúan las DOS antes del if: con `||` la segunda no correría cuando
-  // la primera ya dio true, y ese contador quedaría desfasado.
-  const ipPasada = excedeLimite(`ip:${ip}`, LIMITES.ip);
-  const correoPasado = excedeLimite(`correo:${correo}`, LIMITES.correo);
-  if (ipPasada || correoPasado) {
+  // El límite se cuenta ANTES de comprobar nada: si no, un atacante sabría
+  // por el tiempo de respuesta si acertó el formato.
+  if (excedeLimite(`ip:${ip}`)) {
     return NextResponse.json({ ok: false, motivo: 'limite' }, { status: 429 });
   }
 
-  if (esPersonal(correo)) {
-    const token = crearTokenEnlace(correo);
-    const base = process.env.NEXT_PUBLIC_SITIO_URL ?? new URL(req.url).origin;
-    try {
-      await enviarEnlace(correo, `${base}/api/acceso/verificar?token=${token}`);
-    } catch {
-      // Registrado en correo.ts. A quien pregunta se le dice lo mismo.
-    }
-  } else {
-    console.log(`  ⚠  Intento con correo no autorizado: ${correo}`);
+  const datos = Cuerpo.safeParse(await req.json().catch(() => null));
+  if (!datos.success || !hayClaveConfigurada()) {
+    return NextResponse.json({ ok: false }, { status: 401 });
   }
 
+  if (!claveCorrecta(datos.data.clave)) {
+    return NextResponse.json({ ok: false }, { status: 401 });
+  }
+
+  await abrirSesion();
   return NextResponse.json({ ok: true });
 }

@@ -7,7 +7,7 @@ wherever they conflict.
 |---|---|---|
 | Q1 | Name + email | **Collect neither.** See section 1. |
 | Q2 | Puerto Rico? | **Yes** |
-| Q3 | Auth | **Magic link**, demo built and tested in `demo/magic-link/` |
+| Q3 | Auth | ~~Magic link~~ → **single password** (see section 6) |
 | Q4 | Budget | **$0.** New domain later. |
 | Q5 | Account owner | **You.** Personal project for a family member — *not* district property. See section 3. |
 | Q6 | Video | **YouTube links**, facade embed |
@@ -16,7 +16,7 @@ wherever they conflict.
 | Q9 | Deadline | TBD |
 
 Approved from doc 06: student/parent lens · Semáforo de Accesibilidad ·
-`expiraEn` · Imprimir afiche + QR · Modo Calma · Offline PWA · ConsejeRed /
+`expiraEn` · Imprimir afiche + QR · Offline PWA · ConsejeRed /
 El Pasillo · auto-mutual `trabajaCon` · per-person accent color · diacritic check.
 
 ---
@@ -128,7 +128,7 @@ tier**, three keys per month. ~15 lines.
 ```
 Next.js (App Router) + TypeScript + Tailwind   → Vercel (free)
 Content        → JSON in the GitHub repo, written via GitHub API
-Auth           → stateless signed tokens + Resend (free) for delivery
+Auth           → one password, scrypt hash in an env var (see section 6)
 Stats          → Upstash Redis counters (free), zero PII
 Images         → committed to the repo, WebP-compressed in-browser first
 Video          → YouTube unlisted + facade embed
@@ -234,3 +234,39 @@ venir."* Never show a stale calendar as if it were current.
 - **Doc 07** — motivation corrected per section 3; the checklist is unchanged.
 - **Doc 08** — Fase 5 becomes "GitHub content layer + auth" instead of
   "Supabase"; the calendar joins Fase 7.
+
+---
+
+## 6. Auth: magic link → single password
+
+**Supersedes Q3.** The magic link was built, tested and shipped, then replaced
+once the interview confirmed only one person will ever edit.
+
+The magic link solved a problem this project turns out not to have: knowing
+*which* of several editors made a change. With a single editor it added two
+dependencies — an email provider and an inbox — plus a failure mode (mail not
+arriving) in exchange for nothing.
+
+**Carried over unchanged**, because it was right the first time: the signed
+HttpOnly session cookie, the constant-time comparison, and the guard
+re-checked inside every write route rather than only on the page.
+
+**What genuinely changed:** a password *can* be brute-forced; a one-time link
+cannot. So the attempt limit stops being a nicety and becomes the primary
+defence — ten tries per IP per fifteen minutes.
+
+Three implementation notes worth keeping:
+
+- The password is never stored. `ADMIN_PASSWORD_HASH` holds a salted scrypt
+  hash, produced by `node scripts/generar-clave.mjs "…"`.
+- **The separator is a colon, not the customary dollar sign.** Next runs
+  `.env` files through dotenv-expand, which reads a dollar followed by
+  characters as a variable name and substitutes empty — so the hash arrived
+  truncated and login failed with a bare 401 and no explanation. Do not
+  "tidy" this back to the conventional format.
+- The session embeds a fingerprint of the hash, so changing the password
+  invalidates any open session. That is the point: you change it *because*
+  someone saw it.
+
+`demo/magic-link/` stays in the repo as a working reference if a second editor
+ever appears.

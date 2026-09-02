@@ -4,8 +4,6 @@ import { useId, useMemo, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { AvatarGuia, type Pose } from './AvatarGuia';
-import { BurbujaDialogo } from './BurbujaDialogo';
 import { Sello, SelloMini } from './Sello';
 import {
   IconoCalendario,
@@ -75,80 +73,45 @@ const BURBUJA: Record<ClaveSeccion, Record<Rol, string>> = {
   },
 };
 
-/**
- * El avatar está al final derecho de la fila, así que las tres tarjetas caen a
- * su izquierda: son tres grados de inclinación, no izquierda/centro/derecha.
- * La tarjeta 0 es la más lejana y necesita el brazo más abierto.
- */
-const POSES: Pose[] = ['izquierda', 'centro', 'derecha'];
-
 export function Inicio({ vistas }: { vistas: Vistas }) {
   const { rol, nombre } = useRol();
-  const [activa, setActiva] = useState<number | null>(null);
 
   const rolEfectivo: Rol = rol ?? 'invitado';
   const primerNombre = nombre?.split(/\s+/)[0] ?? null;
   const orden = ORDEN_SECCIONES[rolEfectivo];
-  const pose: Pose = activa === null ? 'neutral' : (POSES[activa] ?? 'neutral');
-  const claveActiva = activa === null ? null : orden[activa];
 
   return (
     <div className="overflow-x-clip">
       {/* ══ Lo primero es elegir a dónde ir ═══════════════════════════════ */}
       <section className="contenedor pt-10 pb-14 md:pt-14">
-        <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-8">
-          <div className="max-w-xl">
-            <p className="text-gris flex items-center gap-2.5 text-xs font-semibold tracking-[0.16em] uppercase">
-              <SelloMini className="text-coral-700" />
-              {primerNombre ? `Hola, ${primerNombre}` : 'Oficina de Consejería'}
-              <span aria-hidden className="opacity-40">
-                ·
-              </span>
-              Escuela Superior [Nombre]
-            </p>
+        {/* El texto, centrado y sin nada que le dispute el sitio. El avatar y
+            su burbuja salieron de aquí: el hover que movía el brazo era la
+            única razón de que esta fila fuera un flex de dos columnas. */}
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="text-gris flex items-center justify-center gap-2.5 text-xs font-semibold tracking-[0.16em] uppercase">
+            <SelloMini className="text-coral-700" />
+            {primerNombre ? `Hola, ${primerNombre}` : 'Oficina de Consejería'}
+            <span aria-hidden className="opacity-40">
+              ·
+            </span>
+            Escuela Superior [Nombre]
+          </p>
 
-            <h1 className="font-titulo text-tinta mt-4 text-[3.4rem] leading-[0.94] font-bold tracking-[-0.035em] sm:text-[4.5rem] lg:text-[5.5rem]">
-              Por dónde{' '}
-              {/* El subrayado se ancla a la palabra, no al titular: si el
-                  texto cambia de largo o salta de línea, el trazo lo sigue.
-                  `w-full` sobre un inline-block hace justo eso. */}
-              <span className="relative inline-block">
-                <em className="text-azul-700 italic">empezar</em>
-                <Subrayado className="text-ambar absolute -bottom-1.5 left-0 h-3 w-full" />
-              </span>
-              .
-            </h1>
+          <h1 className="font-titulo text-tinta mt-4 text-[3.4rem] leading-[0.94] font-bold tracking-[-0.035em] sm:text-[4.5rem] lg:text-[5.5rem]">
+            Por dónde{' '}
+            {/* El subrayado se ancla a la palabra, no al titular: si el texto
+                cambia de largo o salta de línea, el trazo lo sigue. */}
+            <span className="relative inline-block">
+              <em className="text-azul-700 italic">empezar</em>
+              <Subrayado className="text-ambar absolute -bottom-1.5 left-0 h-3 w-full" />
+            </span>
+            .
+          </h1>
 
-            <p className="text-gris mt-5 max-w-md text-[0.95rem] leading-relaxed">
-              Sra. [Nombre Apellido], consejera escolar. Tres sitios, y en
-              cualquiera de ellos puedes mirar sin decir quién eres.
-            </p>
-          </div>
-
-          {/* La burbuja va ENCIMA del avatar, con el pico apuntando a su
-              cabeza. Antes iba al lado y el conjunto no se leía como que
-              hablara él. */}
-          {/* El margen derecho lo trae hacia el centro: en un contenedor de
-              90 rem, `justify-between` lo empujaba contra el borde de la
-              pantalla y quedaba desconectado del titular. */}
-          <div className="hidden shrink-0 flex-col items-start md:flex lg:mr-16 xl:mr-32">
-            {/* Altura RESERVADA. El texto de la burbuja cambia de largo entre
-                secciones y además se escribe letra a letra, así que su alto
-                crecía línea a línea y empujaba toda la página hacia abajo en
-                cada hover. Fijando la caja al alto del texto más largo, nada
-                de lo que hay debajo se vuelve a mover. */}
-            <div className="flex min-h-[7.5rem] w-72 items-end">
-              <BurbujaDialogo
-                key={claveActiva ?? 'reposo'}
-                texto={
-                  claveActiva
-                    ? BURBUJA[claveActiva][rolEfectivo]
-                    : 'Pasa por encima de una y te cuento qué hay dentro.'
-                }
-              />
-            </div>
-            <AvatarGuia pose={pose} className="mt-5 ml-4 h-48 w-auto lg:h-60" />
-          </div>
+          <p className="text-gris mx-auto mt-5 max-w-md text-[0.95rem] leading-relaxed">
+            Sra. [Nombre Apellido], consejera escolar. Tres sitios, y en
+            cualquiera de ellos puedes mirar sin decir quién eres.
+          </p>
         </div>
 
         <ol className="mt-10 grid gap-5 md:grid-cols-3">
@@ -158,10 +121,6 @@ export function Inicio({ vistas }: { vistas: Vistas }) {
               <li key={clave}>
                 <Link
                   href={s.href}
-                  onMouseEnter={() => setActiva(i)}
-                  onMouseLeave={() => setActiva(null)}
-                  onFocus={() => setActiva(i)}
-                  onBlur={() => setActiva(null)}
                   className={`group text-tinta relative flex h-full flex-col overflow-hidden rounded-2xl p-7 transition-transform hover:-translate-y-1 ${BANDA_ACENTO[s.acento]}`}
                 >
                   <Sello
@@ -218,9 +177,8 @@ export function Inicio({ vistas }: { vistas: Vistas }) {
               className="group relative flex flex-col overflow-hidden rounded-3xl bg-[#113d82] p-8 text-white"
               style={{
                 backgroundImage: "url('/megafono.webp')",
-                backgroundSize: 'auto 100%',
+                backgroundSize: 'cover',
                 backgroundPosition: 'right bottom',
-                backgroundRepeat: 'no-repeat',
               }}
             >
               <div className="relative max-w-sm">

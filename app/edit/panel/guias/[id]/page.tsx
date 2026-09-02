@@ -30,7 +30,7 @@ export default async function EditarGuia({
     locale: 'es',
     creadoEn: new Date(0).toISOString(),
     actualizadoEn: new Date(0).toISOString(),
-    actualizadoPor: sesion.correo,
+    actualizadoPor: sesion.usuario,
     eliminadoEn: null,
     categoriaId: categorias[0]?.id ?? '',
     slug: '',
@@ -44,7 +44,7 @@ export default async function EditarGuia({
 
   return (
     <MarcoPanel
-      correo={sesion.correo}
+      usuario={sesion.usuario}
       titulo={esNueva ? 'Guía nueva' : 'Editar guía'}
       volverA={{ href: '/edit/panel/guias', texto: 'Preguntas y Guías' }}
     >

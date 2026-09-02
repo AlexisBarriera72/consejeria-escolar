@@ -26,7 +26,7 @@ export default async function EditarNoticia({
     locale: 'es',
     creadoEn: new Date().toISOString(),
     actualizadoEn: new Date().toISOString(),
-    actualizadoPor: sesion.correo,
+    actualizadoPor: sesion.usuario,
     eliminadoEn: null,
     slug: '',
     plantilla: 'periodico',
@@ -46,7 +46,7 @@ export default async function EditarNoticia({
 
   return (
     <MarcoPanel
-      correo={sesion.correo}
+      usuario={sesion.usuario}
       titulo={existente ? 'Editar anuncio' : 'Anuncio nuevo'}
       volverA={{ href: '/edit/panel/noticias', texto: 'Noticias' }}
     >

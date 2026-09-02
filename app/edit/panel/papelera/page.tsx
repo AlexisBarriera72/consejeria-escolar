@@ -36,7 +36,7 @@ export default async function PaginaPapelera() {
 
   return (
     <MarcoPanel
-      correo={sesion.correo}
+      usuario={sesion.usuario}
       titulo="Papelera"
       descripcion={`Lo que se borró se puede recuperar durante ${DIAS} días.`}
       volverA={{ href: '/edit/panel', texto: 'Panel' }}

@@ -49,7 +49,7 @@ export async function guardarAvisoAccion(datos: FormData) {
 
   await guardarAviso(
     nuevo,
-    `${sesion.correo} ${entrada.data.activo ? 'activó' : 'desactivó'} el aviso`,
+    `${sesion.usuario} ${entrada.data.activo ? 'activó' : 'desactivó'} el aviso`,
   );
   revalidatePath('/', 'layout');
   return { ok: true };

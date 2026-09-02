@@ -21,7 +21,7 @@ export default async function EditarPerfil({
     locale: 'es',
     creadoEn: new Date().toISOString(),
     actualizadoEn: new Date().toISOString(),
-    actualizadoPor: sesion.correo,
+    actualizadoPor: sesion.usuario,
     eliminadoEn: null,
     slug: '',
     nombre: '',
@@ -41,7 +41,7 @@ export default async function EditarPerfil({
 
   return (
     <MarcoPanel
-      correo={sesion.correo}
+      usuario={sesion.usuario}
       titulo={existente ? 'Editar perfil' : 'Perfil nuevo'}
       volverA={{ href: '/edit/panel/perfiles', texto: 'Profesionales' }}
     >
