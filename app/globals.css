@@ -63,6 +63,81 @@
   --color-corcho: #b8935f;
   --color-libreta: #fdfcf5;
 
+  /* ── Animaciones (estilo Animista) ──────────────────────────────────────
+     En Tailwind 4 los keyframes van AQUÍ, no en un tailwind.config.js — ese
+     archivo ya no existe. Cada --animate-* genera una utilidad: animate-entrada.
+
+     Todas se apagan solas con prefers-reduced-motion y con el Modo Calma,
+     porque las reglas de @layer base ya lo cubren globalmente. */
+  --animate-entrada: entrada 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  --animate-subir: subir 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  --animate-aparecer: aparecer 0.35s ease-out both;
+  --animate-expandir-letras: expandir-letras 0.7s
+    cubic-bezier(0.215, 0.61, 0.355, 1) both;
+  --animate-latido: latido 2.4s ease-in-out infinite;
+  --animate-brillo: brillo 2.2s linear infinite;
+
+  @keyframes entrada {
+    from {
+      opacity: 0;
+      transform: scale(0.94);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes subir {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes aparecer {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  /* El 'tracking-in-expand' de Animista: las letras entran juntas y se
+     separan. Solo para un titular, nunca para texto corrido. */
+  @keyframes expandir-letras {
+    0% {
+      letter-spacing: -0.5em;
+      opacity: 0;
+    }
+    40% {
+      opacity: 0.6;
+    }
+    100% {
+      letter-spacing: normal;
+      opacity: 1;
+    }
+  }
+  @keyframes latido {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.04);
+    }
+  }
+  @keyframes brillo {
+    from {
+      background-position: -200% 0;
+    }
+    to {
+      background-position: 200% 0;
+    }
+  }
+
   /* 17px de base, no 16. La mayoría de las visitas van a ser en teléfonos
      baratos y ese medio punto se nota. */
   --text-base: 1.0625rem;
