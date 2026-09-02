@@ -111,7 +111,12 @@ export function Inicio({ vistas }: { vistas: Vistas }) {
               cabeza. Antes iba al lado y el conjunto no se leía como que
               hablara él. */}
           <div className="hidden shrink-0 flex-col items-start md:flex">
-            <div className="w-72">
+            {/* Altura RESERVADA. El texto de la burbuja cambia de largo entre
+                secciones y además se escribe letra a letra, así que su alto
+                crecía línea a línea y empujaba toda la página hacia abajo en
+                cada hover. Fijando la caja al alto del texto más largo, nada
+                de lo que hay debajo se vuelve a mover. */}
+            <div className="flex min-h-[7.5rem] w-72 items-end">
               <BurbujaDialogo
                 key={claveActiva ?? 'reposo'}
                 texto={
@@ -171,8 +176,6 @@ export function Inicio({ vistas }: { vistas: Vistas }) {
             );
           })}
         </ol>
-
-        <Buscador preguntas={vistas.guias} />
       </section>
 
       {/* ══ Al fondo: lo último y la puerta, uno al lado del otro ═════════ */}
@@ -277,6 +280,9 @@ export function Inicio({ vistas }: { vistas: Vistas }) {
           </div>
         </div>
       </section>
+
+      {/* ══ El atajo, justo antes del pie ════════════════════════════════ */}
+      <Buscador preguntas={vistas.guias} />
     </div>
   );
 }
@@ -304,14 +310,14 @@ function Buscador({
   );
 
   return (
-    <div className="border-tinta/15 mt-14 border-t pt-8">
+    <section className="mx-auto mt-16 max-w-2xl px-5 pb-4 text-center">
       <label
         htmlFor={id}
         className="text-gris text-xs font-semibold tracking-[0.16em] uppercase"
       >
         ¿Ya sabes qué buscas?
       </label>
-      <div className="border-tinta focus-within:border-coral-700 mt-2 flex max-w-xl items-center border-b-2 transition-colors">
+      <div className="border-tinta focus-within:border-coral-700 mx-auto mt-3 flex items-center border-b-2 transition-colors">
         <input
           id={id}
           type="search"
@@ -320,7 +326,7 @@ function Buscador({
           placeholder="matrícula, becas, ansiedad…"
           autoComplete="off"
           aria-describedby={`${id}-estado`}
-          className="text-tinta placeholder:text-tinta/45 min-h-12 w-full bg-transparent text-lg"
+          className="text-tinta placeholder:text-tinta/45 min-h-12 w-full bg-transparent text-center text-lg"
         />
       </div>
 
@@ -337,7 +343,7 @@ function Buscador({
       </p>
 
       {resultados.length > 0 ? (
-        <ul className="bg-crema border-tinta divide-tinta/12 mt-2 max-w-xl divide-y rounded-xl border-2">
+        <ul className="bg-crema border-tinta divide-tinta/12 mt-3 divide-y rounded-xl border-2 text-left">
           {resultados.map((r) => (
             <li key={r.slug}>
               <Link
@@ -351,6 +357,6 @@ function Buscador({
           ))}
         </ul>
       ) : null}
-    </div>
+    </section>
   );
 }

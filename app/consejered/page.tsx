@@ -40,13 +40,19 @@ export default async function PaginaPasillo() {
           Todavía no hay fichas en el tablón.
         </p>
       ) : (
+        // Tablón real vía `border-image`, no una imagen de fondo estirada.
+        // El corte de 38 px aísla el marco de madera de la foto original
+        // (775x464): las cuatro esquinas se colocan enteras, los cuatro lados
+        // se repiten, y el centro — el corcho — rellena el hueco con `fill`.
+        // Así el tablón puede tener cualquier alto sin que la madera se
+        // deforme, que es justo lo que pasa al escalar la foto entera.
+        // `bg-corcho` queda debajo como respaldo si la imagen no carga.
         <div
-          className="bg-corcho mt-10 rounded-lg border-[10px] border-[#8a6a44] p-6 shadow-inner sm:p-10"
+          className="bg-corcho mt-10 border-[16px] p-5 shadow-[0_20px_45px_-20px_rgba(0,0,0,.55)] sm:border-[30px] sm:p-12"
           style={{
-            backgroundImage:
-              'radial-gradient(rgba(0,0,0,.16) 1px, transparent 1.5px), radial-gradient(rgba(255,255,255,.13) 1px, transparent 1.5px)',
-            backgroundSize: '9px 9px, 13px 13px',
-            backgroundPosition: '0 0, 4px 6px',
+            borderImageSource: "url('/corcho.webp')",
+            borderImageSlice: '38 fill',
+            borderImageRepeat: 'round',
           }}
         >
           <ul className="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">

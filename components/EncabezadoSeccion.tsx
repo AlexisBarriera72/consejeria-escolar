@@ -16,6 +16,15 @@ import { SelloMini } from './Sello';
 export type AcentoTitular =
   'text-turquesa-700' | 'text-rosa-700' | 'text-coral-700' | 'text-azul-700';
 
+/**
+ * Une el titular con lo que va detrás sin dejar un hueco antes de la
+ * puntuación. Sin esto salía «en la escuela .», con el punto separado.
+ */
+function cola(despues?: string): string {
+  if (!despues) return '';
+  return /^[.,;:!?…]/.test(despues) ? despues : ` ${despues}`;
+}
+
 export function EncabezadoSeccion({
   cejilla,
   antes,
@@ -23,7 +32,6 @@ export function EncabezadoSeccion({
   despues,
   color,
   lede,
-  meta,
 }: {
   cejilla: string;
   /** El titular se parte en tres para poder poner UNA palabra en cursiva. */
@@ -32,52 +40,27 @@ export function EncabezadoSeccion({
   despues?: string;
   color: AcentoTitular;
   lede?: string;
-  /** Cifra o dato a la derecha, como el "ISSUE 09" de la referencia. */
-  meta?: React.ReactNode;
 }) {
   return (
-    <header className="border-tinta/15 border-b pb-10">
-      <p className="text-gris flex items-center gap-2.5 text-xs font-semibold tracking-[0.18em] uppercase">
+    <header className="border-tinta/15 border-b pb-12 text-center">
+      <p className="text-gris flex items-center justify-center gap-2.5 text-xs font-semibold tracking-[0.16em] uppercase">
         <SelloMini className={color} />
         {cejilla}
       </p>
 
-      <div className="mt-5 flex flex-wrap items-end justify-between gap-x-10 gap-y-5">
-        <h1 className="font-titulo text-tinta max-w-3xl text-[2.9rem] leading-[0.95] font-bold tracking-[-0.035em] sm:text-6xl lg:text-[4.5rem]">
-          {antes} <em className={`${color} italic`}>{acento}</em>
-          {despues ? ` ${despues}` : ''}
-        </h1>
-        {meta ? <div className="shrink-0">{meta}</div> : null}
-      </div>
+      {/* El titular manda: grande de verdad, y la entradilla por debajo del
+          tamaño del cuerpo para que no le compita. Antes iban casi igual de
+          grandes y el conjunto no tenía jerarquía. */}
+      <h1 className="font-titulo text-tinta mx-auto mt-6 max-w-4xl text-[2.9rem] leading-[0.98] font-bold tracking-[-0.025em] text-balance sm:text-6xl lg:text-7xl">
+        {antes} <em className={`${color} italic`}>{acento}</em>
+        {cola(despues)}
+      </h1>
 
       {lede ? (
-        <p className="text-gris mt-6 max-w-xl text-lg leading-relaxed">
+        <p className="text-gris mx-auto mt-6 max-w-xl leading-relaxed text-pretty">
           {lede}
         </p>
       ) : null}
     </header>
-  );
-}
-
-/** La cifra grande que acompaña a una cabecera de sección. */
-export function MetaCifra({ n, etiqueta }: { n: number; etiqueta: string }) {
-  return (
-    <p>
-      <span className="sr-only">
-        {n} {etiqueta}
-      </span>
-      <span
-        aria-hidden
-        className="font-titulo text-tinta block text-5xl leading-none font-bold tabular-nums"
-      >
-        {String(n).padStart(2, '0')}
-      </span>
-      <span
-        aria-hidden
-        className="text-gris mt-2 block text-xs font-semibold tracking-[0.14em] uppercase"
-      >
-        {etiqueta}
-      </span>
-    </p>
   );
 }
