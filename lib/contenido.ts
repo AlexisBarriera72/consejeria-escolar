@@ -222,3 +222,16 @@ export async function contarVencenPronto(dias = 14): Promise<number> {
     return t > ahora && t < limite;
   }).length;
 }
+
+/** Ids de los anuncios cuya fecha de retirada ya pasó.
+ *
+ *  Vive aquí por lo mismo que contarVencenPronto: `Date.now()` dentro del
+ *  cuerpo de un componente es impuro y React 19 lo rechaza. */
+export async function idsVencidos(): Promise<Set<string>> {
+  const ahora = Date.now();
+  return new Set(
+    (await leerNoticias())
+      .filter((a) => a.expiraEn && new Date(a.expiraEn).getTime() < ahora)
+      .map((a) => a.id),
+  );
+}
