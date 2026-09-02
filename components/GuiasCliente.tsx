@@ -59,7 +59,7 @@ export function GuiasCliente({ secciones }: { secciones: SeccionGuia[] }) {
           value={consulta}
           onChange={(e) => setConsulta(e.target.value)}
           placeholder="Escribe una palabra…"
-          className="border-borde focus:border-azul-700 mt-1.5 w-full max-w-md rounded-xl border-2 bg-white px-4 py-3"
+          className="border-borde focus:border-azul-700 bg-crema mt-1.5 w-full max-w-md rounded-xl border-2 px-4 py-3"
         />
         {/* role="status" hace que un lector de pantalla anuncie cuántos
             resultados hay sin sacar el foco del campo de búsqueda. */}
@@ -141,7 +141,7 @@ function FilaPregunta({
     <details
       key={abierta ? 'abierta' : 'cerrada'}
       open={abierta}
-      className="border-borde group overflow-hidden rounded-xl border bg-white"
+      className="border-borde group bg-crema overflow-hidden rounded-xl border"
     >
       <summary className="hover:bg-azul-100/50 flex cursor-pointer items-center justify-between gap-4 px-5 py-4 font-medium">
         <span className="text-tinta">{pregunta.pregunta}</span>

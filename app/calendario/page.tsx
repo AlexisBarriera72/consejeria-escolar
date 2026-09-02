@@ -37,7 +37,7 @@ export default async function PaginaCalendario() {
 
       {disponibilidad.ok ? (
         <>
-          <div className="border-borde mt-8 rounded-2xl border bg-white p-5">
+          <div className="border-borde bg-crema mt-8 rounded-2xl border p-5">
             <div className="grid grid-cols-5 gap-2">
               {DIAS_SEMANA.map((d, i) => (
                 <div

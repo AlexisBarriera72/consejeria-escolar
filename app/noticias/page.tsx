@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { PlantillaAnuncio } from '@/components/plantillas/Plantillas';
 import { TarjetaAnuncio } from '@/components/TarjetaAnuncio';
 import { ChipPersona } from '@/components/ChipPersona';
+import { EncabezadoSeccion, MetaCifra } from '@/components/EncabezadoSeccion';
 import {
   obtenerDestacada,
   obtenerNoticias,
@@ -28,12 +29,15 @@ export default async function PaginaNoticias() {
 
   return (
     <div className="mx-auto max-w-5xl px-5 py-12">
-      <p className="text-rosa-700 text-sm font-semibold tracking-wide uppercase">
-        Consejería Escolar
-      </p>
-      <h1 className="font-titulo text-azul-900 mt-2 text-4xl font-bold">
-        Noticias
-      </h1>
+      <EncabezadoSeccion
+        cejilla="El tablón"
+        antes="Lo que pasa"
+        acento="en la escuela"
+        despues="."
+        color="text-rosa-700"
+        lede="Anuncios, avisos y fechas. Los que ya pasaron se retiran solos y quedan guardados en las ediciones anteriores."
+        meta={<MetaCifra n={vigentes.length} etiqueta="anuncios" />}
+      />
 
       {destacada ? (
         <div className="mt-8">
@@ -126,7 +130,7 @@ async function EstadoVacio() {
           <li key={p.id}>
             <Link
               href={`/guias/${p.slug}`}
-              className="border-borde text-tinta hover:border-azul-500 rounded-full border bg-white px-4 py-1.5 text-sm"
+              className="border-borde text-tinta hover:border-azul-500 bg-crema rounded-full border px-4 py-1.5 text-sm"
             >
               {p.pregunta}
             </Link>

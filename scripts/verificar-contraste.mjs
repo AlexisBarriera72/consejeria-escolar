@@ -107,6 +107,8 @@ const REGLAS = [
   ['azul-900', 'papel', AA_NO_TEXTO, 'aro de foco sobre papel'],
   ['ambar', 'azul-900', AA_NO_TEXTO, 'halo de foco sobre azul oscuro'],
   ['azul-500', 'papel', AA_GRANDE, 'titulares grandes / rellenos'],
+  // Solo para el titular enorme de /guias: a 12 px no llegaria a 4.5.
+  ['turquesa-700', 'papel', AA_GRANDE, 'cursiva de acento de guias'],
 ];
 
 const canal = (v) =>

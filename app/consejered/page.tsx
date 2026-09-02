@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import { TarjetaPerfil } from '@/components/TarjetaPerfil';
 import { obtenerPerfiles } from '@/lib/contenido';
+import { EncabezadoSeccion, MetaCifra } from '@/components/EncabezadoSeccion';
 
 export const metadata: Metadata = {
-  title: 'El Pasillo',
+  title: 'El equipo',
   description:
     'El equipo de la oficina de consejería: quiénes son y dónde encontrarlos.',
 };
@@ -13,15 +14,15 @@ export default async function PaginaPasillo() {
 
   return (
     <div className="mx-auto max-w-5xl px-5 py-12">
-      <p className="text-naranja text-sm font-semibold tracking-wide uppercase">
-        ConsejeRed
-      </p>
-      <h1 className="font-titulo text-azul-900 mt-2 text-4xl font-bold">
-        El Pasillo
-      </h1>
-      <p className="text-gris mt-3 max-w-2xl">
-        El equipo que trabaja contigo. Pulsa a cualquiera para ver su perfil.
-      </p>
+      <EncabezadoSeccion
+        cejilla="ConsejeRed"
+        antes="El equipo que"
+        acento="trabaja contigo"
+        despues="."
+        color="text-coral-700"
+        lede="La pared del pasillo, pero digital. Pulsa a cualquiera para ver dónde encontrarlo y de qué se encarga."
+        meta={<MetaCifra n={perfiles.length} etiqueta="personas" />}
+      />
 
       {perfiles.length === 0 ? (
         <p className="text-gris border-borde mt-10 rounded-2xl border border-dashed p-10 text-center">

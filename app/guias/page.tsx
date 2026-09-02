@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { GuiasCliente, type SeccionGuia } from '@/components/GuiasCliente';
+import { EncabezadoSeccion, MetaCifra } from '@/components/EncabezadoSeccion';
 import { obtenerGuias, obtenerPerfiles } from '@/lib/contenido';
 
 export const metadata: Metadata = {
@@ -29,17 +30,21 @@ export default async function PaginaGuias() {
   }));
 
   return (
-    <div className="mx-auto max-w-4xl px-5 py-12">
-      <p className="text-turquesa-700 text-sm font-semibold tracking-wide uppercase">
-        Consejería Escolar
-      </p>
-      <h1 className="font-titulo text-azul-900 mt-2 text-4xl font-bold">
-        Preguntas y Guías
-      </h1>
-      <p className="text-gris mt-3 max-w-2xl">
-        Lo que más nos preguntan, contestado. Si no encuentras lo tuyo,
-        pregúntale a cualquiera del equipo.
-      </p>
+    <div className="mx-auto max-w-5xl px-5 py-14">
+      <EncabezadoSeccion
+        cejilla="El archivador"
+        antes="Preguntas que"
+        acento="ya tienen"
+        despues="respuesta."
+        color="text-turquesa-700"
+        lede="Lo que más nos preguntan, contestado. Si no encuentras lo tuyo, pregúntale a cualquiera del equipo."
+        meta={
+          <MetaCifra
+            n={secciones.reduce((n, s) => n + s.preguntas.length, 0)}
+            etiqueta="guías"
+          />
+        }
+      />
 
       <GuiasCliente secciones={secciones} />
     </div>

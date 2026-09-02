@@ -15,7 +15,7 @@ export function AdjuntoEnlace({ adjunto }: { adjunto: Adjunto }) {
   return (
     <a
       href={adjunto.url}
-      className="border-borde hover:border-azul-500 flex items-center gap-3 rounded-xl border bg-white px-4 py-3 transition-colors"
+      className="border-borde hover:border-azul-500 bg-crema flex items-center gap-3 rounded-xl border px-4 py-3 transition-colors"
     >
       <span aria-hidden className="text-2xl">
         📄

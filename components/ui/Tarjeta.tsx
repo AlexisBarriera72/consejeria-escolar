@@ -59,7 +59,7 @@ export function Tarjeta({
 }) {
   return (
     <div
-      className={`border-borde overflow-hidden rounded-2xl border bg-white ${className}`}
+      className={`border-borde bg-crema overflow-hidden rounded-2xl border ${className}`}
     >
       {acento ? <div className={`h-2 ${BANDA_ACENTO[acento]}`} /> : null}
       <div className="p-6">{children}</div>

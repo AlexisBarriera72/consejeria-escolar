@@ -21,7 +21,7 @@ export function TarjetaPerfil({
     <Link
       href={`/consejered/${perfil.slug}`}
       style={{ rotate: `${giro}deg` }}
-      className={`block rounded-2xl border-2 bg-white p-5 transition-transform hover:rotate-0 hover:shadow-lg ${BORDE_ACENTO[perfil.acento]}`}
+      className={`bg-crema block rounded-2xl border-2 p-5 transition-transform hover:rotate-0 hover:shadow-lg ${BORDE_ACENTO[perfil.acento]}`}
     >
       {/* La chincheta de la pared del pasillo */}
       <div
