@@ -51,13 +51,13 @@ export function EncabezadoSeccion({
       {/* El titular manda: grande de verdad, y la entradilla por debajo del
           tamaño del cuerpo para que no le compita. Antes iban casi igual de
           grandes y el conjunto no tenía jerarquía. */}
-      <h1 className="font-titulo text-tinta mx-auto mt-6 max-w-4xl text-[3.3rem] leading-[0.96] font-bold tracking-[-0.03em] text-balance sm:text-7xl lg:text-[5.25rem]">
+      <h1 className="font-titulo text-tinta mx-auto mt-6 max-w-4xl text-[3.5rem] leading-[0.92] font-bold tracking-[-0.035em] text-balance sm:text-[4.75rem] lg:text-[6.25rem]">
         {antes} <em className={`${color} italic`}>{acento}</em>
         {cola(despues)}
       </h1>
 
       {lede ? (
-        <p className="text-gris mx-auto mt-6 max-w-lg text-[0.98rem] leading-relaxed text-pretty">
+        <p className="text-gris mx-auto mt-6 max-w-md text-[0.9rem] leading-relaxed text-pretty">
           {lede}
         </p>
       ) : null}

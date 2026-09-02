@@ -107,7 +107,7 @@ export function Inicio({ vistas }: { vistas: Vistas }) {
               Escuela Superior [Nombre]
             </p>
 
-            <h1 className="font-titulo text-tinta mt-4 text-[3.1rem] leading-[0.98] font-bold tracking-[-0.03em] sm:text-7xl">
+            <h1 className="font-titulo text-tinta mt-4 text-[3.4rem] leading-[0.94] font-bold tracking-[-0.035em] sm:text-[4.5rem] lg:text-[5.5rem]">
               Por dónde{' '}
               {/* El subrayado se ancla a la palabra, no al titular: si el
                   texto cambia de largo o salta de línea, el trazo lo sigue.
@@ -119,7 +119,7 @@ export function Inicio({ vistas }: { vistas: Vistas }) {
               .
             </h1>
 
-            <p className="text-gris mt-5 text-lg leading-relaxed">
+            <p className="text-gris mt-5 max-w-md text-[0.95rem] leading-relaxed">
               Sra. [Nombre Apellido], consejera escolar. Tres sitios, y en
               cualquiera de ellos puedes mirar sin decir quién eres.
             </p>
@@ -215,11 +215,12 @@ export function Inicio({ vistas }: { vistas: Vistas }) {
             */
             <Link
               href={`/noticias/${vistas.destacada.slug}`}
-              className="group relative flex flex-col overflow-hidden rounded-3xl bg-[#123f84] p-8 text-white"
+              className="group relative flex flex-col overflow-hidden rounded-3xl bg-[#113d82] p-8 text-white"
               style={{
                 backgroundImage: "url('/megafono.webp')",
-                backgroundSize: 'cover',
+                backgroundSize: 'auto 100%',
                 backgroundPosition: 'right bottom',
+                backgroundRepeat: 'no-repeat',
               }}
             >
               <div className="relative max-w-sm">
@@ -266,7 +267,7 @@ export function Inicio({ vistas }: { vistas: Vistas }) {
               alt=""
               width={416}
               height={386}
-              className="pointer-events-none absolute right-3 bottom-3 hidden h-48 w-auto sm:block"
+              className="pointer-events-none absolute right-2 bottom-2 hidden h-56 w-auto sm:block lg:h-64"
             />
             <div className="relative max-w-sm">
               <h2 className="font-titulo text-tinta text-3xl leading-[1.06] font-bold tracking-[-0.015em]">
