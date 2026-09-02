@@ -2,6 +2,7 @@
 
 import { useId, useMemo, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { AvatarGuia, type Pose } from './AvatarGuia';
 import { BurbujaDialogo } from './BurbujaDialogo';
@@ -11,9 +12,7 @@ import {
   IconoLugar,
   IconoLupa,
   IconoReloj,
-  Libros,
   Megafono,
-  PuertaAbierta,
   Subrayado,
 } from './Ilustraciones';
 import { useRol } from './ProveedorRol';
@@ -108,7 +107,7 @@ export function Inicio({ vistas }: { vistas: Vistas }) {
               Escuela Superior [Nombre]
             </p>
 
-            <h1 className="font-titulo text-tinta mt-4 text-[2.7rem] leading-[1.02] font-bold tracking-[-0.02em] sm:text-6xl">
+            <h1 className="font-titulo text-tinta mt-4 text-[3.1rem] leading-[0.98] font-bold tracking-[-0.03em] sm:text-7xl">
               Por dónde{' '}
               {/* El subrayado se ancla a la palabra, no al titular: si el
                   texto cambia de largo o salta de línea, el trazo lo sigue.
@@ -129,7 +128,10 @@ export function Inicio({ vistas }: { vistas: Vistas }) {
           {/* La burbuja va ENCIMA del avatar, con el pico apuntando a su
               cabeza. Antes iba al lado y el conjunto no se leía como que
               hablara él. */}
-          <div className="hidden shrink-0 flex-col items-start md:flex">
+          {/* El margen derecho lo trae hacia el centro: en un contenedor de
+              90 rem, `justify-between` lo empujaba contra el borde de la
+              pantalla y quedaba desconectado del titular. */}
+          <div className="hidden shrink-0 flex-col items-start md:flex lg:mr-16 xl:mr-32">
             {/* Altura RESERVADA. El texto de la burbuja cambia de largo entre
                 secciones y además se escribe letra a letra, así que su alto
                 crecía línea a línea y empujaba toda la página hacia abajo en
@@ -145,7 +147,7 @@ export function Inicio({ vistas }: { vistas: Vistas }) {
                 }
               />
             </div>
-            <AvatarGuia pose={pose} className="mt-5 ml-2 h-36 w-auto lg:h-44" />
+            <AvatarGuia pose={pose} className="mt-5 ml-4 h-48 w-auto lg:h-60" />
           </div>
         </div>
 
@@ -201,20 +203,34 @@ export function Inicio({ vistas }: { vistas: Vistas }) {
       <section className="contenedor pb-4">
         <div className="grid gap-5 lg:grid-cols-2">
           {vistas.destacada ? (
+            /*
+              La pieza del megáfono viene como TARJETA, no como recorte: es un
+              rectángulo azul opaco con el megáfono abajo a la derecha y el
+              resto liso para poner texto encima. Así que se usa tal cual, de
+              fondo con `cover` anclado abajo a la derecha — el megáfono
+              sobrevive a cualquier recorte y el azul liso rellena el resto.
+              El color de respaldo es el mismo azul del archivo (#123f84), no
+              azul-900, para que no se vea el canto si la imagen tarda.
+              Blanco sobre ese azul mide 10.14:1.
+            */
             <Link
               href={`/noticias/${vistas.destacada.slug}`}
-              className="group bg-azul-100 relative flex flex-col overflow-hidden rounded-3xl p-8"
+              className="group relative flex flex-col overflow-hidden rounded-3xl bg-[#123f84] p-8 text-white"
+              style={{
+                backgroundImage: "url('/megafono.webp')",
+                backgroundSize: 'cover',
+                backgroundPosition: 'right bottom',
+              }}
             >
-              <Megafono className="pointer-events-none absolute right-4 bottom-4 h-28 w-auto opacity-90" />
               <div className="relative max-w-sm">
-                <p className="text-azul-700 text-xs font-semibold tracking-[0.16em] uppercase">
+                <p className="text-ambar text-xs font-semibold tracking-[0.16em] uppercase">
                   Lo más reciente
                 </p>
-                <h2 className="font-titulo text-tinta mt-4 text-3xl leading-[1.06] font-bold tracking-[-0.015em]">
+                <h2 className="font-titulo mt-4 text-3xl leading-[1.06] font-bold tracking-[-0.015em]">
                   {vistas.destacada.titulo}
                 </h2>
                 {vistas.destacada.bajada ? (
-                  <p className="text-gris mt-3 leading-relaxed">
+                  <p className="mt-3 leading-relaxed text-white/85">
                     {vistas.destacada.bajada}
                   </p>
                 ) : null}
@@ -225,7 +241,7 @@ export function Inicio({ vistas }: { vistas: Vistas }) {
                     {vistas.destacada.etiqueta}
                   </span>
                 ) : null}
-                <span className="text-gris flex items-center gap-2 text-sm">
+                <span className="flex items-center gap-2 text-sm text-white/80">
                   <IconoCalendario className="h-4 w-4" />
                   {vistas.destacada.fecha}
                 </span>
@@ -245,7 +261,13 @@ export function Inicio({ vistas }: { vistas: Vistas }) {
               aquí cierra la portada con lo único que de verdad hace falta
               saber para pasar por la oficina: dónde y cuándo. */}
           <div className="bg-crema border-tinta/10 relative overflow-hidden rounded-3xl border p-8">
-            <PuertaAbierta className="pointer-events-none absolute right-2 bottom-2 hidden h-44 w-auto sm:block" />
+            <Image
+              src="/puerta.webp"
+              alt=""
+              width={416}
+              height={386}
+              className="pointer-events-none absolute right-3 bottom-3 hidden h-48 w-auto sm:block"
+            />
             <div className="relative max-w-sm">
               <h2 className="font-titulo text-tinta text-3xl leading-[1.06] font-bold tracking-[-0.015em]">
                 La puerta está <em className="text-azul-700 italic">abierta</em>
@@ -380,7 +402,13 @@ function Buscador({
           Buscar
         </button>
 
-        <Libros className="pointer-events-none hidden h-24 w-auto shrink-0 lg:block" />
+        <Image
+          src="/libros.webp"
+          alt=""
+          width={418}
+          height={298}
+          className="pointer-events-none hidden h-24 w-auto shrink-0 lg:block"
+        />
       </form>
 
       <p

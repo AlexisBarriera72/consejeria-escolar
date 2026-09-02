@@ -42,7 +42,7 @@ export default async function PaginaPasillo() {
       ) : (
         // El tablón va en DOS capas, y esa separación es lo que quita las
         // costuras que cruzaban el corcho:
-        //   · El marco, con border-image y un corte de 38 px medido sobre la
+        //   · El marco, con border-image y un corte de 35 px medido sobre la
         //     foto. SIN `fill`, para que no rellene también el centro.
         //   · El corcho, recortado a su propio archivo y puesto de fondo con
         //     `cover`: al escalarse en vez de repetirse no hay junta posible.
@@ -54,7 +54,7 @@ export default async function PaginaPasillo() {
           className="bg-corcho mt-10 border-[16px] p-5 shadow-[0_20px_45px_-20px_rgba(0,0,0,.55)] sm:border-[30px] sm:p-12"
           style={{
             borderImageSource: "url('/corcho-marco.webp')",
-            borderImageSlice: '38',
+            borderImageSlice: '35',
             borderImageRepeat: 'stretch',
             backgroundImage: "url('/corcho-centro.webp')",
             backgroundSize: 'cover',

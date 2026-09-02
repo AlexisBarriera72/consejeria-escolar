@@ -20,7 +20,7 @@ const NAV = [
  */
 export function Encabezado() {
   return (
-    <header className="bg-papel border-tinta/15 border-b">
+    <header className="bg-crema border-tinta/20 sticky top-0 z-30 border-b shadow-[0_1px_0_rgba(22,32,46,.06),0_6px_18px_-12px_rgba(22,32,46,.35)]">
       <div className="mx-auto flex max-w-6xl items-center gap-4 px-5 py-4">
         <Link
           href="/"
