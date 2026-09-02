@@ -342,3 +342,20 @@ que todas las URL respondían 302 hacia `vercel.com/sso-api` y el sitio no se
 veía sin iniciar sesión en Vercel. Está **desactivada** a propósito: el sitio
 es para estudiantes y familias, y una pared de inicio de sesión lo hace
 inútil.
+
+### Resolución
+
+Se escogió la opción 1: **el repositorio pasó a ser público** el 2 de
+septiembre de 2026. Con el sitio ya abierto al público, mantener el código
+cerrado no protegía nada — el contenido de relleno y los cuatro perfiles
+inventados se ven igual desde el navegador — y a cambio costaba el despliegue
+automático.
+
+Antes de abrirlo se revisó el historial completo en busca de credenciales:
+ni tokens, ni claves privadas, ni hashes reales, ni ningún `.env` salvo
+`.env.example` con los valores en blanco.
+
+**Lo que esto implica de aquí en adelante:** cualquiera puede leer el código y
+los documentos. Las credenciales de verdad viven en las variables de entorno
+de Vercel y nunca en el repositorio; esa regla ahora no es higiene, es lo
+único que separa la contraseña del panel de cualquiera que pase por GitHub.
