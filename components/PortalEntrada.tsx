@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useRef } from 'react';
 import { useRol } from './ProveedorRol';
 import { ROLES, type Rol } from '@/lib/rol';
@@ -16,7 +17,33 @@ import { ROLES, type Rol } from '@/lib/rol';
  * Pregunta cómo te llamas (opcional) y cuál de tres botones. El nombre se
  * queda en este navegador y solo sirve para el saludo de la portada; el
  * correo no se pide en ninguna parte (doc 09 §1).
+ *
+ * ── LA TABLILLA, Y POR QUÉ NO ES LA FOTO ENTERA ──────────────────────────
+ *
+ * La pinza, el borde del cartón y el arranque del papel son fotografía de
+ * verdad: `public/tablilla-cabecera.webp`. De ahí para abajo, el cartón y el
+ * papel son CSS.
+ *
+ * La foto original es un retrato de 800x1200 (proporción 0.667). Usarla
+ * entera como fondo obligaría a la tarjeta a tener esa proporción fija, y ahí
+ * el papel deja de crecer con el texto: en un teléfono a 92vw la zona de
+ * papel se queda en unos 310x470 px, y basta con que alguien suba el tamaño
+ * de letra para que el formulario se salga del papel y acabe sobre el cartón.
+ * Este sitio lo usa gente con baja visión desde teléfonos baratos, así que esa
+ * rigidez no es un detalle estético.
+ *
+ * Partiéndola, la pinza —que es lo que hace que se lea "tablilla"— sigue
+ * siendo la foto, y el papel de abajo crece todo lo que haga falta.
+ *
+ * Los dos colores salen muestreados de esa misma imagen (ver
+ * `--color-tablilla-*` en globals.css): si no coincidieran, se vería una
+ * costura horizontal justo debajo de la pinza.
  */
+
+/** Medidas leídas de la foto, en tanto por ciento de su ancho (602 px). */
+const CARTON_LADO = '4.817%'; // 29 px de cartón a cada lado del papel
+const CARTON_PIE = '6.146%'; // 37 px de cartón por debajo del papel
+
 export function PortalEntrada() {
   const { rol, montado, elegir } = useRol();
   const ref = useRef<HTMLDialogElement>(null);
@@ -76,80 +103,104 @@ export function PortalEntrada() {
       <div className="animate-entrada m-auto w-[min(92vw,34rem)]">
         {/* La inclinación va aquí dentro y la animación fuera: `entrada`
             termina en `transform: scale(1)` con fill `both`, así que en el
-            mismo elemento borraría el giro en cuanto acabase. */}
-        <div className="-rotate-[0.6deg]">
-          {/* La pinza metálica de la tablilla */}
-          <div className="relative z-10 mx-auto h-7 w-28 rounded-t-md rounded-b-lg bg-gradient-to-b from-[#9aa4b2] to-[#6b7686] shadow-md">
-            <div className="absolute inset-x-4 top-2 h-1 rounded-full bg-white/40" />
-          </div>
+            mismo elemento borraría el giro.
 
+            La sombra es `drop-shadow` y no `shadow`: la cabecera tiene la
+            pinza recortada con transparencia, y `shadow` dibujaría la sombra
+            del rectángulo de la imagen — un borde recto cruzando el arco.
+            `drop-shadow` sigue el contorno real del canal alfa. */}
+        <div className="-rotate-[0.6deg] drop-shadow-[0_18px_30px_rgba(22,32,46,.35)]">
+          <Image
+            src="/tablilla-cabecera.webp"
+            alt=""
+            width={602}
+            height={211}
+            priority
+            className="block h-auto w-full select-none"
+          />
+
+          {/* El cartón sigue por debajo de la foto. `-mt-px` cierra la
+              rendija de un píxel que deja el redondeo subpíxel al escalar la
+              imagen a un ancho que no es múltiplo de 602. */}
           <div
-            className="-mt-3 rounded-2xl bg-[#fdfcf7] p-7 pt-9 shadow-2xl"
-            // Las rayas de la hoja de firmas. El formulario desapareció, pero
-            // la metáfora de la tablilla en la puerta sobrevive.
+            className="bg-tablilla-carton -mt-px rounded-b-2xl"
             style={{
-              backgroundImage:
-                'repeating-linear-gradient(to bottom, transparent 0 2.35rem, rgba(47,94,168,.10) 2.35rem 2.4rem)',
+              paddingInline: CARTON_LADO,
+              paddingBottom: CARTON_PIE,
             }}
           >
-            <h2
-              id="titulo-portal"
-              className="font-titulo text-azul-900 text-2xl font-bold sm:text-3xl"
+            <div
+              className="bg-tablilla-papel px-6 pt-5 pb-7"
+              style={{
+                // Las rayas de la hoja de firmas.
+                backgroundImage:
+                  'repeating-linear-gradient(to bottom, transparent 0 2.35rem, rgba(47,94,168,.10) 2.35rem 2.4rem)',
+                // El papel de la foto se oscurece un poco donde se junta con
+                // el cartón. Sin esto, el papel de CSS es plano y el corte se
+                // nota como una línea vertical a los lados.
+                boxShadow:
+                  'inset 4px 0 7px -5px rgba(22,32,46,.28), inset -4px 0 7px -5px rgba(22,32,46,.28)',
+              }}
             >
-              ¿Quién nos visita hoy?
-            </h2>
-            <p className="text-gris mt-2 text-sm">
-              Si quieres, dinos cómo te llamas para saludarte. Nada se guarda
-              fuera de este navegador.
-            </p>
-
-            <div className="mt-6">
-              <label
-                htmlFor="nombre-portal"
-                className="text-azul-900 text-sm font-semibold"
+              <h2
+                id="titulo-portal"
+                className="font-titulo text-azul-900 text-2xl font-bold sm:text-3xl"
               >
-                Tu nombre{' '}
-                <span className="text-gris font-normal">(opcional)</span>
-              </label>
-              <input
-                ref={refNombre}
-                id="nombre-portal"
-                type="text"
-                name="nombre"
-                autoComplete="given-name"
-                maxLength={60}
-                placeholder=" p. ej. Ana"
-                className="border-borde focus:border-azul-500 mt-1.5 w-full rounded-lg border-2 bg-white px-3 py-2.5 text-base outline-none focus:ring-2 focus:ring-[var(--color-azul-500)]/30"
-              />
-            </div>
+                ¿Quién nos visita hoy?
+              </h2>
+              <p className="text-gris mt-2 text-sm">
+                Si quieres, dinos cómo te llamas para saludarte. Nada se guarda
+                fuera de este navegador.
+              </p>
 
-            <div className="mt-5 grid gap-3 sm:grid-cols-2">
-              {ROLES.filter((r) => r.id !== 'invitado').map((r, i) => (
-                <button
-                  key={r.id}
-                  type="button"
-                  onClick={() => alPulsar(r.id, refNombre.current?.value)}
-                  className={
-                    'min-h-16 rounded-xl border-2 px-4 py-3 font-semibold ' +
-                    'transition-colors ' +
-                    (i === 0
-                      ? 'border-azul-700 bg-azul-700 hover:bg-azul-900 text-white'
-                      : 'border-azul-700 text-azul-700 hover:bg-azul-100 bg-white')
-                  }
+              <div className="mt-6">
+                <label
+                  htmlFor="nombre-portal"
+                  className="text-azul-900 text-sm font-semibold"
                 >
-                  {r.etiqueta}
-                </button>
-              ))}
-            </div>
+                  Tu nombre{' '}
+                  <span className="text-gris font-normal">(opcional)</span>
+                </label>
+                <input
+                  ref={refNombre}
+                  id="nombre-portal"
+                  type="text"
+                  name="nombre"
+                  autoComplete="given-name"
+                  maxLength={60}
+                  placeholder=" p. ej. Ana"
+                  className="border-borde focus:border-azul-500 mt-1.5 w-full rounded-lg border-2 bg-white px-3 py-2.5 text-base outline-none focus:ring-2 focus:ring-[var(--color-azul-500)]/30"
+                />
+              </div>
 
-            <div className="mt-5 text-center">
-              <button
-                type="button"
-                onClick={() => alPulsar('invitado')}
-                className="text-gris hover:text-azul-700 rounded text-sm underline underline-offset-4"
-              >
-                Continuar como invitado
-              </button>
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                {ROLES.filter((r) => r.id !== 'invitado').map((r, i) => (
+                  <button
+                    key={r.id}
+                    type="button"
+                    onClick={() => alPulsar(r.id, refNombre.current?.value)}
+                    className={
+                      'min-h-16 rounded-xl border-2 px-4 py-3 font-semibold ' +
+                      'transition-colors ' +
+                      (i === 0
+                        ? 'border-azul-700 bg-azul-700 hover:bg-azul-900 text-white'
+                        : 'border-azul-700 text-azul-700 hover:bg-azul-100 bg-white')
+                    }
+                  >
+                    {r.etiqueta}
+                  </button>
+                ))}
+              </div>
+
+              <div className="mt-5 text-center">
+                <button
+                  type="button"
+                  onClick={() => alPulsar('invitado')}
+                  className="text-gris hover:text-azul-700 rounded text-sm underline underline-offset-4"
+                >
+                  Continuar como invitado
+                </button>
+              </div>
             </div>
           </div>
         </div>

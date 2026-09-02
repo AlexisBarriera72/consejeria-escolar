@@ -71,6 +71,15 @@
   --color-corcho: #b8935f;
   --color-libreta: #fdfcf5;
 
+  /* La tablilla del portal de entrada. Estos dos NO se eligen a ojo: son el
+     promedio real de los píxeles de public/tablilla-cabecera.webp, porque el
+     cartón y el papel de CSS continúan la fotografía y cualquier desvío se
+     ve como una costura horizontal justo debajo de la pinza. Si se cambia la
+     foto, hay que volver a muestrearlos — y revisar el contraste, que con
+     este papel deja menos margen que el crema. */
+  --color-tablilla-carton: #ca9771;
+  --color-tablilla-papel: #efece7;
+
   /* ── Animaciones (estilo Animista) ──────────────────────────────────────
      En Tailwind 4 los keyframes van AQUÍ, no en un tailwind.config.js — ese
      archivo ya no existe. Cada --animate-* genera una utilidad: animate-entrada.
@@ -313,4 +322,3 @@
     display: none !important;
   }
 }
-

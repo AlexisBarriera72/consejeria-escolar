@@ -51,6 +51,15 @@ const PALETA = {
   tiza: '#f0ede2',
   corcho: '#b8935f',
   libreta: '#fdfcf5',
+
+  // Muestreados de la foto de la tablilla (public/tablilla-cabecera.webp).
+  // NO son valores escogidos: son el promedio real de los píxeles del cartón
+  // y del papel de esa foto, porque el papel de CSS tiene que continuar la
+  // imagen sin costura. Al venir de una foto no se pueden "ajustar un poco"
+  // sin que se note el corte, así que lo que sí hay que comprobar es que el
+  // texto encima siga pasando AA.
+  'tablilla-carton': '#ca9771',
+  'tablilla-papel': '#efece7',
 };
 
 /** Umbrales de WCAG 2.1 nivel AA. */
@@ -100,11 +109,22 @@ const REGLAS = [
   ['blanco', 'rosa-700', AA_TEXTO, 'plantilla urgente — franja superior'],
   ['azul-900', 'blanco', AA_TEXTO, 'plantilla comunicado'],
 
+  // El portal de entrada, sobre el papel de la foto de la tablilla.
+  // El papel real (#efece7) es algo más gris que el de CSS que había antes
+  // (#fdfcf7), así que TODO lo que va encima baja de contraste. `gris` es el
+  // que menos margen deja: 4.94 contra los 4.5 que pide AA. Si algún día se
+  // oscurece la foto o se aclara el gris, esto salta aquí y no en producción.
+  ['tinta', 'tablilla-papel', AA_TEXTO, 'portal — titular'],
+  ['gris', 'tablilla-papel', AA_TEXTO, 'portal — texto secundario'],
+  ['azul-900', 'tablilla-papel', AA_TEXTO, 'portal — etiqueta del campo'],
+  ['azul-700', 'tablilla-papel', AA_TEXTO, 'portal — botón secundario'],
+
   // Elementos que no son texto (SC 1.4.11)
   // El foco es un aro doble a propósito: el aro oscuro se ve sobre el papel,
   // el halo ámbar se ve sobre el azul oscuro del encabezado. Un solo color
   // deja sin indicador visible a la mitad del sitio.
   ['azul-900', 'papel', AA_NO_TEXTO, 'aro de foco sobre papel'],
+  ['azul-900', 'tablilla-papel', AA_NO_TEXTO, 'aro de foco en el portal'],
   ['ambar', 'azul-900', AA_NO_TEXTO, 'halo de foco sobre azul oscuro'],
   ['azul-500', 'papel', AA_GRANDE, 'titulares grandes / rellenos'],
   // Solo para el titular enorme de /guias: a 12 px no llegaria a 4.5.
