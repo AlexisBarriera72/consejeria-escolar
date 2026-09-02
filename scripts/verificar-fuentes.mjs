@@ -25,7 +25,7 @@
  */
 
 const FAMILIAS = [
-  'Fraunces',
+  'Source Serif 4',
   'Source Sans 3',
   'Playfair Display',
   'Libre Baskerville',

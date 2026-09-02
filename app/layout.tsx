@@ -6,7 +6,6 @@ import { BannerAviso } from '@/components/BannerAviso';
 import { Encabezado } from '@/components/Encabezado';
 import { PiePagina } from '@/components/PiePagina';
 import { RegistroSW } from '@/components/RegistroSW';
-import { GUION_CALMA } from '@/lib/calma';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -34,11 +33,6 @@ export default function RootLayout({
     // lang="es" no es decorativo: sin esto un lector de pantalla lee el
     // español con voz y reglas de pronunciación en inglés.
     <html lang="es" className={clasesDeFuente}>
-      <head>
-        {/* Corre antes de pintar: sin esto, quien tiene el modo calma
-            activado ve medio segundo de colores fuertes en cada carga. */}
-        <script dangerouslySetInnerHTML={{ __html: GUION_CALMA }} />
-      </head>
       <body className="flex min-h-dvh flex-col">
         <ProveedorRol>
           <a href="#contenido" className="salto-contenido">

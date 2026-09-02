@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { GuiasCliente, type SeccionGuia } from '@/components/GuiasCliente';
-import { EncabezadoSeccion, MetaCifra } from '@/components/EncabezadoSeccion';
+import { EncabezadoSeccion } from '@/components/EncabezadoSeccion';
 import { obtenerGuias, obtenerPerfiles } from '@/lib/contenido';
 
 export const metadata: Metadata = {
@@ -38,12 +38,6 @@ export default async function PaginaGuias() {
         despues="respuesta."
         color="text-turquesa-700"
         lede="Lo que más nos preguntan, contestado. Si no encuentras lo tuyo, pregúntale a cualquiera del equipo."
-        meta={
-          <MetaCifra
-            n={secciones.reduce((n, s) => n + s.preguntas.length, 0)}
-            etiqueta="guías"
-          />
-        }
       />
 
       <GuiasCliente secciones={secciones} />

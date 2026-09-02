@@ -1,12 +1,18 @@
 import Link from 'next/link';
 import type { Perfil } from '@/lib/tipos';
 import { FotoPerfil } from './FotoPerfil';
-import { BORDE_ACENTO, TINTE_ACENTO } from './ui/Tarjeta';
+import { BANDA_ACENTO } from './ui/Tarjeta';
 
-/** Inclinaciones fijas, no aleatorias. Un Math.random() daría un ángulo en
- *  el servidor y otro en el cliente, y React se quejaría de que el HTML no
- *  coincide. Además así la pared se ve igual en cada visita. */
-const GIROS = [-1.6, 1.1, -0.7, 1.5, -1.2, 0.9];
+/**
+ * Una ficha clavada en el tablón de corcho.
+ *
+ * Inclinaciones y desplazamientos FIJOS, no aleatorios: Math.random() daría
+ * un ángulo en el servidor y otro en el cliente y React se quejaría de que el
+ * HTML no coincide. Fijos además significa que el tablón se ve igual en cada
+ * visita, como una pared de verdad donde los papeles no se mueven solos.
+ */
+const GIROS = [-2.2, 1.6, -1.1, 2.4, -1.8, 1.2, -2.6, 0.9];
+const ALTURAS = ['sm:mt-0', 'sm:mt-8', 'sm:mt-3', 'sm:mt-10', 'sm:mt-1'];
 
 export function TarjetaPerfil({
   perfil,
@@ -16,39 +22,45 @@ export function TarjetaPerfil({
   indice?: number;
 }) {
   const giro = GIROS[indice % GIROS.length] ?? 0;
+  const alto = ALTURAS[indice % ALTURAS.length] ?? '';
 
   return (
-    <Link
-      href={`/consejered/${perfil.slug}`}
-      style={{ rotate: `${giro}deg` }}
-      className={`bg-crema block rounded-2xl border-2 p-5 transition-transform hover:rotate-0 hover:shadow-lg ${BORDE_ACENTO[perfil.acento]}`}
-    >
-      {/* La chincheta de la pared del pasillo */}
-      <div
-        aria-hidden
-        className="bg-gris/40 mx-auto mb-3 h-2.5 w-2.5 rounded-full"
-      />
-      <div className="flex items-center gap-4">
-        <FotoPerfil perfil={perfil} tamano="chica" />
-        <div className="min-w-0">
-          <p className="font-titulo text-azul-900 truncate text-lg font-bold">
-            {perfil.nombre}
-          </p>
-          <p className="text-gris truncate text-sm">{perfil.puesto}</p>
+    <div className={alto}>
+      <Link
+        href={`/consejered/${perfil.slug}`}
+        style={{ rotate: `${giro}deg` }}
+        className="bg-crema group relative block rounded-sm px-5 pt-8 pb-5 shadow-[0_10px_22px_-8px_rgba(0,0,0,.45)] transition-transform hover:scale-[1.02] hover:rotate-0"
+      >
+        {/* La chincheta. Aguja fina detrás, cabeza redonda delante. */}
+        <span aria-hidden className="absolute -top-2 left-1/2 -translate-x-1/2">
+          <span
+            className={`block h-5 w-5 rounded-full ${BANDA_ACENTO[perfil.acento]} shadow-[0_2px_4px_rgba(0,0,0,.4)] ring-2 ring-black/10`}
+          />
+          <span className="mx-auto block h-2 w-[3px] bg-black/25" />
+        </span>
+
+        <div className="flex items-center gap-4">
+          <FotoPerfil perfil={perfil} tamano="chica" />
+          <div className="min-w-0">
+            <p className="font-titulo text-tinta truncate text-lg leading-tight font-bold">
+              {perfil.nombre}
+            </p>
+            <p className="text-gris truncate text-sm">{perfil.puesto}</p>
+          </div>
         </div>
-      </div>
 
-      {perfil.estadoDelDia ? (
-        <p
-          className={`text-tinta mt-4 rounded-lg px-3 py-1.5 text-sm ${TINTE_ACENTO[perfil.acento]}`}
-        >
-          {perfil.estadoDelDia}
-        </p>
-      ) : null}
+        {perfil.estadoDelDia ? (
+          <p className="border-tinta/15 text-tinta mt-4 border-t pt-3 text-sm">
+            {perfil.estadoDelDia}
+          </p>
+        ) : null}
 
-      {perfil.contacto.oficina ? (
-        <p className="text-gris mt-3 text-sm">{perfil.contacto.oficina}</p>
-      ) : null}
-    </Link>
+        {perfil.contacto.oficina ? (
+          <p className="text-gris mt-2 text-sm leading-snug">
+            {perfil.contacto.oficina}
+          </p>
+        ) : null}
+      </Link>
+    </div>
   );
 }

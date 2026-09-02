@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { ChipRol } from './ChipRol';
-import { BotonCalma } from './BotonCalma';
 import { Sello } from './Sello';
 
 const NAV = [
@@ -49,7 +48,6 @@ export function Encabezado() {
         </nav>
 
         <div className="ml-auto flex items-center gap-2.5">
-          <BotonCalma />
           <ChipRol />
           <Link
             href="/calendario"

@@ -1,6 +1,6 @@
 import {
   Caveat,
-  Fraunces,
+  Source_Serif_4,
   Playfair_Display,
   Shantell_Sans,
   Source_Sans_3,
@@ -16,18 +16,18 @@ import {
  * el sitio, así que no hay nada que rastree a los estudiantes desde aquí.
  */
 
-/** Titulares. Variable, con eje óptico: la misma familia puede leerse
- *  juguetona en la portada y seria en un comunicado oficial. */
-export const fuenteTitulo = Fraunces({
+/** Titulares.
+ *
+ *  Antes era Fraunces con el eje WONK a tope: precioso y demasiado vistoso
+ *  para una oficina de consejería escolar. Source Serif 4 es de la misma
+ *  superfamilia que el cuerpo (Source Sans 3), así que las dos comparten
+ *  proporciones y ritmo, y aguanta pesos altos sin volverse decorativa:
+ *  contundente en vez de estilizada. */
+export const fuenteTitulo = Source_Serif_4({
   subsets: ['latin', 'latin-ext'],
   variable: '--fuente-titulo',
   display: 'swap',
-  // La cursiva es un archivo aparte y next/font solo carga 'normal' si no se
-  // pide. El mundo editorial de la referencia apoya cada titular en UNA
-  // palabra en cursiva y color; sin declararla, el navegador la falsearía
-  // inclinando la romana, que se nota y se ve mal.
   style: ['normal', 'italic'],
-  axes: ['SOFT', 'WONK', 'opsz'],
 });
 
 /** Texto corrido. Aguanta bien los tamaños pequeños en pantallas baratas,

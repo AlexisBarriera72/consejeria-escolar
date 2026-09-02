@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { PlantillaAnuncio } from '@/components/plantillas/Plantillas';
 import { TarjetaAnuncio } from '@/components/TarjetaAnuncio';
 import { ChipPersona } from '@/components/ChipPersona';
-import { EncabezadoSeccion, MetaCifra } from '@/components/EncabezadoSeccion';
+import { EncabezadoSeccion } from '@/components/EncabezadoSeccion';
 import {
   obtenerDestacada,
   obtenerNoticias,
@@ -36,7 +36,6 @@ export default async function PaginaNoticias() {
         despues="."
         color="text-rosa-700"
         lede="Anuncios, avisos y fechas. Los que ya pasaron se retiran solos y quedan guardados en las ediciones anteriores."
-        meta={<MetaCifra n={vigentes.length} etiqueta="anuncios" />}
       />
 
       {destacada ? (

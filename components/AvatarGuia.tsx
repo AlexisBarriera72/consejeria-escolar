@@ -1,12 +1,22 @@
 export type Pose = 'neutral' | 'izquierda' | 'centro' | 'derecha';
 
-/** Ángulo del brazo por pose. El avatar está encima de las tarjetas, así que
- *  "izquierda" apunta abajo-izquierda, no de lado. */
+/**
+ * Ángulo del brazo por pose.
+ *
+ * El signo importa y estaba invertido: rotate() de SVG gira en sentido
+ * HORARIO, y el brazo cuelga hacia abajo, así que un ángulo POSITIVO lleva la
+ * punta hacia la IZQUIERDA. El mapa anterior decía derecha: 42 y el brazo
+ * señalaba a la izquierda.
+ *
+ * Y como el avatar está al final derecho de la fila, las tres tarjetas quedan
+ * a su izquierda: no son izquierda/centro/derecha, son tres grados de
+ * inclinación hacia la izquierda.
+ */
 const ANGULO: Record<Pose, number> = {
-  neutral: 8,
-  izquierda: -42,
-  centro: 0,
-  derecha: 42,
+  neutral: -8,
+  izquierda: 56,
+  centro: 38,
+  derecha: 14,
 };
 
 /**

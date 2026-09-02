@@ -1,45 +1,33 @@
 import { Inicio, type Vistas } from '@/components/Inicio';
 import {
-  obtenerCategorias,
   obtenerNoticias,
   obtenerPerfiles,
   obtenerPreguntas,
 } from '@/lib/contenido';
-import { fechaCorta, fechaLarga } from '@/lib/fechas';
-import type { Acento } from '@/components/ui/Tarjeta';
+import { fechaLarga } from '@/lib/fechas';
 
 /**
- * Componente de servidor: lee los datos y formatea las fechas. Todo lo
- * interactivo (buscador, lente por rol, avatar) vive en <Inicio>, que sí es
- * de cliente, así que el HTML llega completo desde el servidor — importante
- * cuando alguien abre esto con datos móviles en un pasillo.
+ * Componente de servidor: lee los datos y formatea las fechas. Lo interactivo
+ * (buscador, lente por rol, avatar) vive en <Inicio>, que sí es de cliente.
  *
- * Las cifras de las bandas son CONTEOS REALES del contenido, no adornos.
- * PRODUCT.md prohíbe inventar datos, así que si un día no hay perfiles, el
- * número dirá 0 y la banda se adapta en vez de mentir.
+ * La portada ya no lleva cifras ni contadores: esto no es un panel de métricas
+ * ni una página de venta, y una fila de números no le resuelve nada a quien
+ * llega con una duda.
  */
 export default async function PaginaInicio() {
-  const [preguntas, noticias, perfiles, categorias] = await Promise.all([
+  const [preguntas, noticias, perfiles] = await Promise.all([
     obtenerPreguntas(),
     obtenerNoticias(),
     obtenerPerfiles(),
-    obtenerCategorias(),
   ]);
 
   const destacada = noticias[0] ?? null;
+  const consejera = perfiles[0] ?? null;
 
   const vistas: Vistas = {
-    // La lista completa, no tres: el buscador de la portada necesita poder
-    // encontrar "matrícula" aunque sea la novena pregunta.
+    // La lista completa, no un recorte: el buscador necesita poder encontrar
+    // "matrícula" aunque sea la novena pregunta.
     guias: preguntas.map((p) => ({ pregunta: p.pregunta, slug: p.slug })),
-
-    categorias: categorias.map((c) => ({
-      id: c.id,
-      titulo: c.titulo,
-      descripcion: c.descripcion,
-      acento: c.acento as Acento,
-      total: preguntas.filter((p) => p.categoriaId === c.id).length,
-    })),
 
     destacada: destacada
       ? {
@@ -51,26 +39,12 @@ export default async function PaginaInicio() {
         }
       : null,
 
-    ultimas: noticias.slice(0, 4).map((n) => ({
-      titulo: n.titulo,
-      fecha: fechaCorta(n.publicarEn),
-      slug: n.slug,
-      etiqueta: n.etiquetas[0] ?? null,
-    })),
-
-    equipo: perfiles.slice(0, 3).map((p) => ({
-      nombre: p.nombre,
-      puesto: p.puesto,
-      slug: p.slug,
-      acento: p.acento as Acento,
-    })),
-
-    totales: {
-      guias: preguntas.length,
-      noticias: noticias.length,
-      perfiles: perfiles.length,
-      categorias: categorias.length,
-    },
+    contacto: consejera
+      ? {
+          oficina: consejera.contacto.oficina,
+          horario: consejera.contacto.horario,
+        }
+      : null,
   };
 
   return <Inicio vistas={vistas} />;

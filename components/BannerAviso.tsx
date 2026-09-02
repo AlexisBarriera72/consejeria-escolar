@@ -29,7 +29,9 @@ export async function BannerAviso() {
       }
     >
       <p className="mx-auto flex max-w-5xl flex-wrap items-center gap-x-3 gap-y-1 px-5 py-3 font-medium">
-        <span aria-hidden>{urgente ? '⚠' : 'ℹ'}</span>
+        <span aria-hidden className="font-semibold">
+          {urgente ? 'Importante ·' : 'Aviso ·'}
+        </span>
         <span>{aviso.mensaje}</span>
         {aviso.enlace ? (
           <Link href={aviso.enlace} className="rounded underline">

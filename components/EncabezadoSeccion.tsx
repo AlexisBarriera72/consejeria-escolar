@@ -43,10 +43,7 @@ export function EncabezadoSeccion({
       </p>
 
       <div className="mt-5 flex flex-wrap items-end justify-between gap-x-10 gap-y-5">
-        <h1
-          className="font-titulo text-tinta max-w-3xl text-[2.9rem] leading-[0.95] font-bold tracking-[-0.035em] sm:text-6xl lg:text-[4.5rem]"
-          style={{ fontVariationSettings: "'SOFT' 100, 'WONK' 1, 'opsz' 144" }}
-        >
+        <h1 className="font-titulo text-tinta max-w-3xl text-[2.9rem] leading-[0.95] font-bold tracking-[-0.035em] sm:text-6xl lg:text-[4.5rem]">
           {antes} <em className={`${color} italic`}>{acento}</em>
           {despues ? ` ${despues}` : ''}
         </h1>
@@ -72,7 +69,6 @@ export function MetaCifra({ n, etiqueta }: { n: number; etiqueta: string }) {
       <span
         aria-hidden
         className="font-titulo text-tinta block text-5xl leading-none font-bold tabular-nums"
-        style={{ fontVariationSettings: "'SOFT' 100, 'WONK' 1" }}
       >
         {String(n).padStart(2, '0')}
       </span>

@@ -24,9 +24,13 @@ export function FotoPerfil({
   tamano = 'normal',
 }: {
   perfil: Perfil;
-  tamano?: 'normal' | 'grande' | 'chica';
+  tamano?: 'normal' | 'grande' | 'chica' | 'mini';
 }) {
   const medidas = {
+    // 'mini' existe porque sin él cada sitio que necesitaba un avatar
+    // pequeño lo metía en una caja más chica que el propio mosaico y lo
+    // recortaba. Ese era el bug de las iniciales rotas.
+    mini: 'h-8 w-8 text-[0.65rem] border',
     chica: 'h-14 w-14 text-lg border-2',
     normal: 'h-24 w-24 text-2xl border-4',
     grande: 'h-full w-full aspect-square text-6xl border-8',

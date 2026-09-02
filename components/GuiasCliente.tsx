@@ -14,6 +14,15 @@ export type SeccionGuia = {
 
 export function GuiasCliente({ secciones }: { secciones: SeccionGuia[] }) {
   const [consulta, setConsulta] = useState('');
+  // La primera categoría abierta y las demás cerradas: quien llega ve la
+  // forma completa del archivador sin tener que bajar por doce preguntas.
+  const [abiertas, setAbiertas] = useState<string[]>(
+    secciones[0] ? [secciones[0].categoria.id] : [],
+  );
+  const alternar = (id: string) =>
+    setAbiertas((a) =>
+      a.includes(id) ? a.filter((x) => x !== id) : [...a, id],
+    );
   const buscando = consulta.trim().length > 0;
 
   const filtradas = useMemo(() => {
@@ -87,15 +96,29 @@ export function GuiasCliente({ secciones }: { secciones: SeccionGuia[] }) {
 
       <div className="mt-6 space-y-10">
         {filtradas.map((s) => (
-          <section key={s.categoria.id}>
-            {/* Pestaña de carpeta: la metáfora del archivador (doc 03 §1) */}
-            <div className="flex items-end">
-              <h2
-                className={`text-tinta rounded-t-xl px-5 py-2.5 font-bold ${BANDA_ACENTO[s.categoria.acento]}`}
-              >
-                {s.categoria.titulo}
-              </h2>
-            </div>
+          <details
+            key={s.categoria.id}
+            open={buscando || abiertas.includes(s.categoria.id)}
+            className="group/cat"
+          >
+            {/* La pestaña de carpeta ES el tirador. Un <details> nativo da
+                gratis el teclado, la semántica de expandible y — lo que más
+                importa aquí — funciona sin JavaScript. */}
+            <summary
+              className={`text-tinta flex cursor-pointer items-center justify-between gap-4 rounded-t-xl px-5 py-3 ${BANDA_ACENTO[s.categoria.acento]}`}
+              onClick={() => alternar(s.categoria.id)}
+            >
+              <span className="font-titulo text-xl">{s.categoria.titulo}</span>
+              <span className="flex items-center gap-3 text-sm font-medium">
+                {s.preguntas.length}
+                <span
+                  aria-hidden
+                  className="text-xl transition-transform group-open/cat:rotate-45"
+                >
+                  +
+                </span>
+              </span>
+            </summary>
             <div
               className={`rounded-tr-2xl rounded-b-2xl p-4 sm:p-5 ${TINTE_ACENTO[s.categoria.acento]}`}
             >
@@ -110,7 +133,7 @@ export function GuiasCliente({ secciones }: { secciones: SeccionGuia[] }) {
                 ))}
               </ul>
             </div>
-          </section>
+          </details>
         ))}
       </div>
     </>

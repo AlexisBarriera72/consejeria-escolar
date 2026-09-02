@@ -36,9 +36,7 @@ function Autor({ autor, fecha }: { autor: Perfil | null; fecha: string }) {
             href={`/consejered/${autor.slug}`}
             className="text-azul-700 flex items-center gap-2 rounded underline"
           >
-            <span className="grid h-6 w-6 place-items-center">
-              <FotoPerfil perfil={autor} tamano="chica" />
-            </span>
+            <FotoPerfil perfil={autor} tamano="mini" />
             {autor.nombre}
           </Link>
         </>
