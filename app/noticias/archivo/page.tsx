@@ -26,7 +26,7 @@ export default async function PaginaArchivo() {
   }
 
   return (
-    <div className="mx-auto max-w-5xl px-5 py-12">
+    <div className="contenedor py-12">
       <Link
         href="/noticias"
         className="text-azul-700 rounded text-sm underline"

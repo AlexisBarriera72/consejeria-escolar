@@ -28,7 +28,7 @@ export default async function PaginaNoticias() {
   const resto = vigentes.filter((a) => a.id !== destacada?.id);
 
   return (
-    <div className="mx-auto max-w-5xl px-5 py-12">
+    <div className="contenedor py-12">
       <EncabezadoSeccion
         cejilla="El tablón"
         antes="Lo que pasa"

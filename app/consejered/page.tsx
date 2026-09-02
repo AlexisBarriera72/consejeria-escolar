@@ -25,7 +25,7 @@ export default async function PaginaPasillo() {
   const perfiles = await obtenerPerfiles();
 
   return (
-    <div className="mx-auto max-w-6xl px-5 py-12">
+    <div className="contenedor py-12">
       <EncabezadoSeccion
         cejilla="ConsejeRed"
         antes="El equipo que"
@@ -40,19 +40,26 @@ export default async function PaginaPasillo() {
           Todavía no hay fichas en el tablón.
         </p>
       ) : (
-        // Tablón real vía `border-image`, no una imagen de fondo estirada.
-        // El corte de 38 px aísla el marco de madera de la foto original
-        // (775x464): las cuatro esquinas se colocan enteras, los cuatro lados
-        // se repiten, y el centro — el corcho — rellena el hueco con `fill`.
-        // Así el tablón puede tener cualquier alto sin que la madera se
-        // deforme, que es justo lo que pasa al escalar la foto entera.
-        // `bg-corcho` queda debajo como respaldo si la imagen no carga.
+        // El tablón va en DOS capas, y esa separación es lo que quita las
+        // costuras que cruzaban el corcho:
+        //   · El marco, con border-image y un corte de 38 px medido sobre la
+        //     foto. SIN `fill`, para que no rellene también el centro.
+        //   · El corcho, recortado a su propio archivo y puesto de fondo con
+        //     `cover`: al escalarse en vez de repetirse no hay junta posible.
+        //     El corcho es ruido, no un patrón — se estira bien y se nota
+        //     fatal cuando se embaldosa, que era el bug.
+        // `padding-box` evita que el fondo asome por debajo del marco.
+        // `bg-corcho` queda de respaldo si la imagen no carga.
         <div
           className="bg-corcho mt-10 border-[16px] p-5 shadow-[0_20px_45px_-20px_rgba(0,0,0,.55)] sm:border-[30px] sm:p-12"
           style={{
-            borderImageSource: "url('/corcho.webp')",
-            borderImageSlice: '38 fill',
-            borderImageRepeat: 'round',
+            borderImageSource: "url('/corcho-marco.webp')",
+            borderImageSlice: '38',
+            borderImageRepeat: 'stretch',
+            backgroundImage: "url('/corcho-centro.webp')",
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundClip: 'padding-box',
           }}
         >
           <ul className="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">

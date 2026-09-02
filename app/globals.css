@@ -201,6 +201,24 @@
 }
 
 @layer components {
+  /* Un solo contenedor para todo el sitio.
+     Estaba a 72rem (1152 px), que en un monitor de 1900 dejaba unos 350 px
+     muertos a cada lado. A 90rem el contenido ocupa la pantalla sin que las
+     líneas de texto se vuelvan ilegibles — de eso se encargan los max-w de
+     cada bloque de texto, no el contenedor. */
+  .contenedor {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 90rem;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .contenedor {
+      padding-inline: 2rem;
+    }
+  }
+
   .salto-contenido {
     position: absolute;
     inset-inline-start: 0.5rem;

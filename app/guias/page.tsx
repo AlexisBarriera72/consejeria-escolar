@@ -30,7 +30,7 @@ export default async function PaginaGuias() {
   }));
 
   return (
-    <div className="mx-auto max-w-5xl px-5 py-14">
+    <div className="contenedor py-14">
       <EncabezadoSeccion
         cejilla="El archivador"
         antes="Preguntas que"

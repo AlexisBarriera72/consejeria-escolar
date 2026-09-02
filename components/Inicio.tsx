@@ -2,9 +2,20 @@
 
 import { useId, useMemo, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { AvatarGuia, type Pose } from './AvatarGuia';
 import { BurbujaDialogo } from './BurbujaDialogo';
 import { Sello, SelloMini } from './Sello';
+import {
+  IconoCalendario,
+  IconoLugar,
+  IconoLupa,
+  IconoReloj,
+  Libros,
+  Megafono,
+  PuertaAbierta,
+  Subrayado,
+} from './Ilustraciones';
 import { useRol } from './ProveedorRol';
 import { ORDEN_SECCIONES, type ClaveSeccion, type Rol } from '@/lib/rol';
 import { coincide } from '@/lib/busqueda';
@@ -85,7 +96,7 @@ export function Inicio({ vistas }: { vistas: Vistas }) {
   return (
     <div className="overflow-x-clip">
       {/* ══ Lo primero es elegir a dónde ir ═══════════════════════════════ */}
-      <section className="mx-auto max-w-6xl px-5 pt-10 pb-14 md:pt-14">
+      <section className="contenedor pt-10 pb-14 md:pt-14">
         <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-8">
           <div className="max-w-xl">
             <p className="text-gris flex items-center gap-2.5 text-xs font-semibold tracking-[0.16em] uppercase">
@@ -98,7 +109,15 @@ export function Inicio({ vistas }: { vistas: Vistas }) {
             </p>
 
             <h1 className="font-titulo text-tinta mt-4 text-[2.7rem] leading-[1.02] font-bold tracking-[-0.02em] sm:text-6xl">
-              Por dónde <em className="text-azul-700 italic">empezar</em>.
+              Por dónde{' '}
+              {/* El subrayado se ancla a la palabra, no al titular: si el
+                  texto cambia de largo o salta de línea, el trazo lo sigue.
+                  `w-full` sobre un inline-block hace justo eso. */}
+              <span className="relative inline-block">
+                <em className="text-azul-700 italic">empezar</em>
+                <Subrayado className="text-ambar absolute -bottom-1.5 left-0 h-3 w-full" />
+              </span>
+              .
             </h1>
 
             <p className="text-gris mt-5 text-lg leading-relaxed">
@@ -179,91 +198,90 @@ export function Inicio({ vistas }: { vistas: Vistas }) {
       </section>
 
       {/* ══ Al fondo: lo último y la puerta, uno al lado del otro ═════════ */}
-      <section className="mx-auto max-w-6xl px-5 pb-4">
+      <section className="contenedor pb-4">
         <div className="grid gap-5 lg:grid-cols-2">
           {vistas.destacada ? (
             <Link
               href={`/noticias/${vistas.destacada.slug}`}
-              className="group bg-azul-900 relative flex flex-col justify-between overflow-hidden rounded-2xl p-8 text-white"
+              className="group bg-azul-100 relative flex flex-col overflow-hidden rounded-3xl p-8"
             >
-              <Sello
-                petalos={13}
-                className="pointer-events-none absolute -right-16 -bottom-20 h-60 w-60 text-white/10 transition-transform duration-500 group-hover:rotate-12"
-              />
-              <div className="relative">
-                <p className="text-ambar text-xs font-semibold tracking-[0.16em] uppercase">
+              <Megafono className="pointer-events-none absolute right-4 bottom-4 h-28 w-auto opacity-90" />
+              <div className="relative max-w-sm">
+                <p className="text-azul-700 text-xs font-semibold tracking-[0.16em] uppercase">
                   Lo más reciente
                 </p>
-                <h2 className="font-titulo mt-4 text-3xl leading-[1.06] font-bold tracking-[-0.015em]">
+                <h2 className="font-titulo text-tinta mt-4 text-3xl leading-[1.06] font-bold tracking-[-0.015em]">
                   {vistas.destacada.titulo}
                 </h2>
                 {vistas.destacada.bajada ? (
-                  <p className="mt-3 max-w-sm leading-relaxed text-white/80">
+                  <p className="text-gris mt-3 leading-relaxed">
                     {vistas.destacada.bajada}
                   </p>
                 ) : null}
               </div>
-              <div className="relative mt-8 flex flex-wrap items-center gap-3">
+              <div className="relative mt-8 flex flex-wrap items-center gap-4">
                 {vistas.destacada.etiqueta ? (
-                  <span className="bg-ambar text-tinta rounded-full px-3 py-1 text-xs font-semibold">
+                  <span className="bg-ambar text-tinta rounded-full px-4 py-1.5 text-sm font-semibold">
                     {vistas.destacada.etiqueta}
                   </span>
                 ) : null}
-                <span className="text-sm text-white/70">
+                <span className="text-gris flex items-center gap-2 text-sm">
+                  <IconoCalendario className="h-4 w-4" />
                   {vistas.destacada.fecha}
-                </span>
-                <span
-                  aria-hidden
-                  className="ml-auto flex h-10 w-10 items-center justify-center rounded-full border border-white/40 transition-transform group-hover:translate-x-1"
-                >
-                  →
                 </span>
               </div>
             </Link>
           ) : (
-            <div className="border-tinta/25 text-gris flex flex-col items-center justify-center rounded-2xl border border-dashed p-10 text-center">
-              <Sello className="text-tinta/15 h-14 w-14" />
-              <p className="mt-4 max-w-xs">
+            <div className="bg-azul-100 flex flex-col items-center justify-center rounded-3xl p-10 text-center">
+              <Megafono className="h-24 w-auto opacity-60" />
+              <p className="text-gris mt-4 max-w-xs">
                 Todavía no hay anuncios. Cuando la oficina publique el primero,
                 aparecerá aquí.
               </p>
             </div>
           )}
 
-          {/* La puerta abierta: antes vivía en el pie de TODAS las páginas.
-              Aquí abajo, junto a lo último, cierra la portada con lo que de
-              verdad hace falta saber — dónde y cuándo. */}
-          <div className="bg-azul-900 relative overflow-hidden rounded-2xl p-8 text-white">
-            <Sello
-              petalos={15}
-              giro={20}
-              className="pointer-events-none absolute -bottom-24 -left-20 h-64 w-64 text-white/10"
-            />
-            <div className="relative">
-              <h2 className="font-titulo text-3xl leading-[1.06] font-bold tracking-[-0.015em]">
-                La puerta está <em className="text-ambar italic">abierta</em>.
+          {/* La puerta abierta. Antes vivía en el pie de TODAS las páginas;
+              aquí cierra la portada con lo único que de verdad hace falta
+              saber para pasar por la oficina: dónde y cuándo. */}
+          <div className="bg-crema border-tinta/10 relative overflow-hidden rounded-3xl border p-8">
+            <PuertaAbierta className="pointer-events-none absolute right-2 bottom-2 hidden h-44 w-auto sm:block" />
+            <div className="relative max-w-sm">
+              <h2 className="font-titulo text-tinta text-3xl leading-[1.06] font-bold tracking-[-0.015em]">
+                La puerta está <em className="text-azul-700 italic">abierta</em>
+                .
               </h2>
-              <p className="mt-3 max-w-md leading-relaxed text-white/80">
+              <p className="text-gris mt-3 leading-relaxed">
                 No hace falta cita ni escribir antes. Puedes pasar, preguntar lo
                 que sea, y decidir después si quieres contarlo todo.
               </p>
 
               {vistas.contacto?.oficina || vistas.contacto?.horario ? (
-                <dl className="mt-6 space-y-3 border-t border-white/20 pt-5">
+                <dl className="border-tinta/15 mt-6 space-y-4 border-t pt-5">
+                  {/* Rejilla, no divs anidados. Un <dl> admite dt/dd dentro de
+                      UN <div>, pero no dos niveles abajo: axe lo marca como
+                      grave. El icono ocupa las dos filas de la columna
+                      izquierda y queda como hermano del dt y el dd. */}
                   {vistas.contacto.oficina ? (
-                    <div>
-                      <dt className="text-ambar text-xs font-semibold tracking-[0.16em] uppercase">
+                    <div className="grid grid-cols-[auto_1fr] items-start gap-x-3">
+                      <IconoLugar className="text-azul-700 row-span-2 mt-0.5 h-5 w-5" />
+                      <dt className="text-azul-700 text-xs font-semibold tracking-[0.16em] uppercase">
                         Dónde
                       </dt>
-                      <dd className="mt-1">{vistas.contacto.oficina}</dd>
+                      <dd className="text-tinta mt-0.5">
+                        {vistas.contacto.oficina}
+                      </dd>
                     </div>
                   ) : null}
                   {vistas.contacto.horario ? (
-                    <div>
-                      <dt className="text-ambar text-xs font-semibold tracking-[0.16em] uppercase">
+                    <div className="grid grid-cols-[auto_1fr] items-start gap-x-3">
+                      <IconoReloj className="text-azul-700 row-span-2 mt-0.5 h-5 w-5" />
+                      <dt className="text-azul-700 text-xs font-semibold tracking-[0.16em] uppercase">
                         Cuándo
                       </dt>
-                      <dd className="mt-1">{vistas.contacto.horario}</dd>
+                      <dd className="text-tinta mt-0.5">
+                        {vistas.contacto.horario}
+                      </dd>
                     </div>
                   ) : null}
                 </dl>
@@ -271,7 +289,7 @@ export function Inicio({ vistas }: { vistas: Vistas }) {
 
               <Link
                 href="/calendario"
-                className="bg-ambar text-tinta mt-6 inline-flex items-center gap-2 rounded-full px-5 py-2.5 font-semibold"
+                className="bg-ambar text-tinta hover:bg-amarillo mt-7 inline-flex items-center gap-2 rounded-full px-5 py-3 font-semibold transition-colors"
               >
                 Ver qué días está libre
                 <span aria-hidden>→</span>
@@ -292,6 +310,16 @@ export function Inicio({ vistas }: { vistas: Vistas }) {
  * es el atajo para quien ya sabe qué busca. Reutiliza lib/busqueda, que
  * ignora tildes pero conserva la ñ.
  */
+/**
+ * El atajo del final: quien ya sabe qué busca no debería tener que entrar a
+ * /guias y buscar allí. Reutiliza lib/busqueda, que ignora tildes pero
+ * conserva la ñ.
+ *
+ * El botón "Buscar" hace algo de verdad. Los resultados aparecen solos según
+ * escribes, así que un botón decorativo habría sido una mentira pequeña:
+ * envía a /guias, que es donde está la búsqueda completa con el texto de las
+ * respuestas incluido, no solo los títulos.
+ */
 function Buscador({
   preguntas,
 }: {
@@ -299,6 +327,7 @@ function Buscador({
 }) {
   const [consulta, setConsulta] = useState('');
   const id = useId();
+  const router = useRouter();
   const buscando = consulta.trim().length > 0;
 
   const resultados = useMemo(
@@ -310,30 +339,54 @@ function Buscador({
   );
 
   return (
-    <section className="mx-auto mt-16 max-w-2xl px-5 pb-4 text-center">
-      <label
-        htmlFor={id}
-        className="text-gris text-xs font-semibold tracking-[0.16em] uppercase"
+    <section className="contenedor mt-16 pb-4">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          router.push('/guias');
+        }}
+        className="bg-ambar/20 border-ambar/45 relative flex flex-wrap items-center gap-5 overflow-hidden rounded-3xl border px-6 py-6 sm:px-8"
       >
-        ¿Ya sabes qué buscas?
-      </label>
-      <div className="border-tinta focus-within:border-coral-700 mx-auto mt-3 flex items-center border-b-2 transition-colors">
-        <input
-          id={id}
-          type="search"
-          value={consulta}
-          onChange={(e) => setConsulta(e.target.value)}
-          placeholder="matrícula, becas, ansiedad…"
-          autoComplete="off"
-          aria-describedby={`${id}-estado`}
-          className="text-tinta placeholder:text-tinta/45 min-h-12 w-full bg-transparent text-center text-lg"
-        />
-      </div>
+        <span
+          aria-hidden
+          className="bg-ambar text-tinta flex h-14 w-14 shrink-0 items-center justify-center rounded-full"
+        >
+          <IconoLupa className="h-6 w-6" />
+        </span>
+
+        <div className="min-w-56 flex-1">
+          <label
+            htmlFor={id}
+            className="text-gris text-xs font-semibold tracking-[0.16em] uppercase"
+          >
+            ¿Ya sabes qué buscas?
+          </label>
+          <input
+            id={id}
+            type="search"
+            value={consulta}
+            onChange={(e) => setConsulta(e.target.value)}
+            placeholder="matrícula, becas, ansiedad…"
+            autoComplete="off"
+            aria-describedby={`${id}-estado`}
+            className="text-tinta placeholder:text-tinta/45 border-tinta/35 focus:border-coral-700 mt-1 min-h-11 w-full border-b bg-transparent text-lg transition-colors"
+          />
+        </div>
+
+        <button
+          type="submit"
+          className="bg-azul-900 hover:bg-azul-700 shrink-0 rounded-full px-7 py-3 font-semibold text-white transition-colors"
+        >
+          Buscar
+        </button>
+
+        <Libros className="pointer-events-none hidden h-24 w-auto shrink-0 lg:block" />
+      </form>
 
       <p
         id={`${id}-estado`}
         role="status"
-        className="text-gris mt-2 min-h-5 text-sm"
+        className="text-gris mt-3 min-h-5 text-sm"
       >
         {buscando
           ? resultados.length === 0
@@ -343,12 +396,12 @@ function Buscador({
       </p>
 
       {resultados.length > 0 ? (
-        <ul className="bg-crema border-tinta divide-tinta/12 mt-3 divide-y rounded-xl border-2 text-left">
+        <ul className="bg-crema border-tinta divide-tinta/12 mt-1 divide-y rounded-2xl border-2">
           {resultados.map((r) => (
             <li key={r.slug}>
               <Link
                 href={`/guias/${r.slug}`}
-                className="text-tinta hover:bg-ambar/35 flex items-center justify-between gap-4 px-5 py-3 font-medium"
+                className="text-tinta hover:bg-ambar/35 flex items-center justify-between gap-4 px-5 py-3.5 font-medium"
               >
                 <span>{r.pregunta}</span>
                 <span aria-hidden>→</span>
