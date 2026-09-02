@@ -1,6 +1,6 @@
-import { readFile, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import type { FuenteContenido, NombreArchivo } from './tipos';
+import type { FuenteArchivos, FuenteContenido, NombreArchivo } from './tipos';
 
 const CARPETA = join(process.cwd(), 'contenido');
 
@@ -29,5 +29,15 @@ export const fuenteLocal: FuenteContenido = {
       JSON.stringify(datos, null, 2) + '\n',
       'utf8',
     );
+  },
+};
+
+const SUBIDAS = join(process.cwd(), 'public', 'subidas');
+
+export const archivosLocal: FuenteArchivos = {
+  async subir(ruta, bytes) {
+    await mkdir(SUBIDAS, { recursive: true });
+    await writeFile(join(SUBIDAS, ruta), bytes);
+    return `/subidas/${ruta}`;
   },
 };

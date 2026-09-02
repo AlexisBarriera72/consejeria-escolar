@@ -1,9 +1,9 @@
 import 'server-only';
 import type { FuenteContenido } from './tipos';
-import { fuenteLocal } from './local';
-import { fuenteGitHub } from './github';
+import { archivosLocal, fuenteLocal } from './local';
+import { archivosGitHub, fuenteGitHub } from './github';
 
-export type { FuenteContenido, NombreArchivo } from './tipos';
+export type { FuenteArchivos, FuenteContenido, NombreArchivo } from './tipos';
 
 /**
  * Elige la fuente según el entorno.
@@ -16,7 +16,10 @@ export type { FuenteContenido, NombreArchivo } from './tipos';
  * cliente importa esto por error. Sin esa línea, un import descuidado
  * mandaría el token de GitHub al navegador y nadie se enteraría.
  */
-export const fuente: FuenteContenido =
-  process.env.GITHUB_TOKEN && process.env.GITHUB_REPO
-    ? fuenteGitHub
-    : fuenteLocal;
+function usaGitHub(): boolean {
+  return Boolean(process.env.GITHUB_TOKEN && process.env.GITHUB_REPO);
+}
+
+export const fuente: FuenteContenido = usaGitHub() ? fuenteGitHub : fuenteLocal;
+
+export const archivos = usaGitHub() ? archivosGitHub : archivosLocal;

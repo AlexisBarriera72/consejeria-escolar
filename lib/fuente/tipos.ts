@@ -32,3 +32,13 @@ export interface FuenteContenido {
    */
   escribir<T>(archivo: NombreArchivo, datos: T, mensaje: string): Promise<void>;
 }
+
+/**
+ * Subida de archivos binarios (fotos).
+ *
+ * Va aparte de `escribir` porque el contenido es JSON y esto no: aquí llegan
+ * bytes ya comprimidos por el navegador.
+ */
+export interface FuenteArchivos {
+  subir(ruta: string, bytes: Uint8Array, mensaje: string): Promise<string>;
+}

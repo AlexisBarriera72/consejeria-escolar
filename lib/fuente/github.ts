@@ -1,5 +1,5 @@
 import { revalidateTag } from 'next/cache';
-import type { FuenteContenido, NombreArchivo } from './tipos';
+import type { FuenteArchivos, FuenteContenido, NombreArchivo } from './tipos';
 
 /**
  * El repositorio de GitHub como base de datos (doc 09 §2).
@@ -132,5 +132,29 @@ export const fuenteGitHub: FuenteContenido = {
     // siempre lo que se acaba de guardar — y cuando lo publicado es "mañana
     // no hay clases", que sea correcto importa más que que sea rápido.
     revalidateTag(`contenido:${archivo}`, { expire: 0 });
+  },
+};
+
+/**
+ * Subir una foto = un commit con el binario.
+ *
+ * Las fotos van en el repositorio junto al contenido. Ya vienen comprimidas
+ * a WebP por el navegador (doc 04 §7), así que pesan cientos de KB y no
+ * megas: un repositorio de git aguanta eso sin despeinarse durante años.
+ */
+export const archivosGitHub: FuenteArchivos = {
+  async subir(ruta, bytes, mensaje) {
+    const { token, repo, rama } = config();
+    const destino = `public/subidas/${ruta}`;
+    const res = await pedir(`${API}/repos/${repo}/contents/${destino}`, token, {
+      method: 'PUT',
+      body: JSON.stringify({
+        message: mensaje,
+        content: Buffer.from(bytes).toString('base64'),
+        branch: rama,
+      }),
+    });
+    if (!res.ok) throw new Error(`GitHub ${res.status} al subir la foto`);
+    return `/subidas/${ruta}`;
   },
 };
