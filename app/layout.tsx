@@ -43,18 +43,21 @@ export default function RootLayout({
               por un aviso de huracán, esto es lo único que importa. */}
           <BannerAviso />
           <Encabezado />
-          {/* La hoja de pergamino sobre la que va TODO el contenido.
-              Existe por una razón medida, no estética: con la malla de color
-              detrás, el texto directamente encima rompía AA — `coral-700`
-              solo tiene 0.16 de margen sobre el pergamino y cualquier color
-              por debajo se lo come. Poniendo el contenido en su propia hoja,
-              cada combinación de texto del sitio sigue midiéndose contra
-              `papel` exactamente igual que antes, y la malla puede ir a plena
-              saturación. Los márgenes crecen con la pantalla porque es el
-              único sitio por donde se ve el color. */}
+          {/* La hoja sobre la que va TODO el contenido — pergamino al 70%,
+              así que la malla se ve por debajo al 30% y el color llega
+              también al centro de la página, no solo a los márgenes.
+
+              El 70% es el resultado de una medición, no una preferencia: el
+              texto necesita un mínimo de pergamino debajo para no romper AA.
+              Con la paleta original el margen daba para un 3% de color; se
+              llegó al 30% oscureciendo seis tokens de texto entre un 1% y un
+              19%. Bajar este 70% sin volver a oscurecer la paleta rompe el
+              contraste — y salta en verificar-contraste.mjs, que comprueba
+              todo el texto contra `papel-malla`, el punto más oscuro de la
+              malla al 30%. */}
           <main
             id="contenido"
-            className="bg-papel mx-2 flex-1 rounded-3xl shadow-[0_12px_44px_-24px_rgba(22,32,46,.55)] sm:mx-4 lg:mx-8 xl:mx-16"
+            className="bg-papel/70 mx-2 flex-1 rounded-3xl shadow-[0_12px_44px_-24px_rgba(22,32,46,.55)] sm:mx-4 lg:mx-8 xl:mx-16"
           >
             {children}
           </main>
