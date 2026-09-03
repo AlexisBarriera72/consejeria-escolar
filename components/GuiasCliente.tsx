@@ -19,11 +19,33 @@ export function GuiasCliente({ secciones }: { secciones: SeccionGuia[] }) {
   const [abiertas, setAbiertas] = useState<string[]>(
     secciones[0] ? [secciones[0].categoria.id] : [],
   );
-  const alternar = (id: string) =>
-    setAbiertas((a) =>
-      a.includes(id) ? a.filter((x) => x !== id) : [...a, id],
-    );
   const buscando = consulta.trim().length > 0;
+
+  /**
+   * El estado se sincroniza DESDE el <details>, nunca al revés.
+   *
+   * Antes esto colgaba de un `onClick` en el <summary> y había que pulsar dos
+   * veces la primera vez. La causa es el orden de los eventos: al pulsar un
+   * <summary>, el navegador dispara `click` y solo DESPUÉS ejecuta la acción
+   * por defecto, que es abrir o cerrar el <details>. React trata el clic como
+   * evento discreto y vacía el estado de forma síncrona, así que pasaba esto:
+   *
+   *   1. onClick cambia el estado y React escribe `open = true`.
+   *   2. Corre la acción por defecto y el navegador lo alterna: `open = false`.
+   *   3. Resultado neto: nada. Hace falta otro clic.
+   *
+   * Y a partir del segundo clic «funcionaba», pero solo porque el estado y el
+   * DOM se habían quedado invertidos y la escritura de React pasaba a no hacer
+   * nada. Con `onToggle` no hay carrera: el evento llega cuando el navegador
+   * YA ha cambiado el elemento, y el estado se limita a copiar lo que pasó.
+   */
+  const sincronizar = (id: string, abierto: boolean) => {
+    // Mientras se busca manda la consulta, no el estado guardado.
+    if (buscando) return;
+    setAbiertas((a) =>
+      abierto ? (a.includes(id) ? a : [...a, id]) : a.filter((x) => x !== id),
+    );
+  };
 
   const filtradas = useMemo(() => {
     if (!buscando) return secciones;
@@ -99,14 +121,16 @@ export function GuiasCliente({ secciones }: { secciones: SeccionGuia[] }) {
           <details
             key={s.categoria.id}
             open={buscando || abiertas.includes(s.categoria.id)}
+            onToggle={(e) => sincronizar(s.categoria.id, e.currentTarget.open)}
             className="group/cat"
           >
             {/* La pestaña de carpeta ES el tirador. Un <details> nativo da
                 gratis el teclado, la semántica de expandible y — lo que más
-                importa aquí — funciona sin JavaScript. */}
+                importa aquí — funciona sin JavaScript. Por eso el estado se
+                sincroniza con `onToggle` en el <details> y NO con un onClick
+                en el <summary>: ver el comentario de `sincronizar`. */}
             <summary
               className={`text-tinta flex cursor-pointer items-center justify-between gap-4 rounded-t-xl px-5 py-3 ${BANDA_ACENTO[s.categoria.acento]}`}
-              onClick={() => alternar(s.categoria.id)}
             >
               <span className="font-titulo text-xl">{s.categoria.titulo}</span>
               <span className="flex items-center gap-3 text-sm font-medium">
