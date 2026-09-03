@@ -43,22 +43,16 @@ export default function RootLayout({
               por un aviso de huracán, esto es lo único que importa. */}
           <BannerAviso />
           <Encabezado />
-          {/* La hoja sobre la que va TODO el contenido — pergamino al 70%,
-              así que la malla se ve por debajo al 30% y el color llega
-              también al centro de la página, no solo a los márgenes.
+          {/* SIN fondo, a propósito. El contenido se apoya directamente en la
+              malla, igual que los márgenes, así que no hay ningún borde donde
+              se note un cambio de superficie: antes había una hoja de
+              pergamino y su esquina redondeada se veía como una costura.
 
-              El 70% es el resultado de una medición, no una preferencia: el
-              texto necesita un mínimo de pergamino debajo para no romper AA.
-              Con la paleta original el margen daba para un 3% de color; se
-              llegó al 30% oscureciendo seis tokens de texto entre un 1% y un
-              19%. Bajar este 70% sin volver a oscurecer la paleta rompe el
-              contraste — y salta en verificar-contraste.mjs, que comprueba
-              todo el texto contra `papel-malla`, el punto más oscuro de la
-              malla al 30%. */}
-          <main
-            id="contenido"
-            className="bg-papel/70 mx-2 flex-1 rounded-3xl shadow-[0_12px_44px_-24px_rgba(22,32,46,.55)] sm:mx-4 lg:mx-8 xl:mx-16"
-          >
+              Lo que hace posible quitarla es que la malla ya viene premezclada
+              al 55% sobre pergamino (ver --mezcla-* en globals.css) y que seis
+              tokens de texto se oscurecieron para aguantarla. El contraste no
+              lo sostiene ninguna superficie: lo sostiene la paleta. */}
+          <main id="contenido" className="flex-1">
             {children}
           </main>
           <PiePagina />

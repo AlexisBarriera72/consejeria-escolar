@@ -19,16 +19,16 @@
 @theme {
   /* Azul — la columna vertebral del sitio */
   --color-azul-900: #1e3f73;
-  --color-azul-700: #2a5597;
-  --color-azul-500: #3e6fb8;
+  --color-azul-700: #204073;
+  --color-azul-500: #335b96;
   --color-azul-300: #899dd9;
   --color-azul-100: #dbe4f6;
 
   /* Acentos por sección */
-  --color-turquesa-700: #0a7c84;
+  --color-turquesa-700: #08646b;
   --color-turquesa-500: #00bdc9;
   --color-menta: #75d2c1;
-  --color-rosa-700: #a4125a;
+  --color-rosa-700: #7f0e46;
   --color-rosa-500: #f83f98;
   --color-magenta: #e51a68;
   /* El paso oscuro de la familia coral: el unico que puede llevar TEXTO.
@@ -37,7 +37,7 @@
      pasó a apoyarse sobre la malla translúcida: era el token con menos
      margen de todos (4.66:1 sobre pergamino, con AA en 4.5) y el primero
      en caerse. Sigue siendo la misma terracota. */
-  --color-coral-700: #953722;
+  --color-coral-700: #9d3a24;
   --color-coral: #ff6e53;
   --color-durazno: #ff987f;
   --color-naranja: #fc7f47;
@@ -52,7 +52,7 @@
   --color-papel: #f5eedf;
   /* Superficie elevada: tarjetas y campos sobre el pergamino. */
   --color-crema: #fffdf7;
-  --color-gris: #4d5664;
+  --color-gris: #3a414c;
   --color-borde: #e4e8ef;
 
   /* Tipografía */
@@ -98,13 +98,13 @@
      texto. El peor punto de la malla al 30% está fijado como `papel-malla`
      en scripts/verificar-contraste.mjs, y todo el texto se comprueba contra
      él. Si alguien sube el porcentaje sin tocar la paleta, salta ahí. */
-  --color-mezcla-1: #e5c056;
-  --color-mezcla-2: #f6a892;
-  --color-mezcla-3: #188e82;
-  --color-mezcla-4: #56a4c8;
-  --color-mezcla-5: #f37370;
-  --color-mezcla-6: #d0bddd;
-  --color-mezcla-7: #f385b6;
+  --color-mezcla-1: #ecd594;
+  --color-mezcla-2: #f6c8b5;
+  --color-mezcla-3: #7bb9ac;
+  --color-mezcla-4: #9ec5d2;
+  --color-mezcla-5: #f4aaa2;
+  --color-mezcla-6: #e3d6de;
+  --color-mezcla-7: #f4b4c8;
 
   /* ── Animaciones (estilo Animista) ──────────────────────────────────────
      En Tailwind 4 los keyframes van AQUÍ, no en un tailwind.config.js — ese
@@ -197,13 +197,20 @@
      él los colores pasan por versiones ensuciadas de sí mismos. Es la razón
      de que tanta malla de degradados se vea gris por los bordes. */
   :root {
-    --mezcla-1: 229 192 86;
-    --mezcla-2: 246 168 146;
-    --mezcla-3: 24 142 130;
-    --mezcla-4: 86 164 200;
-    --mezcla-5: 243 115 112;
-    --mezcla-6: 208 189 221;
-    --mezcla-7: 243 133 182;
+    /* OJO: estos NO son los siete colores originales, son esos siete
+       mezclados al 55% sobre pergamino. Los originales, para referencia:
+       #e5c056 #f6a892 #188e82 #56a4c8 #f37370 #d0bddd #f385b6.
+
+       Van premezclados porque la malla cubre la pagina ENTERA, texto
+       incluido: no hay ninguna hoja debajo del contenido que suba el
+       contraste. El 55% es el techo que aguanta la paleta de texto. */
+    --mezcla-1: 236 213 148;
+    --mezcla-2: 246 200 181;
+    --mezcla-3: 123 185 172;
+    --mezcla-4: 158 197 210;
+    --mezcla-5: 244 170 162;
+    --mezcla-6: 225 211 222;
+    --mezcla-7: 244 180 200;
   }
 
   html {

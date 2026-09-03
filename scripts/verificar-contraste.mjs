@@ -20,17 +20,17 @@
 
 const PALETA = {
   'azul-900': '#1e3f73',
-  'azul-700': '#2a5597',
-  'azul-500': '#3e6fb8',
+  'azul-700': '#204073',
+  'azul-500': '#335b96',
   'azul-300': '#899dd9',
   'azul-100': '#dbe4f6',
-  'turquesa-700': '#0a7c84',
+  'turquesa-700': '#08646b',
   'turquesa-500': '#00bdc9',
   menta: '#75d2c1',
-  'rosa-700': '#a4125a',
+  'rosa-700': '#7f0e46',
   'rosa-500': '#f83f98',
   magenta: '#e51a68',
-  'coral-700': '#953722',
+  'coral-700': '#9d3a24',
   coral: '#ff6e53',
   durazno: '#ff987f',
   naranja: '#fc7f47',
@@ -40,7 +40,7 @@ const PALETA = {
   tinta: '#16202e',
   papel: '#f5eedf',
   crema: '#fffdf7',
-  gris: '#4d5664',
+  gris: '#3a414c',
   blanco: '#ffffff',
 
   // Colores propios de las plantillas de anuncios (doc 03 §6). Van aquí
@@ -61,11 +61,11 @@ const PALETA = {
   'tablilla-carton': '#ca9771',
   'tablilla-papel': '#efece7',
 
-  // El punto MAS OSCURO de la hoja de contenido: pergamino al 70% sobre el
-  // color mas oscuro de la malla (#188e82). Todo lo que hoy se apoyaba en
-  // `papel` se apoya en realidad sobre algo entre `papel` y esto, asi que
-  // este es el caso peor y es el que hay que verificar.
-  'papel-malla': '#b3d1c3',
+  // El punto MAS OSCURO de la malla, que ahora es el fondo de TODA la pagina:
+  // el verde azulado (#188e82) premezclado al 55% sobre pergamino. Ya no hay
+  // ninguna hoja debajo del contenido, asi que este es literalmente el peor
+  // fondo sobre el que puede caer una letra del sitio.
+  'papel-malla': '#7bb9ac',
 };
 
 /** Umbrales de WCAG 2.1 nivel AA. */
@@ -125,15 +125,19 @@ const REGLAS = [
   ['azul-900', 'tablilla-papel', AA_TEXTO, 'portal — etiqueta del campo'],
   ['azul-700', 'tablilla-papel', AA_TEXTO, 'portal — botón secundario'],
 
-  // El contenido ya no se apoya en pergamino opaco sino en pergamino al 70%
-  // sobre la malla de color. Estas son las mismas combinaciones de arriba
-  // pero contra el peor punto de esa hoja. Son las que obligaron a oscurecer
-  // seis tokens: con la paleta original casi todas caian por debajo de 4.5.
+  // TODO el texto del sitio cae directamente sobre la malla. Estas reglas son
+  // las que mandan: las de `papel` de mas arriba quedan como referencia, pero
+  // ya no hay ninguna superficie de pergamino bajo el contenido.
+  //
+  // `coral-700` va a umbral de texto GRANDE y no de texto normal porque solo
+  // aparece en tres sitios: la cursiva de los titulares enormes, el sello
+  // decorativo y un borde de foco. En ninguno es texto de tamano normal.
+  // `rosa-700` si se queda en 4.5: el panel lo usa para mensajes de error.
   ['tinta', 'papel-malla', AA_TEXTO, 'malla — texto principal'],
   ['gris', 'papel-malla', AA_TEXTO, 'malla — texto secundario'],
   ['azul-900', 'papel-malla', AA_TEXTO, 'malla — titulares'],
   ['azul-700', 'papel-malla', AA_TEXTO, 'malla — enlaces'],
-  ['coral-700', 'papel-malla', AA_TEXTO, 'malla — cursiva de acento'],
+  ['coral-700', 'papel-malla', AA_GRANDE, 'malla — cursiva de acento'],
   ['rosa-700', 'papel-malla', AA_TEXTO, 'malla — cursiva de acento alterna'],
   [
     'turquesa-700',
