@@ -43,7 +43,19 @@ export default function RootLayout({
               por un aviso de huracán, esto es lo único que importa. */}
           <BannerAviso />
           <Encabezado />
-          <main id="contenido" className="flex-1">
+          {/* La hoja de pergamino sobre la que va TODO el contenido.
+              Existe por una razón medida, no estética: con la malla de color
+              detrás, el texto directamente encima rompía AA — `coral-700`
+              solo tiene 0.16 de margen sobre el pergamino y cualquier color
+              por debajo se lo come. Poniendo el contenido en su propia hoja,
+              cada combinación de texto del sitio sigue midiéndose contra
+              `papel` exactamente igual que antes, y la malla puede ir a plena
+              saturación. Los márgenes crecen con la pantalla porque es el
+              único sitio por donde se ve el color. */}
+          <main
+            id="contenido"
+            className="bg-papel mx-2 flex-1 rounded-3xl shadow-[0_12px_44px_-24px_rgba(22,32,46,.55)] sm:mx-4 lg:mx-8 xl:mx-16"
+          >
             {children}
           </main>
           <PiePagina />

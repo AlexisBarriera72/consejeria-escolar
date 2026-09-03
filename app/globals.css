@@ -80,6 +80,24 @@
   --color-tablilla-carton: #ca9771;
   --color-tablilla-papel: #efece7;
 
+  /* La mezcla del fondo — los siete de la tarjeta de colores.
+     Son DECORATIVOS y no llevan texto encima nunca. No es una preferencia:
+     `coral-700`, que es la cursiva de acento de los titulares, mide 4.66:1
+     sobre el pergamino y AA pide 4.5. Le quedan 0.16 de margen, así que
+     basta un 4% de cualquiera de estos colores por debajo para tumbarlo.
+     Medido en el commit que introdujo la mezcla: el máximo que aguantaba el
+     texto encima era alfa 0.03, es decir, invisible.
+     Por eso el contenido va sobre una hoja de pergamino y la mezcla se ve
+     alrededor: así los siete pueden ir a plena saturación sin tocar el
+     contraste de una sola letra del sitio. */
+  --color-mezcla-1: #e5c056;
+  --color-mezcla-2: #f6a892;
+  --color-mezcla-3: #188e82;
+  --color-mezcla-4: #56a4c8;
+  --color-mezcla-5: #f37370;
+  --color-mezcla-6: #d0bddd;
+  --color-mezcla-7: #f385b6;
+
   /* ── Animaciones (estilo Animista) ──────────────────────────────────────
      En Tailwind 4 los keyframes van AQUÍ, no en un tailwind.config.js — ese
      archivo ya no existe. Cada --animate-* genera una utilidad: animate-entrada.
@@ -165,13 +183,84 @@
     scroll-padding-block-start: 5rem;
   }
 
+  /* Los mismos siete colores, en canales sueltos. Hacen falta así porque el
+     degradado tiene que apagarse hacia `rgb(... / 0)` y NO hacia
+     `transparent`: `transparent` es negro con alfa 0, y al interpolar hacia
+     él los colores pasan por versiones ensuciadas de sí mismos. Es la razón
+     de que tanta malla de degradados se vea gris por los bordes. */
+  :root {
+    --mezcla-1: 229 192 86;
+    --mezcla-2: 246 168 146;
+    --mezcla-3: 24 142 130;
+    --mezcla-4: 86 164 200;
+    --mezcla-5: 243 115 112;
+    --mezcla-6: 208 189 221;
+    --mezcla-7: 243 133 182;
+  }
+
+  html {
+    /* Debajo de todo, por si la malla tarda un fotograma en pintar. */
+    background: var(--color-mezcla-2);
+  }
+
   body {
-    background: var(--color-papel);
+    background: transparent;
     color: var(--color-tinta);
     font-family: var(--font-cuerpo);
     font-size: var(--text-base);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+  }
+
+  /* La malla de color, en una capa aparte y FIJA.
+     `position: fixed` en un pseudoelemento, y no `background-attachment:
+     fixed` en el body: el segundo obliga al navegador a repintar el
+     degradado en cada scroll y en Safari de iOS directamente parpadea. Así
+     se pinta una vez y el contenido se desliza por encima.
+     El orden va al revés que la intuición: en CSS el PRIMER degradado de la
+     lista queda ARRIBA del todo. */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-color: var(--color-mezcla-2);
+    background-image:
+      radial-gradient(
+        56% 58% at 2% 98%,
+        rgb(var(--mezcla-3) / 1) 0%,
+        rgb(var(--mezcla-3) / 0) 100%
+      ),
+      radial-gradient(
+        46% 42% at 52% 100%,
+        rgb(var(--mezcla-5) / 1) 0%,
+        rgb(var(--mezcla-5) / 0) 100%
+      ),
+      radial-gradient(
+        52% 52% at 92% 82%,
+        rgb(var(--mezcla-4) / 1) 0%,
+        rgb(var(--mezcla-4) / 0) 100%
+      ),
+      radial-gradient(
+        42% 45% at 100% 40%,
+        rgb(var(--mezcla-6) / 1) 0%,
+        rgb(var(--mezcla-6) / 0) 100%
+      ),
+      radial-gradient(
+        52% 48% at 88% 2%,
+        rgb(var(--mezcla-7) / 1) 0%,
+        rgb(var(--mezcla-7) / 0) 100%
+      ),
+      radial-gradient(
+        50% 42% at 40% 0%,
+        rgb(var(--mezcla-2) / 1) 0%,
+        rgb(var(--mezcla-2) / 0) 100%
+      ),
+      radial-gradient(
+        58% 55% at 6% 2%,
+        rgb(var(--mezcla-1) / 1) 0%,
+        rgb(var(--mezcla-1) / 0) 100%
+      );
   }
 
   h1,
@@ -271,8 +360,20 @@
     font-size: 11.5pt;
   }
 
+  /* La malla de color NO se imprime. Es una capa fija y a pantalla completa:
+     sin esto la impresora la repetiría en todas las páginas y se llevaría el
+     cartucho por delante. Aquí se imprimen guías para estudiantes que a lo
+     mejor tienen una impresora de casa y un cartucho que dura lo que dura. */
+  body::before {
+    display: none !important;
+  }
+
   main {
     max-width: none;
+    margin: 0 !important;
+    background: #fff !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
   }
 
   /* Un enlace impreso sin su destino es texto azul subrayado que no lleva a
