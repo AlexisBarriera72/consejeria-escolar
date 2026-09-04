@@ -85,7 +85,24 @@ export function deHex(hex: string): [number, number, number] | null {
  * Búsqueda binaria y no un bucle a pasos: 24 iteraciones dan una precisión muy
  * por debajo de lo que distingue un ojo, y no depende del tamaño del paso.
  */
-export function colorDeTono(tono: number): string {
+/**
+ * El tope claro. Por encima de esto el color deja de ser un color y pasa a ser
+ * un blanco sucio, y una tarjeta de identidad con eso encima no identifica a
+ * nadie. No es una restricción de accesibilidad —más claro siempre contrasta
+ * MÁS con la tinta— sino de que siga siendo el color de alguien.
+ */
+export const CLARIDAD_MAX = 0.9;
+
+/**
+ * La claridad MÍNIMA de un tono que aún deja leer `tinta` encima.
+ *
+ * A partir de aquí, todo lo más claro también vale: con texto oscuro, cuanto
+ * más claro es el fondo mayor es el contraste. Esa monotonía es lo que
+ * permite ofrecer un deslizador de intensidad sin poder equivocarse — el
+ * rango entero por encima del mínimo es legal por construcción, no por
+ * comprobarlo después.
+ */
+export function claridadMinima(tono: number): number {
   const h = ((tono % 360) + 360) % 360;
   let bajo = 0;
   let alto = 1;
@@ -100,7 +117,40 @@ export function colorDeTono(tono: number): string {
     if (contraste(TINTA, c) >= MINIMO + 0.1) alto = medio;
     else bajo = medio;
   }
-  return aHex(hslARgb(h, SATURACION, alto));
+  return alto;
+}
+
+/**
+ * El color de un tono a una intensidad dada.
+ *
+ * `suavidad` va de 0 a 1: en 0 es el color más profundo que la legibilidad
+ * permite, en 1 el más suave que sigue siendo un color. Cualquier punto entre
+ * medias cumple AA sin necesidad de comprobar nada, porque el extremo bajo ya
+ * cumple y todo lo de arriba contrasta más.
+ */
+export function colorDe(tono: number, suavidad = 0): string {
+  const h = ((tono % 360) + 360) % 360;
+  const min = claridadMinima(h);
+  const k = Math.max(0, Math.min(1, suavidad));
+  const l = min + k * Math.max(0, CLARIDAD_MAX - min);
+  return aHex(hslARgb(h, SATURACION, l));
+}
+
+/** El color más profundo de un tono. Atajo de `colorDe(tono, 0)`. */
+export function colorDeTono(tono: number): string {
+  return colorDe(tono, 0);
+}
+
+/** Dónde cae un color guardado dentro de su propio rango, de 0 a 1. Sirve
+ *  para colocar el deslizador al abrir un perfil que ya tenía color. */
+export function suavidadDeHex(hex: string): number {
+  const rgb = deHex(hex);
+  if (!rgb) return 0;
+  const l = (Math.max(...rgb) + Math.min(...rgb)) / 2 / 255;
+  const min = claridadMinima(tonoDeHex(hex));
+  const rango = CLARIDAD_MAX - min;
+  if (rango <= 0) return 0;
+  return Math.max(0, Math.min(1, (l - min) / rango));
 }
 
 /**

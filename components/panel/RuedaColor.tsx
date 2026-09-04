@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
-import { colorDeTono, tonoDeHex } from '@/lib/color';
+import { colorDe, suavidadDeHex, tonoDeHex } from '@/lib/color';
 
 /**
  * La rueda de tono.
@@ -36,6 +36,10 @@ export function RuedaColor({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const tono = tonoDeHex(valor);
+  // La intensidad se deduce del color guardado, no se lleva aparte: dos
+  // fuentes para el mismo dato acaban discrepando, y el color es el que manda
+  // porque es lo que se publica.
+  const suavidad = suavidadDeHex(valor);
 
   /** Del punto donde está el puntero al ángulo respecto al centro. */
   function tonoDesdePuntero(e: React.PointerEvent) {
@@ -54,7 +58,7 @@ export function RuedaColor({
     // Solo mientras se arrastra, o en el clic inicial.
     if (e.type === 'pointermove' && e.buttons === 0) return;
     const t = tonoDesdePuntero(e);
-    if (t !== null) onCambio(colorDeTono(t));
+    if (t !== null) onCambio(colorDe(t, suavidad));
   }
 
   // La aguja, colocada sobre la circunferencia del anillo.
@@ -109,13 +113,47 @@ export function RuedaColor({
           max={359}
           value={tono}
           aria-describedby="tono-nota"
-          onChange={(e) => onCambio(colorDeTono(Number(e.target.value)))}
+          onChange={(e) => onCambio(colorDe(Number(e.target.value), suavidad))}
           className="mt-2 w-full"
         />
         <p id="tono-nota" className="text-gris mt-2 text-sm">
-          Mueve la rueda o la barra para recorrer los colores. Lo claro u oscuro
-          no se elige: lo ajusta el panel solo, para que tu nombre siempre se
-          lea encima.
+          Mueve la rueda o la barra para recorrer los colores.
+        </p>
+
+        {/* La intensidad. El extremo izquierdo es el color más profundo que la
+            legibilidad permite; de ahí hacia la derecha solo se aclara, y con
+            texto oscuro aclarar SIEMPRE sube el contraste. Por eso este
+            deslizador no puede equivocarse: no hay ninguna posición ilegible
+            que alcanzar, no porque se compruebe después sino porque el rango
+            empieza justo donde deja de haberlas. */}
+        <label
+          htmlFor="suavidad"
+          className="text-tinta mt-5 block text-sm font-semibold"
+        >
+          Más fuerte o más suave
+        </label>
+        <input
+          id="suavidad"
+          type="range"
+          min={0}
+          max={100}
+          value={Math.round(suavidad * 100)}
+          aria-describedby="suavidad-nota"
+          onChange={(e) =>
+            onCambio(colorDe(tono, Number(e.target.value) / 100))
+          }
+          className="mt-2 w-full"
+        />
+        <div
+          aria-hidden
+          className="border-tinta/40 mt-1 h-2 w-full rounded-full border"
+          style={{
+            background: `linear-gradient(to right, ${colorDe(tono, 0)}, ${colorDe(tono, 1)})`,
+          }}
+        />
+        <p id="suavidad-nota" className="text-gris mt-2 text-sm">
+          Cualquier posición se lee bien. A la izquierda el color más intenso; a
+          la derecha, más suave.
         </p>
       </div>
     </div>
