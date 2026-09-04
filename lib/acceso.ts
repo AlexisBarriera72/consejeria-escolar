@@ -36,10 +36,10 @@ const NOMBRE_COOKIE = 'sesion';
 const VIDA_SESION_MS = 8 * 60 * 60 * 1000; // un turno escolar
 
 function secreto(): string {
-  const s = process.env.SESSION_SECRET;
+  const s = process.env.CONSEJERIA_SESSION_SECRET;
   if (!s || s.length < 32) {
     throw new Error(
-      'SESSION_SECRET no está puesto o es muy corto (mínimo 32 caracteres). ' +
+      'CONSEJERIA_SESSION_SECRET no está puesto o es muy corto (mínimo 32 caracteres). ' +
         'Genera uno con: node scripts/generar-clave.mjs',
     );
   }
@@ -48,7 +48,7 @@ function secreto(): string {
 
 /** Nombre que aparece en "Editado por…" y en la franja del panel. */
 export function nombreDelPersonal(): string {
-  return process.env.ADMIN_NOMBRE?.trim() || 'Consejería Escolar';
+  return process.env.CONSEJERIA_ADMIN_NOMBRE?.trim() || 'Consejería Escolar';
 }
 
 // ── La contraseña ──────────────────────────────────────────────────────────
@@ -56,7 +56,7 @@ export function nombreDelPersonal(): string {
 type Guardada = { sal: Buffer; hash: Buffer };
 
 /**
- * Formato de ADMIN_PASSWORD_HASH: scrypt:salHex:hashHex
+ * Formato de CONSEJERIA_ADMIN_PASSWORD_HASH: scrypt:salHex:hashHex
  *
  * El separador es dos puntos, NO el dólar que se estila en este tipo de
  * cadenas. Next pasa los .env por dotenv-expand, que lee un dólar seguido de
@@ -65,7 +65,7 @@ type Guardada = { sal: Buffer; hash: Buffer };
  * por qué — media hora de depuración que este comentario evita.
  */
 function claveGuardada(): Guardada | null {
-  const crudo = process.env.ADMIN_PASSWORD_HASH;
+  const crudo = process.env.CONSEJERIA_ADMIN_PASSWORD_HASH;
   if (!crudo) return null;
   const partes = crudo.split(':');
   if (partes.length !== 3 || partes[0] !== 'scrypt') return null;
