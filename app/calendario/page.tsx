@@ -28,7 +28,7 @@ export default async function PaginaCalendario() {
 
   return (
     <div className="mx-auto max-w-3xl px-5 py-12">
-      <h1 className="font-titulo text-azul-900 text-4xl font-bold">
+      <h1 className="font-titulo text-tinta text-[2.75rem] leading-[0.95] font-bold tracking-[-0.035em] sm:text-[3.5rem]">
         ¿Cuándo está disponible?
       </h1>
       <p className="text-gris mt-3">
@@ -37,7 +37,7 @@ export default async function PaginaCalendario() {
 
       {disponibilidad.ok ? (
         <>
-          <div className="border-borde bg-crema mt-8 rounded-2xl border p-5">
+          <div className="border-tinta/60 bg-crema mt-8 rounded-[1.25rem] border p-5">
             <div className="grid grid-cols-5 gap-2">
               {DIAS_SEMANA.map((d, i) => (
                 <div
@@ -52,7 +52,7 @@ export default async function PaginaCalendario() {
                 return (
                   <div
                     key={d.fecha}
-                    className="border-borde flex flex-col items-center gap-1.5 rounded-lg border py-2.5"
+                    className="border-tinta/60 flex flex-col items-center gap-1.5 rounded-lg border py-2.5"
                   >
                     <span className="text-tinta text-sm">{dia}</span>
                     {/* La forma, no solo el color: relleno = libre, aro
@@ -95,7 +95,7 @@ export default async function PaginaCalendario() {
       ) : (
         // Nunca se enseña un calendario viejo como si fuera de hoy: si no se
         // pudo cargar, se dice y se da la información fija, que sí es cierta.
-        <p className="text-gris border-borde mt-8 rounded-2xl border border-dashed p-6 text-center text-sm">
+        <p className="text-gris border-tinta/60 mt-8 rounded-[1.25rem] border border-dashed p-6 text-center text-sm">
           {disponibilidad.motivo === 'sin-configurar'
             ? 'El calendario todavía no está conectado.'
             : 'No pudimos cargar el calendario en este momento.'}
@@ -103,7 +103,7 @@ export default async function PaginaCalendario() {
       )}
 
       {consejera ? (
-        <div className="bg-azul-100/50 mt-6 rounded-2xl p-5">
+        <div className="bg-azul-100/50 mt-6 rounded-[1.25rem] p-5">
           <p className="text-tinta font-semibold">{consejera.nombre}</p>
           {consejera.contacto.oficina ? (
             <p className="text-tinta mt-1">{consejera.contacto.oficina}</p>
@@ -116,7 +116,7 @@ export default async function PaginaCalendario() {
           </p>
           <Link
             href={`/consejered/${consejera.slug}`}
-            className="text-azul-700 mt-3 inline-block rounded text-sm underline"
+            className="text-azul-700 barrido mt-3 inline-block rounded text-sm"
           >
             Ver su perfil
           </Link>

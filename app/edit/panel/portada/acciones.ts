@@ -33,6 +33,7 @@ const Entrada = z.object({
   // El punto final. Es lo único que puede ir vacío.
   tituloDespues: z.string().trim().max(10),
   lede: Texto(300),
+  nota: Texto(80),
   secciones: z
     .array(
       z.object({

@@ -45,7 +45,7 @@ export function ReproductorVideo({ video }: { video: Video }) {
 
   if (video.tipo === 'youtube' && !id) {
     return (
-      <p className="border-borde text-gris rounded-xl border border-dashed p-4 text-sm">
+      <p className="border-tinta/60 text-gris rounded-xl border border-dashed p-4 text-sm">
         No se pudo leer el enlace del video.{' '}
         <a href={video.url} className="text-azul-700 underline">
           Abrirlo directamente

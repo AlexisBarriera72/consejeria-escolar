@@ -169,7 +169,7 @@ export function PortalEntrada() {
                   autoComplete="given-name"
                   maxLength={60}
                   placeholder=" p. ej. Ana"
-                  className="border-borde focus:border-azul-500 mt-1.5 w-full rounded-lg border-2 bg-white px-3 py-2.5 text-base outline-none focus:ring-2 focus:ring-[var(--color-azul-500)]/30"
+                  className="border-tinta/60 focus:border-azul-500 mt-1.5 w-full rounded-lg border-2 bg-white px-3 py-2.5 text-base outline-none focus:ring-2 focus:ring-[var(--color-azul-500)]/30"
                 />
               </div>
 
@@ -196,7 +196,7 @@ export function PortalEntrada() {
                 <button
                   type="button"
                   onClick={() => alPulsar('invitado')}
-                  className="text-gris hover:text-azul-700 rounded text-sm underline underline-offset-4"
+                  className="text-gris hover:text-azul-700 barrido rounded text-sm underline-offset-4"
                 >
                   Continuar como invitado
                 </button>

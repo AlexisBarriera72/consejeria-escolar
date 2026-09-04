@@ -40,7 +40,7 @@ export function BotonCompartir({ titulo }: { titulo: string }) {
     <button
       type="button"
       onClick={compartir}
-      className="border-borde hover:border-azul-500 not-print rounded-full border px-4 py-1.5 text-sm"
+      className="border-tinta/60 hover:border-azul-500 not-print rounded-full border px-4 py-1.5 text-sm"
     >
       <span aria-hidden>↗</span> Compartir
     </button>

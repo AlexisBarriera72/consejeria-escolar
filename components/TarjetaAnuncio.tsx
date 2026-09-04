@@ -20,7 +20,7 @@ export const ESTILO: Record<
     sello: 'Periódico',
   },
   blog: {
-    caja: 'bg-white border-borde',
+    caja: 'bg-white border-tinta/60',
     titulo: 'font-titulo text-azul-900',
     sello: 'Artículo',
   },
@@ -71,7 +71,7 @@ export function TarjetaAnuncio({
   return (
     <Link
       href={`/noticias/${anuncio.slug}`}
-      className={`block rounded-2xl border-2 p-5 transition-shadow hover:shadow-lg ${e.caja} ${vencido ? 'opacity-70' : ''}`}
+      className={`block rounded-[1.25rem] border-2 p-5 transition-shadow hover:shadow-lg ${e.caja} ${vencido ? 'opacity-70' : ''}`}
     >
       <div className="flex items-center justify-between gap-3">
         <span

@@ -27,14 +27,11 @@ export default async function PaginaArchivo() {
 
   return (
     <div className="contenedor py-12">
-      <Link
-        href="/noticias"
-        className="text-azul-700 rounded text-sm underline"
-      >
+      <Link href="/noticias" className="text-azul-700 barrido rounded text-sm">
         ← Noticias
       </Link>
 
-      <h1 className="font-titulo text-azul-900 mt-6 text-4xl font-bold">
+      <h1 className="font-titulo text-tinta mt-6 text-[2.75rem] leading-[0.95] font-bold tracking-[-0.035em] sm:text-[3.5rem]">
         Ediciones anteriores
       </h1>
       <p className="text-gris mt-3">
@@ -42,21 +39,21 @@ export default async function PaginaArchivo() {
       </p>
 
       {meses.size === 0 ? (
-        <p className="text-gris border-borde mt-10 rounded-2xl border border-dashed p-10 text-center">
+        <p className="text-gris border-tinta/60 mt-10 rounded-[1.25rem] border border-dashed p-10 text-center">
           Todavía no hay anuncios publicados.
         </p>
       ) : (
         <div className="mt-10 space-y-12">
           {[...meses.entries()].map(([mes, anuncios]) => (
             <section key={mes}>
-              <h2 className="font-titulo text-azul-900 border-borde border-b pb-2 text-xl font-bold capitalize">
+              <h2 className="font-titulo text-azul-900 border-tinta/60 border-b pb-2 text-xl font-bold capitalize">
                 {mes}
                 <span className="text-gris ml-3 text-sm font-normal normal-case">
                   {anuncios.length}{' '}
                   {anuncios.length === 1 ? 'anuncio' : 'anuncios'}
                 </span>
               </h2>
-              <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="revelar mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {anuncios.map((a) => (
                   <TarjetaAnuncio
                     key={a.id}

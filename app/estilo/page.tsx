@@ -151,7 +151,7 @@ function Seccion({
   children: React.ReactNode;
 }) {
   return (
-    <section className="border-borde border-t pt-10">
+    <section className="border-tinta/60 border-t pt-10">
       <h2 className="text-azul-900 mb-6 text-2xl font-bold">{titulo}</h2>
       {children}
     </section>
@@ -192,7 +192,7 @@ export default function PaginaEstilo() {
             <p className="font-cuerpo mt-2">{PANGRAMA}</p>
             <p className="font-cuerpo text-gris mt-2 text-sm">{PANGRAMA}</p>
           </div>
-          <p className="text-gris border-borde border-t pt-4 text-sm">
+          <p className="text-gris border-tinta/60 border-t pt-4 text-sm">
             Si alguna letra de arriba sale como un rectángulo vacío, esa fuente
             no sirve. Verificado glifo por glifo con{' '}
             <code className="bg-azul-100 rounded px-1.5 py-0.5">
@@ -270,7 +270,7 @@ export default function PaginaEstilo() {
       </Seccion>
 
       <Seccion titulo="Foco sobre fondo oscuro">
-        <div className="bg-azul-900 flex flex-wrap gap-3 rounded-2xl p-6">
+        <div className="bg-azul-900 flex flex-wrap gap-3 rounded-[1.25rem] p-6">
           <a
             href="#contenido"
             className="rounded-lg bg-white/10 px-4 py-2 font-semibold text-white"

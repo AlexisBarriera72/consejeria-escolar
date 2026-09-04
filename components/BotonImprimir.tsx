@@ -13,7 +13,7 @@ export function BotonImprimir() {
     <button
       type="button"
       onClick={() => window.print()}
-      className="border-borde hover:border-azul-500 not-print rounded-full border px-4 py-1.5 text-sm"
+      className="border-tinta/60 hover:border-azul-500 not-print rounded-full border px-4 py-1.5 text-sm"
     >
       Imprimir esta guía
     </button>

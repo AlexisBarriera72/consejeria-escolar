@@ -50,7 +50,7 @@ export default async function PaginaGuia({ params }: Props) {
     <article className="mx-auto max-w-3xl px-5 py-12">
       <Link
         href="/guias"
-        className="text-azul-700 not-print rounded text-sm underline"
+        className="text-azul-700 not-print barrido rounded text-sm"
       >
         ← Todas las guías
       </Link>
@@ -63,7 +63,7 @@ export default async function PaginaGuia({ params }: Props) {
         </p>
       ) : null}
 
-      <h1 className="font-titulo text-azul-900 mt-3 text-3xl font-bold sm:text-4xl">
+      <h1 className="font-titulo text-tinta mt-3 text-[2.75rem] leading-[0.95] font-bold tracking-[-0.035em] sm:text-[3.5rem]">
         {pregunta.pregunta}
       </h1>
 
@@ -71,11 +71,11 @@ export default async function PaginaGuia({ params }: Props) {
         <CuerpoPregunta datos={{ pregunta, responsables }} nivel="h2" />
       </div>
 
-      <div className="border-borde not-print mt-10 flex flex-wrap gap-3 border-t pt-6">
+      <div className="border-tinta/60 not-print mt-10 flex flex-wrap gap-3 border-t pt-6">
         <BotonImprimir />
         <Link
           href="/guias"
-          className="border-borde hover:border-azul-500 rounded-full border px-4 py-1.5 text-sm"
+          className="border-tinta/60 hover:border-azul-500 rounded-full border px-4 py-1.5 text-sm"
         >
           Ver otras guías
         </Link>

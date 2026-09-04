@@ -25,7 +25,7 @@ function Seccion({
 export default function PaginaAccesibilidad() {
   return (
     <div className="mx-auto max-w-2xl px-5 py-12">
-      <h1 className="font-titulo text-azul-900 text-4xl font-bold">
+      <h1 className="font-titulo text-tinta text-[2.75rem] leading-[0.95] font-bold tracking-[-0.035em] sm:text-[3.5rem]">
         Accesibilidad
       </h1>
       <p className="text-gris mt-3">
@@ -86,7 +86,7 @@ export default function PaginaAccesibilidad() {
         </p>
       </Seccion>
 
-      <p className="text-gris border-borde mt-12 border-t pt-6 text-sm">
+      <p className="text-gris border-tinta/60 mt-12 border-t pt-6 text-sm">
         Última revisión: septiembre de 2026. Este sitio se revisa con
         herramientas automáticas y a mano, con teclado y con lector de pantalla.
       </p>

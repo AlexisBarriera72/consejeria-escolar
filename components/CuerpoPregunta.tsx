@@ -75,7 +75,7 @@ export function CuerpoPregunta({
       ) : null}
 
       {mostrarUtilidad ? (
-        <div className="border-borde not-print border-t pt-4">
+        <div className="border-tinta/60 not-print border-t pt-4">
           <UtilidadGuia slug={pregunta.slug} />
         </div>
       ) : null}

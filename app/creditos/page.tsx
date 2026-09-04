@@ -9,7 +9,9 @@ export const metadata: Metadata = {
 export default function PaginaCreditos() {
   return (
     <div className="mx-auto max-w-2xl px-5 py-12">
-      <h1 className="font-titulo text-azul-900 text-4xl font-bold">Créditos</h1>
+      <h1 className="font-titulo text-tinta text-[2.75rem] leading-[0.95] font-bold tracking-[-0.035em] sm:text-[3.5rem]">
+        Créditos
+      </h1>
 
       <p className="text-tinta mt-6">
         Este sitio lo hizo <strong>Alexis</strong> para la oficina de consejería
@@ -51,7 +53,7 @@ export default function PaginaCreditos() {
         </p>
       </section>
 
-      <p className="border-borde mt-12 border-t pt-6">
+      <p className="border-tinta/60 mt-12 border-t pt-6">
         <Link href="/accesibilidad" className="text-azul-700 underline">
           Ver la declaración de accesibilidad
         </Link>

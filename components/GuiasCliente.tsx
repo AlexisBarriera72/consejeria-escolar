@@ -6,6 +6,7 @@ import type { Categoria } from '@/lib/tipos';
 import { coincide, soloTexto } from '@/lib/busqueda';
 import { CuerpoPregunta, type PreguntaConGente } from './CuerpoPregunta';
 import { BANDA_ACENTO, TINTE_ACENTO } from './ui/Tarjeta';
+import { Sello } from './Sello';
 
 export type SeccionGuia = {
   categoria: Categoria;
@@ -81,7 +82,10 @@ export function GuiasCliente({ secciones }: { secciones: SeccionGuia[] }) {
   return (
     <>
       <div className="not-print mt-8">
-        <label htmlFor="buscar" className="text-gris block text-sm font-medium">
+        <label
+          htmlFor="buscar"
+          className="text-tinta/80 block text-xs font-semibold tracking-[0.18em] uppercase"
+        >
           Buscar una pregunta
         </label>
         <input
@@ -90,7 +94,7 @@ export function GuiasCliente({ secciones }: { secciones: SeccionGuia[] }) {
           value={consulta}
           onChange={(e) => setConsulta(e.target.value)}
           placeholder="Escribe una palabra…"
-          className="border-borde focus:border-azul-700 bg-crema mt-1.5 w-full max-w-md rounded-xl border-2 px-4 py-3"
+          className="border-tinta bg-crema text-tinta placeholder:text-tinta/65 mt-1.5 w-full max-w-md rounded-full border-2 px-5 py-3 transition-colors focus:bg-white"
         />
         {/* role="status" hace que un lector de pantalla anuncie cuántos
             resultados hay sin sacar el foco del campo de búsqueda. */}
@@ -104,7 +108,7 @@ export function GuiasCliente({ secciones }: { secciones: SeccionGuia[] }) {
       </div>
 
       {buscando && total === 0 ? (
-        <div className="border-borde text-gris mt-6 rounded-2xl border border-dashed p-10 text-center">
+        <div className="border-tinta/60 text-tinta/80 mt-6 rounded-[1.25rem] border-2 border-dashed p-10 text-center">
           <p>Prueba con otra palabra, o mira todas las guías.</p>
           <button
             type="button"
@@ -122,7 +126,7 @@ export function GuiasCliente({ secciones }: { secciones: SeccionGuia[] }) {
             key={s.categoria.id}
             open={buscando || abiertas.includes(s.categoria.id)}
             onToggle={(e) => sincronizar(s.categoria.id, e.currentTarget.open)}
-            className="group/cat"
+            className="revelar group group/cat border-tinta overflow-hidden rounded-[1.25rem] border-2"
           >
             {/* La pestaña de carpeta ES el tirador. Un <details> nativo da
                 gratis el teclado, la semántica de expandible y — lo que más
@@ -130,23 +134,31 @@ export function GuiasCliente({ secciones }: { secciones: SeccionGuia[] }) {
                 sincroniza con `onToggle` en el <details> y NO con un onClick
                 en el <summary>: ver el comentario de `sincronizar`. */}
             <summary
-              className={`text-tinta flex cursor-pointer items-center justify-between gap-4 rounded-t-xl px-5 py-3 ${BANDA_ACENTO[s.categoria.acento]}`}
+              className={`text-tinta border-tinta relative flex cursor-pointer items-center justify-between gap-4 overflow-hidden border-b-2 px-5 py-4 ${BANDA_ACENTO[s.categoria.acento]}`}
             >
-              <span className="font-titulo text-xl">{s.categoria.titulo}</span>
-              <span className="flex items-center gap-3 text-sm font-medium">
+              {/* La flor, apagada, como la marca de agua de una carpeta. */}
+              <Sello
+                petalos={12}
+                vivo
+                className="text-tinta/10 pointer-events-none absolute -right-8 -bottom-10 h-28 w-28"
+              />
+              <span className="font-titulo relative text-2xl font-bold tracking-[-0.02em]">
+                {s.categoria.titulo}
+              </span>
+              <span className="relative flex items-center gap-3 text-sm font-semibold">
                 {s.preguntas.length}
+                {/* El «+» como pegatina con borde, igual que el número de las
+                    tarjetas de la portada. */}
                 <span
                   aria-hidden
-                  className="text-xl transition-transform group-open/cat:rotate-45"
+                  className="border-tinta bg-crema flex h-8 w-8 items-center justify-center rounded-full border-2 text-lg leading-none transition-transform group-open/cat:rotate-45"
                 >
                   +
                 </span>
               </span>
             </summary>
-            <div
-              className={`rounded-tr-2xl rounded-b-2xl p-4 sm:p-5 ${TINTE_ACENTO[s.categoria.acento]}`}
-            >
-              <p className="text-gris mb-4 text-sm">
+            <div className={`p-4 sm:p-5 ${TINTE_ACENTO[s.categoria.acento]}`}>
+              <p className="text-tinta/80 mb-4 text-sm">
                 {s.categoria.descripcion}
               </p>
               <ul className="space-y-2.5">
@@ -188,23 +200,23 @@ function FilaPregunta({
     <details
       key={abierta ? 'abierta' : 'cerrada'}
       open={abierta}
-      className="border-borde group bg-crema overflow-hidden rounded-xl border"
+      className="border-tinta/60 group bg-crema overflow-hidden rounded-xl border-2"
     >
-      <summary className="hover:bg-azul-100/50 flex cursor-pointer items-center justify-between gap-4 px-5 py-4 font-medium">
+      <summary className="flex cursor-pointer items-center justify-between gap-4 px-5 py-4 font-medium transition-colors hover:bg-white">
         <span className="text-tinta">{pregunta.pregunta}</span>
         <span
           aria-hidden
-          className="text-azul-700 shrink-0 text-xl transition-transform group-open:rotate-45"
+          className="border-tinta/60 text-tinta flex h-7 w-7 shrink-0 items-center justify-center rounded-full border-2 text-base leading-none transition-transform group-open:rotate-45"
         >
           +
         </span>
       </summary>
-      <div className="border-borde border-t px-5 py-5">
+      <div className="border-tinta/50 border-t-2 px-5 py-5">
         <CuerpoPregunta datos={datos} />
         <p className="not-print mt-5">
           <Link
             href={`/guias/${pregunta.slug}`}
-            className="text-azul-700 rounded text-sm underline"
+            className="barrido text-azul-700 rounded text-sm"
           >
             Abrir esta guía en su propia página
           </Link>

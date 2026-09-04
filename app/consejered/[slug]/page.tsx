@@ -41,7 +41,7 @@ export default async function PaginaPerfil({ params }: Props) {
     <div className="mx-auto max-w-5xl px-5 py-12">
       <Link
         href="/consejered"
-        className="text-azul-700 rounded text-sm underline"
+        className="text-azul-700 barrido rounded text-sm"
       >
         ← Volver al Pasillo
       </Link>
@@ -61,7 +61,7 @@ export default async function PaginaPerfil({ params }: Props) {
             </p>
           ) : null}
 
-          <dl className="border-borde mt-6 space-y-3 border-t pt-6 text-sm">
+          <dl className="border-tinta/60 mt-6 space-y-3 border-t pt-6 text-sm">
             {perfil.contacto.oficina ? (
               <div>
                 <dt className="text-gris">Dónde encontrarla</dt>
@@ -104,7 +104,7 @@ export default async function PaginaPerfil({ params }: Props) {
 
         {/* ── Columna derecha ───────────────────────────────────────────── */}
         <div>
-          <h1 className="font-titulo text-azul-900 text-4xl font-bold">
+          <h1 className="font-titulo text-tinta text-[2.75rem] leading-[0.95] font-bold tracking-[-0.035em] sm:text-[3.5rem]">
             {perfil.nombre}
           </h1>
           <p className="text-tinta mt-1 text-lg">{perfil.puesto}</p>
@@ -134,7 +134,7 @@ export default async function PaginaPerfil({ params }: Props) {
                 {perfil.credenciales.map((c) => (
                   <li
                     key={c.titulo + c.institucion}
-                    className="border-borde flex flex-wrap items-baseline justify-between gap-x-4 border-b pb-2.5"
+                    className="border-tinta/60 flex flex-wrap items-baseline justify-between gap-x-4 border-b pb-2.5"
                   >
                     <span className="text-tinta font-medium">{c.titulo}</span>
                     <span className="text-gris text-sm">

@@ -28,17 +28,34 @@ export function Sello({
   className = '',
   petalos = 11,
   giro = 0,
+  vivo = false,
 }: {
   className?: string;
   /** Menos pétalos = marca suelta (viñetas). Más = marca densa (marcas de agua). */
   petalos?: number;
   /** Rotación inicial en grados, para que dos sellos vecinos no sean gemelos. */
   giro?: number;
+  /**
+   * Añade la clase que hace florecer los pétalos al pasar el ratón por el
+   * `.group` que lo contiene, y el índice de cada pétalo como `--i` para que
+   * se abran en cascada y no de golpe.
+   *
+   * El efecto vive en globals.css y usa `scale` y `rotate` como propiedades
+   * INDIVIDUALES, nunca `transform`: la rotación de cada pétalo está en el
+   * atributo `transform` del SVG, que se asigna a la propiedad CSS del mismo
+   * nombre. Escribir `transform` desde CSS la pisaría y los once pétalos se
+   * apilarían encima del primero — una flor destruida en vez de abierta.
+   */
+  vivo?: boolean;
 }) {
   const paso = 360 / petalos;
 
   return (
-    <svg viewBox="-50 -50 100 100" className={className} aria-hidden="true">
+    <svg
+      viewBox="-50 -50 100 100"
+      className={vivo ? `sello-vivo ${className}` : className}
+      aria-hidden="true"
+    >
       <g fill="currentColor">
         {Array.from({ length: petalos }, (_, i) => {
           const largo = 46 * (RITMO[i % RITMO.length] ?? 0.8);
@@ -50,6 +67,7 @@ export function Sello({
               rx="5.2"
               ry={largo / 2}
               transform={`rotate(${giro + i * paso})`}
+              style={vivo ? ({ '--i': i } as React.CSSProperties) : undefined}
             />
           );
         })}
@@ -59,6 +77,19 @@ export function Sello({
 }
 
 /** El sello a tamaño de viñeta, para las cejillas en versalitas. */
-export function SelloMini({ className = '' }: { className?: string }) {
-  return <Sello petalos={8} giro={12} className={`h-3 w-3 ${className}`} />;
+export function SelloMini({
+  className = '',
+  vivo = false,
+}: {
+  className?: string;
+  vivo?: boolean;
+}) {
+  return (
+    <Sello
+      petalos={8}
+      giro={12}
+      vivo={vivo}
+      className={`h-3 w-3 ${className}`}
+    />
+  );
 }

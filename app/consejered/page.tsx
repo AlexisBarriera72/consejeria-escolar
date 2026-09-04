@@ -36,7 +36,7 @@ export default async function PaginaPasillo() {
       />
 
       {perfiles.length === 0 ? (
-        <p className="text-gris border-tinta/25 mt-10 rounded-2xl border border-dashed p-10 text-center">
+        <p className="text-gris border-tinta/60 mt-10 rounded-[1.25rem] border border-dashed p-10 text-center">
           Todavía no hay fichas en el tablón.
         </p>
       ) : (
@@ -64,7 +64,7 @@ export default async function PaginaPasillo() {
         >
           <ul className="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
             {perfiles.map((p, i) => (
-              <li key={p.id}>
+              <li key={p.id} className="revelar">
                 <TarjetaPerfil perfil={p} indice={i} />
               </li>
             ))}

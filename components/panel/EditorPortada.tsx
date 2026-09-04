@@ -29,6 +29,7 @@ const ETIQUETAS: Record<string, string> = {
   tituloAcento: 'Titular, palabra destacada',
   tituloDespues: 'Titular, final',
   lede: 'Presentación debajo del titular',
+  nota: 'Nota manuscrita junto a las tarjetas',
   recienteEtiqueta: 'Etiqueta del anuncio destacado',
   sinNoticias: 'Texto cuando no hay anuncios',
   puertaAntes: 'Título de la puerta, primera parte',

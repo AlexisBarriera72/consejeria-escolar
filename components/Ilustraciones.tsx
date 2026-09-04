@@ -31,11 +31,7 @@ export function Megafono({ className = '' }: Props) {
         d="M18 46c0-4 3-7 7-7h13l34-20c3-2 7 0 7 4v52c0 4-4 6-7 4L38 59H25c-4 0-7-3-7-7z"
         fill="var(--color-azul-700)"
       />
-      <path
-        d="M38 39h8v20h-8z"
-        fill="var(--color-azul-900)"
-        opacity=".45"
-      />
+      <path d="M38 39h8v20h-8z" fill="var(--color-azul-900)" opacity=".45" />
       <path
         d="M40 59h12l3 22c.3 3-2 5-5 5h-4c-2 0-4-1-4-3z"
         fill="var(--color-azul-900)"
@@ -116,23 +112,11 @@ export function Maceta({ className = '' }: Props) {
     <svg viewBox="0 0 110 120" {...base(className)}>
       <g fill="var(--color-salvia)">
         <ellipse cx="55" cy="36" rx="9" ry="26" />
-        <ellipse
-          cx="34"
-          cy="46"
-          rx="8"
-          ry="22"
-          transform="rotate(-32 34 46)"
-        />
+        <ellipse cx="34" cy="46" rx="8" ry="22" transform="rotate(-32 34 46)" />
         <ellipse cx="76" cy="46" rx="8" ry="22" transform="rotate(32 76 46)" />
       </g>
       <g fill="var(--color-menta)" opacity=".85">
-        <ellipse
-          cx="22"
-          cy="62"
-          rx="7"
-          ry="17"
-          transform="rotate(-58 22 62)"
-        />
+        <ellipse cx="22" cy="62" rx="7" ry="17" transform="rotate(-58 22 62)" />
         <ellipse cx="88" cy="62" rx="7" ry="17" transform="rotate(58 88 62)" />
       </g>
       <path
@@ -211,7 +195,13 @@ export function Libros({ className = '' }: Props) {
           ry="12"
           transform="rotate(-34 103 50)"
         />
-        <ellipse cx="125" cy="50" rx="5" ry="12" transform="rotate(34 125 50)" />
+        <ellipse
+          cx="125"
+          cy="50"
+          rx="5"
+          ry="12"
+          transform="rotate(34 125 50)"
+        />
       </g>
     </svg>
   );
@@ -324,6 +314,61 @@ export function IconoCalendario({ className = '' }: Props) {
         stroke="currentColor"
         strokeWidth="2.2"
         strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+/**
+ * El trazo de marcador que va DETRÁS de la palabra destacada del titular.
+ *
+ * Sustituye al subrayado fino. El cambio no es solo estético: con la palabra
+ * en `tinta` sobre ámbar el contraste sube a 10.15:1, mientras que el azul en
+ * cursiva sobre la malla se quedaba en 4.59 — correcto, pero sin margen.
+ * Aquí la decoración es lo que mejora la lectura, no lo que la estorba.
+ *
+ * `preserveAspectRatio="none"` para que el trazo se estire al ancho de la
+ * palabra sea cual sea, y los bordes irregulares del path para que parezca
+ * pasado a mano y no un rectángulo redondeado.
+ */
+export function TrazoMarcador({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 200 46"
+      preserveAspectRatio="none"
+      aria-hidden
+      className={className}
+    >
+      <path
+        d="M5.4 31.8C17 22.4 46.6 17.2 94.8 16.1c38.3-.9 74.6 1.4 96.8 6.6 6.2 1.4 5.4 8.4-1.7 10.4-24.2 6.6-64.6 9.9-105 9.6-32.4-.2-60.6-2.6-78.6-6.1-6.1-1.2-6.8-4.6-.9-4.8z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+/**
+ * Flecha dibujada a mano, del tipo que se traza al margen de un cuaderno.
+ *
+ * Conecta una nota manuscrita con lo que señala. Va siempre con `aria-hidden`:
+ * lo que dice la nota tiene que entenderse sin ver la flecha, porque para
+ * quien usa lector de pantalla la flecha no existe.
+ */
+export function FlechaMano({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 132 96" fill="none" aria-hidden className={className}>
+      <path
+        d="M9 8c16.4 20.6 23.4 39.6 20.4 55.4-1.6 8.4-6.6 13-11 10.6-4.4-2.4-3.6-9.6 3-14.6C33.6 50.2 62 46 96 58.4c9 3.2 17.4 7.6 25 13"
+        stroke="currentColor"
+        strokeWidth="2.6"
+        strokeLinecap="round"
+      />
+      <path
+        d="M104.8 78.6 121 71.4l-7.8-15.8"
+        stroke="currentColor"
+        strokeWidth="2.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

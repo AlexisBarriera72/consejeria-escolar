@@ -50,7 +50,7 @@ export function TarjetaPerfil({
         </div>
 
         {perfil.estadoDelDia ? (
-          <p className="border-tinta/15 text-tinta mt-4 border-t pt-3 text-sm">
+          <p className="border-tinta/60 text-tinta mt-4 border-t pt-3 text-sm">
             {perfil.estadoDelDia}
           </p>
         ) : null}

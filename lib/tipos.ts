@@ -209,6 +209,8 @@ export type Portada = {
   tituloAcento: string;
   tituloDespues: string;
   lede: string;
+  /** La nota manuscrita que señala las tarjetas, al margen del titular. */
+  nota: string;
   secciones: TarjetaPortada[];
   recienteEtiqueta: string;
   sinNoticias: string;

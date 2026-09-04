@@ -360,6 +360,222 @@
    La Sección 10 amplía esto a las noticias y los perfiles.
    ─────────────────────────────────────────────────────────────────────── */
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   MOVIMIENTO
+
+   Cuatro reglas de la casa, y ninguna es opcional aquí. Esto lo abre gente de
+   quince años, a veces con ansiedad, muchas veces en un Chromebook del
+   colegio:
+
+     1. Todo se apaga con `prefers-reduced-motion`. El bloque global de
+        @layer base ya recorta duraciones, pero eso NO basta cuando el estado
+        de reposo es invisible: si algo empieza en `clip-path: inset(0 100% 0 0)`
+        y se le quita la animación, se queda escondido para siempre. Por eso
+        cada efecto de este bloque devuelve su estado final a mano.
+     2. Solo `transform`, `translate`, `rotate`, `scale`, `opacity` y
+        `clip-path`. Nada de `width`, `top`, `margin` ni `filter`: eso corre en
+        el hilo principal y tirita justo en las máquinas donde se va a usar.
+     3. Nada en bucle al lado de un texto. El fondo puede respirar; un latido
+        junto a un párrafo lo vuelve ilegible para quien tiene dislexia.
+     4. Nada importante detrás de un hover. Todo lo de aquí es decoración
+        encima de algo que ya funciona con teclado y con el pulgar.
+   ═════════════════════════════════════════════════════════════════════════ */
+
+/* ── El trazo de marcador se pinta solo ──────────────────────────────────
+   El resaltado es un <path> con relleno, no con trazo, así que
+   `stroke-dashoffset` no sirve de nada: hay que recortarlo. */
+@keyframes pintar-trazo {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+.pintar-trazo {
+  clip-path: inset(0 100% 0 0);
+  animation: pintar-trazo 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.35s
+    forwards;
+}
+
+/* Sin esto el trazo se quedaría recortado a cero para siempre: la regla
+   global solo acorta la duración, no devuelve el estado final. */
+@media (prefers-reduced-motion: reduce) {
+  .pintar-trazo {
+    clip-path: inset(0 0 0 0);
+    animation: none;
+  }
+}
+
+/* ── Aparecer al entrar en pantalla ──────────────────────────────────────
+   `animation-timeline: view()` es nativo y no necesita JavaScript. Los
+   navegadores que no lo soportan enseñan el contenido y ya está, que es
+   exactamente el respaldo correcto.
+
+   OJO con el estado de reposo: el contenido NUNCA se queda en opacity 0
+   esperando. Si el soporte falla o el JS no llega, la portada sigue siendo
+   la portada. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .revelar {
+      animation: subir linear both;
+      animation-timeline: view();
+      animation-range: entry 8% cover 32%;
+    }
+  }
+}
+
+/* ── El sello florece ────────────────────────────────────────────────────
+   Los pétalos llevan su rotación en el ATRIBUTO `transform` del SVG, que se
+   asigna a la propiedad CSS `transform`. Escribir `transform` en CSS lo
+   pisaría y los once pétalos se apilarían encima del primero.
+
+   Por eso aquí se usan `scale` y `rotate` como propiedades individuales: el
+   navegador las compone CON el transform del atributo en vez de sustituirlo.
+   Es la diferencia entre una flor que se abre y una flor que se destruye. */
+@media (prefers-reduced-motion: no-preference) {
+  .sello-vivo ellipse {
+    transform-box: view-box;
+    transform-origin: center;
+    transition: scale 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition-delay: calc(var(--i, 0) * 18ms);
+  }
+
+  .group:hover .sello-vivo ellipse {
+    scale: 1.14;
+  }
+
+  .sello-vivo {
+    transition: rotate 1.2s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+
+  .group:hover .sello-vivo {
+    rotate: 36deg;
+  }
+}
+
+/* ── El fondo respira ────────────────────────────────────────────────────
+   La malla es una capa fija; se agranda un 8% por cada lado para que al
+   desplazarla no asome el borde. 40 s y 18 px de recorrido: por debajo del
+   umbral de "algo se está moviendo" y por encima del de "esto es un cartel". */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes respirar-malla {
+    0%,
+    100% {
+      translate: 0 0;
+    }
+    33% {
+      translate: 14px -10px;
+    }
+    66% {
+      translate: -10px 12px;
+    }
+  }
+
+  body::before {
+    inset: -8%;
+    animation: respirar-malla 40s ease-in-out infinite;
+  }
+}
+
+/* ── Flotar: para la tarjeta del megáfono ────────────────────────────────
+   Lejos del texto corrido, que es la única razón por la que un bucle
+   infinito es aceptable aquí. */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes flotar {
+    0%,
+    100% {
+      translate: 0 0;
+    }
+    50% {
+      translate: 0 -6px;
+    }
+  }
+
+  .flotar {
+    animation: flotar 7s ease-in-out infinite;
+  }
+}
+
+/* ── Subrayado que se barre de izquierda a derecha ───────────────────────
+   `scale-x` y no `width`: lo primero lo compone la GPU, lo segundo obliga a
+   recalcular la maquetación en cada fotograma. */
+.barrido {
+  position: relative;
+}
+
+.barrido::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  bottom: -2px;
+  height: 2px;
+  background: currentColor;
+  scale: 0 1;
+  transform-origin: left;
+  transition: scale 0.28s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.barrido:hover::after,
+.barrido:focus-visible::after {
+  scale: 1 1;
+}
+
+/* ── Efectos que SOLO tienen sentido con un ratón ────────────────────────
+   Detrás de `hover:hover` y `pointer:fine` a propósito. En un teléfono —que
+   es la mayoría de las visitas— un efecto de puntero se queda enganchado
+   después de tocar, y el resultado es una tarjeta torcida que no se endereza
+   hasta que tocas otra cosa. */
+@media (hover: hover) and (pointer: fine) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* `transform` para el giro 3D, y `rotate`/`translate` porque la tarjeta
+       ya usa esas dos propiedades individuales para su inclinación de reposo
+       y su salto al pasar el ratón. Este bloque va SIN capa, así que gana a
+       las utilidades de Tailwind: si aquí solo se declarase `transform`, la
+       transición de las otras dos desaparecería y la tarjeta se enderezaría
+       de golpe en vez de con suavidad. */
+    .inclinable {
+      transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+      transition:
+        transform 0.28s cubic-bezier(0.22, 0.61, 0.36, 1),
+        rotate 0.28s cubic-bezier(0.22, 0.61, 0.36, 1),
+        translate 0.28s cubic-bezier(0.22, 0.61, 0.36, 1);
+    }
+
+    /* Mientras el puntero está encima, la transición se acorta casi a cero:
+       si no, la tarjeta persigue al cursor con medio segundo de retraso y se
+       siente rota en vez de física. */
+    .inclinable[data-activo] {
+      transition:
+        transform 0.06s linear,
+        rotate 0.28s cubic-bezier(0.22, 0.61, 0.36, 1),
+        translate 0.28s cubic-bezier(0.22, 0.61, 0.36, 1);
+    }
+  }
+
+  /* La luz que sigue al puntero. El gradiente va en un ::after para no tocar
+     el fondo de la tarjeta, que en las de color ya lleva su acento. */
+  .foco::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.25s;
+    background: radial-gradient(
+      220px circle at var(--mx, 50%) var(--my, 50%),
+      rgb(255 255 255 / 0.42),
+      transparent 62%
+    );
+  }
+
+  .foco:hover::after {
+    opacity: 1;
+  }
+}
+
 @media print {
   /* Navegación, botones y cualquier cosa que en papel no se pueda pulsar. */
   .not-print,

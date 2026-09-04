@@ -75,14 +75,14 @@ export function UtilidadGuia({ slug }: { slug: string }) {
       <button
         type="button"
         onClick={() => votar('si')}
-        className="border-borde hover:border-azul-500 rounded-full border px-3.5 py-1 text-sm"
+        className="border-tinta/60 hover:border-azul-500 rounded-full border px-3.5 py-1 text-sm"
       >
         Sí
       </button>
       <button
         type="button"
         onClick={() => votar('no')}
-        className="border-borde hover:border-azul-500 rounded-full border px-3.5 py-1 text-sm"
+        className="border-tinta/60 hover:border-azul-500 rounded-full border px-3.5 py-1 text-sm"
       >
         No
       </button>

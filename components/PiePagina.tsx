@@ -103,7 +103,7 @@ export function PiePagina() {
                     <li key={e.href}>
                       <Link
                         href={e.href}
-                        className="text-gris hover:text-azul-700 rounded underline-offset-4 hover:underline"
+                        className="barrido text-gris hover:text-azul-700 rounded"
                       >
                         {e.texto}
                       </Link>

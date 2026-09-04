@@ -62,18 +62,18 @@ export default async function PaginaNoticias() {
             </h2>
             <Link
               href="/noticias/archivo"
-              className="text-azul-700 rounded text-sm underline"
+              className="text-azul-700 barrido rounded text-sm"
             >
               Ver ediciones anteriores
             </Link>
           </div>
 
           {resto.length === 0 ? (
-            <p className="text-gris border-borde mt-4 rounded-2xl border border-dashed p-8 text-center text-sm">
+            <p className="text-gris border-tinta/60 mt-4 rounded-[1.25rem] border border-dashed p-8 text-center text-sm">
               No hay más anuncios por ahora.
             </p>
           ) : (
-            <div className="mt-5 grid gap-5 sm:grid-cols-2">
+            <div className="revelar mt-5 grid gap-5 sm:grid-cols-2">
               {resto.map((a) => (
                 <TarjetaAnuncio
                   key={a.id}
@@ -98,7 +98,7 @@ export default async function PaginaNoticias() {
           </ul>
           <Link
             href="/consejered"
-            className="text-azul-700 mt-4 inline-block rounded text-sm underline"
+            className="text-azul-700 barrido mt-4 inline-block rounded text-sm"
           >
             Ver todo el equipo
           </Link>
@@ -119,7 +119,7 @@ export default async function PaginaNoticias() {
 async function EstadoVacio() {
   const preguntas = await obtenerPreguntas();
   return (
-    <div className="border-borde bg-azul-100/40 mt-8 rounded-2xl border border-dashed p-10 text-center">
+    <div className="border-tinta/60 bg-azul-100/40 mt-8 rounded-[1.25rem] border border-dashed p-10 text-center">
       <p className="font-titulo text-azul-900 text-xl font-bold">
         No hay anuncios nuevos ahora mismo.
       </p>
@@ -129,7 +129,7 @@ async function EstadoVacio() {
           <li key={p.id}>
             <Link
               href={`/guias/${p.slug}`}
-              className="border-borde text-tinta hover:border-azul-500 bg-crema rounded-full border px-4 py-1.5 text-sm"
+              className="border-tinta/60 text-tinta hover:border-azul-500 bg-crema rounded-full border px-4 py-1.5 text-sm"
             >
               {p.pregunta}
             </Link>

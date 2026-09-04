@@ -48,7 +48,7 @@ export default async function PaginaAnuncio({ params }: Props) {
     <div className="mx-auto max-w-3xl px-5 py-12">
       <Link
         href="/noticias"
-        className="text-azul-700 not-print rounded text-sm underline"
+        className="text-azul-700 not-print barrido rounded text-sm"
       >
         ← Todas las noticias
       </Link>
@@ -68,12 +68,12 @@ export default async function PaginaAnuncio({ params }: Props) {
         />
       </div>
 
-      <div className="border-borde not-print mt-8 flex flex-wrap gap-3 border-t pt-6">
+      <div className="border-tinta/60 not-print mt-8 flex flex-wrap gap-3 border-t pt-6">
         <BotonCompartir titulo={anuncio.titulo} />
         <BotonImprimir />
         <Link
           href="/noticias/archivo"
-          className="border-borde hover:border-azul-500 rounded-full border px-4 py-1.5 text-sm"
+          className="border-tinta/60 hover:border-azul-500 rounded-full border px-4 py-1.5 text-sm"
         >
           Ediciones anteriores
         </Link>
