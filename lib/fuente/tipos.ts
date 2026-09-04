@@ -17,7 +17,12 @@
  */
 
 export type NombreArchivo =
-  'categorias' | 'preguntas' | 'noticias' | 'perfiles' | 'aviso';
+  | 'categorias'
+  | 'preguntas'
+  | 'noticias'
+  | 'perfiles'
+  | 'aviso'
+  | 'portada';
 
 export interface FuenteContenido {
   /** Nombre para los mensajes de diagnóstico. */

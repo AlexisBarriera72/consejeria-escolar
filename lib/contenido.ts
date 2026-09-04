@@ -1,6 +1,13 @@
 import 'server-only';
 import { cache } from 'react';
-import type { Anuncio, Aviso, Categoria, Perfil, Pregunta } from './tipos';
+import type {
+  Anuncio,
+  Aviso,
+  Categoria,
+  Perfil,
+  Portada,
+  Pregunta,
+} from './tipos';
 import { conRelacionesMutuas } from './mutuos';
 import { fuente } from './fuente';
 
@@ -22,6 +29,7 @@ const leerPreguntas = cache(() => fuente.leer<Pregunta[]>('preguntas'));
 const leerNoticias = cache(() => fuente.leer<Anuncio[]>('noticias'));
 const leerPerfiles = cache(() => fuente.leer<Perfil[]>('perfiles'));
 const leerAviso = cache(() => fuente.leer<Aviso>('aviso'));
+const leerPortada = cache(() => fuente.leer<Portada>('portada'));
 
 /** Lo que el público puede ver: publicado y no borrado. */
 function esVisible<T extends { estado: string; eliminadoEn: string | null }>(
@@ -195,6 +203,18 @@ export async function guardarCategorias(datos: Categoria[], mensaje: string) {
 export async function guardarAviso(datos: Aviso, mensaje: string) {
   await fuente.escribir('aviso', datos, mensaje);
 }
+export async function guardarPortada(datos: Portada, mensaje: string) {
+  await fuente.escribir('portada', datos, mensaje);
+}
+
+/**
+ * El texto de la portada. No tiene estado ni papelera: es una sola pieza que
+ * siempre está publicada, como el aviso. Guardarla ES publicarla, y por eso
+ * el editor enseña el resultado antes de dejar guardar.
+ */
+export async function obtenerPortada(): Promise<Portada> {
+  return leerPortada();
+}
 
 /** Listas crudas, sin filtrar, para leer-modificar-escribir. */
 export const crudo = {
@@ -203,6 +223,7 @@ export const crudo = {
   perfiles: () => leerPerfiles(),
   categorias: () => leerCategorias(),
   aviso: () => leerAviso(),
+  portada: () => leerPortada(),
 };
 
 /**

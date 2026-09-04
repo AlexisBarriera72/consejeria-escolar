@@ -134,19 +134,22 @@ export function instantaneaServidor(): Rol | null {
 }
 
 /**
- * La "lente" (doc 06 §1): el mismo contenido, ordenado y descrito según
- * quién mira. Es lo que hace que preguntar valga la pena — si la respuesta
- * no cambiara nada, la pregunta sobraría.
+ * La "lente" (doc 06 §1): el mismo contenido, descrito según quién mira. Es
+ * lo que hace que preguntar valga la pena — si la respuesta no cambiara nada,
+ * la pregunta sobraría.
+ *
+ * La lente ORDENABA además las tres tarjetas de la portada, con una tabla
+ * `ORDEN_SECCIONES` que vivía aquí. Se quitó al hacer la portada editable:
+ * el orden lo pone ahora la consejera desde el panel y está en
+ * `contenido/portada.json`. Dos sitios decidiendo el mismo orden — uno en
+ * código y otro en contenido — solo podía acabar en que el panel enseñara
+ * una cosa y el sitio otra.
+ *
+ * Lo que la lente sí sigue haciendo, y es donde de verdad aporta: cada
+ * tarjeta tiene su descripción para estudiante, para encargado y para quien
+ * entra sin decir nada. Eso se edita en el panel con un selector de rol.
  */
 export type ClaveSeccion = 'guias' | 'noticias' | 'consejered';
-
-export const ORDEN_SECCIONES: Record<Rol, ClaveSeccion[]> = {
-  // Un estudiante llega con una pregunta concreta.
-  estudiante: ['guias', 'noticias', 'consejered'],
-  // Un encargado llega a ver qué pasa en la escuela.
-  encargado: ['noticias', 'guias', 'consejered'],
-  invitado: ['guias', 'noticias', 'consejered'],
-};
 
 /**
  * Cuenta la visita una sola vez por navegador y por mes.

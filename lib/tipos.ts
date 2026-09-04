@@ -1,3 +1,4 @@
+import type { ClaveSeccion } from './rol';
 /**
  * Modelo de contenido (doc 02).
  *
@@ -168,4 +169,54 @@ export type Perfil = Base & {
   trabajaCon: string[];
   contacto: Contacto;
   orden: number;
+};
+
+// ── La portada ─────────────────────────────────────────────────────────────
+
+/**
+ * El texto de la página de inicio.
+ *
+ * Estaba escrito a mano dentro de components/Inicio.tsx, así que cambiar una
+ * coma de la portada era una tarea de programación. Ahora es contenido como
+ * cualquier otro y se edita desde el panel.
+ *
+ * El ORDEN del array `secciones` es el orden en que salen las tres tarjetas.
+ * Antes lo decidía `ORDEN_SECCIONES` en lib/rol.ts según el rol; ahora manda
+ * lo que la consejera coloque, que es lo único que se puede reordenar desde
+ * una pantalla sin volverse un rompecabezas. Lo que SÍ sigue cambiando por
+ * rol es la descripción de cada tarjeta, que es donde la lente (doc 06 §1)
+ * de verdad aporta: el mismo sitio, explicado con las palabras de quien mira.
+ */
+export type TextoPorRol = {
+  estudiante: string;
+  encargado: string;
+  invitado: string;
+};
+
+export type TarjetaPortada = {
+  clave: ClaveSeccion;
+  titulo: string;
+  descripcion: TextoPorRol;
+  /** El texto del enlace del final: "Abrir el archivador". */
+  verbo: string;
+};
+
+export type Portada = {
+  cejilla: string;
+  escuela: string;
+  /** El titular va partido en tres para poder poner UNA palabra en cursiva. */
+  tituloAntes: string;
+  tituloAcento: string;
+  tituloDespues: string;
+  lede: string;
+  secciones: TarjetaPortada[];
+  recienteEtiqueta: string;
+  sinNoticias: string;
+  puertaAntes: string;
+  puertaAcento: string;
+  puertaDespues: string;
+  puertaTexto: string;
+  puertaBoton: string;
+  /** Cuál de los dos bloques de abajo va primero. */
+  ordenAbajo: 'noticias-puerta' | 'puerta-noticias';
 };

@@ -1,0 +1,48 @@
+{
+  "cejilla": "Oficina de Consejería",
+  "escuela": "Escuela Superior [Nombre]",
+  "tituloAntes": "Por dónde",
+  "tituloAcento": "empezar",
+  "tituloDespues": ".",
+  "lede": "Sra. [Nombre Apellido], consejera escolar. Tres sitios, y en cualquiera de ellos puedes mirar sin decir quién eres.",
+  "secciones": [
+    {
+      "clave": "guias",
+      "titulo": "Preguntas y Guías",
+      "descripcion": {
+        "estudiante": "Respuestas a lo que casi todo el mundo pregunta, sin tener que preguntar.",
+        "encargado": "Requisitos, becas y trámites explicados paso a paso.",
+        "invitado": "Respuestas cortas a las preguntas más comunes."
+      },
+      "verbo": "Abrir el archivador"
+    },
+    {
+      "clave": "noticias",
+      "titulo": "Noticias",
+      "descripcion": {
+        "estudiante": "Lo que está pasando en la escuela esta semana.",
+        "encargado": "Anuncios y avisos importantes de la escuela.",
+        "invitado": "Los anuncios más recientes de la escuela."
+      },
+      "verbo": "Leer el tablón"
+    },
+    {
+      "clave": "consejered",
+      "titulo": "El equipo",
+      "descripcion": {
+        "estudiante": "Quiénes somos y dónde encontrarnos.",
+        "encargado": "El equipo de apoyo y cómo contactarlo.",
+        "invitado": "El equipo de la oficina de consejería."
+      },
+      "verbo": "Conocer al equipo"
+    }
+  ],
+  "recienteEtiqueta": "Lo más reciente",
+  "sinNoticias": "Todavía no hay anuncios. Cuando la oficina publique el primero, aparecerá aquí.",
+  "puertaAntes": "La puerta está",
+  "puertaAcento": "abierta",
+  "puertaDespues": ".",
+  "puertaTexto": "No hace falta cita ni escribir antes. Puedes pasar, preguntar lo que sea, y decidir después si quieres contarlo todo.",
+  "puertaBoton": "Ver qué días está libre",
+  "ordenAbajo": "noticias-puerta"
+}

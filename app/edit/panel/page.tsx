@@ -84,6 +84,26 @@ export default async function PaginaPanel() {
         ))}
       </div>
 
+      {/* La portada va aparte de las tres tarjetas de arriba a propósito: esas
+          administran LISTAS de cosas, esto es una página concreta que se
+          edita encima de sí misma. Mezclarlas haría pensar que aquí también
+          hay borradores y papelera, y no los hay. */}
+      <Link
+        href="/edit/panel/portada"
+        className="border-azul-500 hover:bg-azul-100/40 mt-5 flex flex-wrap items-center gap-x-6 gap-y-2 rounded-2xl border-2 border-dashed bg-white p-6 transition-colors"
+      >
+        <div>
+          <h2 className="font-titulo text-azul-900 text-xl font-bold">
+            La portada
+          </h2>
+          <p className="text-gris mt-1 text-sm">
+            El texto de la página de inicio y el orden de las tarjetas. Se
+            escribe encima de la página misma.
+          </p>
+        </div>
+        <p className="text-azul-700 ml-auto font-semibold underline">Abrir</p>
+      </Link>
+
       <div className="mt-8">
         <ControlAviso aviso={aviso} />
       </div>

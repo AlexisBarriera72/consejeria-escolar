@@ -14,9 +14,10 @@ import {
   Subrayado,
 } from './Ilustraciones';
 import { useRol } from './ProveedorRol';
-import { ORDEN_SECCIONES, type ClaveSeccion, type Rol } from '@/lib/rol';
+import { type ClaveSeccion, type Rol } from '@/lib/rol';
 import { coincide } from '@/lib/busqueda';
 import { BANDA_ACENTO, type Acento } from './ui/Tarjeta';
+import type { Portada } from '@/lib/tipos';
 
 export type Vistas = {
   guias: { pregunta: string; slug: string }[];
@@ -30,55 +31,54 @@ export type Vistas = {
   contacto: { oficina: string | null; horario: string | null } | null;
 };
 
-const SECCIONES: Record<
-  ClaveSeccion,
-  { titulo: string; href: string; acento: Acento; verbo: string }
-> = {
-  guias: {
-    titulo: 'Preguntas y Guías',
-    href: '/guias',
-    acento: 'turquesa',
-    verbo: 'Abrir el archivador',
-  },
-  noticias: {
-    titulo: 'Noticias',
-    href: '/noticias',
-    acento: 'rosa',
-    verbo: 'Leer el tablón',
-  },
-  consejered: {
-    titulo: 'El equipo',
-    href: '/consejered',
-    acento: 'naranja',
-    verbo: 'Conocer al equipo',
-  },
+/** Lo que NO es texto y por tanto no se edita: a dónde va cada tarjeta y de
+ *  qué color es. Cambiar eso no es escribir, es rehacer el sitio. */
+const RUTA: Record<ClaveSeccion, { href: string; acento: Acento }> = {
+  guias: { href: '/guias', acento: 'turquesa' },
+  noticias: { href: '/noticias', acento: 'rosa' },
+  consejered: { href: '/consejered', acento: 'naranja' },
 };
 
-const BURBUJA: Record<ClaveSeccion, Record<Rol, string>> = {
-  guias: {
-    estudiante:
-      'Respuestas a lo que casi todo el mundo pregunta, sin tener que preguntar.',
-    encargado: 'Requisitos, becas y trámites explicados paso a paso.',
-    invitado: 'Respuestas cortas a las preguntas más comunes.',
-  },
-  noticias: {
-    estudiante: 'Lo que está pasando en la escuela esta semana.',
-    encargado: 'Anuncios y avisos importantes de la escuela.',
-    invitado: 'Los anuncios más recientes de la escuela.',
-  },
-  consejered: {
-    estudiante: 'Quiénes somos y dónde encontrarnos.',
-    encargado: 'El equipo de apoyo y cómo contactarlo.',
-    invitado: 'El equipo de la oficina de consejería.',
-  },
+/**
+ * Ganchos de edición.
+ *
+ * El panel NO reimplementa la portada: monta este mismo componente y le pasa
+ * estos ganchos. Es la única forma de que lo que se edita y lo que se publica
+ * no se separen con el tiempo — cualquier cambio de maquetación aparece en
+ * los dos sitios porque son el mismo archivo.
+ *
+ * Sin ganchos, `campo` devuelve el texto tal cual y no hay ni un nodo de más
+ * en el HTML público.
+ */
+export type Ganchos = {
+  /** `clave` es la ruta del dato: "lede", "secciones.0.titulo". */
+  campo?: (clave: string, valor: string) => React.ReactNode;
+  controlesTarjeta?: (indice: number) => React.ReactNode;
+  controlesAbajo?: (cual: 'noticias' | 'puerta') => React.ReactNode;
 };
 
-export function Inicio({ vistas }: { vistas: Vistas }) {
+export function Inicio({
+  vistas,
+  portada,
+  ganchos,
+  rolForzado,
+}: {
+  vistas: Vistas;
+  portada: Portada;
+  ganchos?: Ganchos;
+  /** El editor previsualiza un rol concreto en vez del del navegador. */
+  rolForzado?: Rol;
+}) {
   const { rol, nombre } = useRol();
 
-  const rolEfectivo: Rol = rol ?? 'invitado';
+  const rolEfectivo: Rol = rolForzado ?? rol ?? 'invitado';
   const primerNombre = nombre?.split(/\s+/)[0] ?? null;
-  const orden = ORDEN_SECCIONES[rolEfectivo];
+  const campo = ganchos?.campo ?? ((_clave: string, valor: string) => valor);
+  // En el editor los enlaces no navegan. No es comodidad: los textos
+  // editables son focusables, y un control focusable DENTRO de un <a> es un
+  // fallo de accesibilidad serio además de un clic que te saca de la página
+  // que estabas editando.
+  const edicion = Boolean(ganchos);
 
   return (
     <div className="overflow-x-clip">
@@ -90,38 +90,46 @@ export function Inicio({ vistas }: { vistas: Vistas }) {
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-gris flex items-center justify-center gap-2.5 text-xs font-semibold tracking-[0.16em] uppercase">
             <SelloMini className="text-coral-700" />
-            {primerNombre ? `Hola, ${primerNombre}` : 'Oficina de Consejería'}
+            {/* El saludo con nombre pisa la cejilla cuando alguien lo dio.
+                En el editor no hay nombre, así que siempre se ve el texto
+                editable. */}
+            {primerNombre
+              ? `Hola, ${primerNombre}`
+              : campo('cejilla', portada.cejilla)}
             <span aria-hidden className="opacity-40">
               ·
             </span>
-            Escuela Superior [Nombre]
+            {campo('escuela', portada.escuela)}
           </p>
 
           <h1 className="font-titulo text-tinta mt-4 text-[3.4rem] leading-[0.94] font-bold tracking-[-0.035em] sm:text-[4.5rem] lg:text-[5.5rem]">
-            Por dónde{' '}
+            {campo('tituloAntes', portada.tituloAntes)}{' '}
             {/* El subrayado se ancla a la palabra, no al titular: si el texto
                 cambia de largo o salta de línea, el trazo lo sigue. */}
             <span className="relative inline-block">
-              <em className="text-azul-700 italic">empezar</em>
+              <em className="text-azul-700 italic">
+                {campo('tituloAcento', portada.tituloAcento)}
+              </em>
               <Subrayado className="text-ambar absolute -bottom-1.5 left-0 h-3 w-full" />
             </span>
-            .
+            {campo('tituloDespues', portada.tituloDespues)}
           </h1>
 
           <p className="text-gris mx-auto mt-5 max-w-md text-[0.95rem] leading-relaxed">
-            Sra. [Nombre Apellido], consejera escolar. Tres sitios, y en
-            cualquiera de ellos puedes mirar sin decir quién eres.
+            {campo('lede', portada.lede)}
           </p>
         </div>
 
         <ol className="mt-10 grid gap-5 md:grid-cols-3">
-          {orden.map((clave, i) => {
-            const s = SECCIONES[clave];
+          {portada.secciones.map((s, i) => {
+            const r = RUTA[s.clave];
             return (
-              <li key={clave}>
-                <Link
-                  href={s.href}
-                  className={`group text-tinta relative flex h-full flex-col overflow-hidden rounded-2xl p-7 transition-transform hover:-translate-y-1 ${BANDA_ACENTO[s.acento]}`}
+              <li key={s.clave} className="relative">
+                {ganchos?.controlesTarjeta?.(i)}
+                <Envoltura
+                  edicion={edicion}
+                  href={r.href}
+                  className={`group text-tinta relative flex h-full flex-col overflow-hidden rounded-2xl p-7 transition-transform hover:-translate-y-1 ${BANDA_ACENTO[r.acento]}`}
                 >
                   <Sello
                     petalos={12}
@@ -136,14 +144,17 @@ export function Inicio({ vistas }: { vistas: Vistas }) {
                   </span>
 
                   <h2 className="font-titulo relative mt-6 text-3xl leading-[1.08] font-bold tracking-[-0.015em]">
-                    {s.titulo}
+                    {campo(`secciones.${i}.titulo`, s.titulo)}
                   </h2>
                   <p className="relative mt-2.5 leading-snug">
-                    {BURBUJA[clave][rolEfectivo]}
+                    {campo(
+                      `secciones.${i}.descripcion.${rolEfectivo}`,
+                      s.descripcion[rolEfectivo],
+                    )}
                   </p>
 
                   <p className="border-tinta/20 relative mt-auto flex items-center gap-2 border-t pt-5 text-sm font-semibold">
-                    {s.verbo}
+                    {campo(`secciones.${i}.verbo`, s.verbo)}
                     <span
                       aria-hidden
                       className="transition-transform group-hover:translate-x-1.5"
@@ -151,7 +162,7 @@ export function Inicio({ vistas }: { vistas: Vistas }) {
                       →
                     </span>
                   </p>
-                </Link>
+                </Envoltura>
               </li>
             );
           })}
@@ -160,123 +171,32 @@ export function Inicio({ vistas }: { vistas: Vistas }) {
 
       {/* ══ Al fondo: lo último y la puerta, uno al lado del otro ═════════ */}
       <section className="contenedor pb-4">
+        {/* Cuál va primero lo decide la portada, no el código: desde el panel
+            se pueden intercambiar sin tocar este archivo. */}
         <div className="grid gap-5 lg:grid-cols-2">
-          {vistas.destacada ? (
-            /*
-              La pieza del megáfono viene como TARJETA, no como recorte: es un
-              rectángulo azul opaco con el megáfono abajo a la derecha y el
-              resto liso para poner texto encima. Así que se usa tal cual, de
-              fondo con `cover` anclado abajo a la derecha — el megáfono
-              sobrevive a cualquier recorte y el azul liso rellena el resto.
-              El color de respaldo es el mismo azul del archivo (#123f84), no
-              azul-900, para que no se vea el canto si la imagen tarda.
-              Blanco sobre ese azul mide 10.14:1.
-            */
-            <Link
-              href={`/noticias/${vistas.destacada.slug}`}
-              className="group relative flex flex-col overflow-hidden rounded-3xl bg-[#113d82] p-8 text-white"
-              style={{
-                backgroundImage: "url('/megafono.webp')",
-                backgroundSize: 'cover',
-                backgroundPosition: 'right bottom',
-              }}
-            >
-              <div className="relative max-w-sm">
-                <p className="text-ambar text-xs font-semibold tracking-[0.16em] uppercase">
-                  Lo más reciente
-                </p>
-                <h2 className="font-titulo mt-4 text-3xl leading-[1.06] font-bold tracking-[-0.015em]">
-                  {vistas.destacada.titulo}
-                </h2>
-                {vistas.destacada.bajada ? (
-                  <p className="mt-3 leading-relaxed text-white/85">
-                    {vistas.destacada.bajada}
-                  </p>
-                ) : null}
-              </div>
-              <div className="relative mt-8 flex flex-wrap items-center gap-4">
-                {vistas.destacada.etiqueta ? (
-                  <span className="bg-ambar text-tinta rounded-full px-4 py-1.5 text-sm font-semibold">
-                    {vistas.destacada.etiqueta}
-                  </span>
-                ) : null}
-                <span className="flex items-center gap-2 text-sm text-white/80">
-                  <IconoCalendario className="h-4 w-4" />
-                  {vistas.destacada.fecha}
-                </span>
-              </div>
-            </Link>
-          ) : (
-            <div className="bg-azul-100 flex flex-col items-center justify-center rounded-3xl p-10 text-center">
-              <Megafono className="h-24 w-auto opacity-60" />
-              <p className="text-gris mt-4 max-w-xs">
-                Todavía no hay anuncios. Cuando la oficina publique el primero,
-                aparecerá aquí.
-              </p>
+          {(portada.ordenAbajo === 'puerta-noticias'
+            ? (['puerta', 'noticias'] as const)
+            : (['noticias', 'puerta'] as const)
+          ).map((cual) => (
+            <div key={cual} className="relative h-full">
+              {ganchos?.controlesAbajo?.(cual)}
+              {cual === 'noticias' ? (
+                <BloqueNoticias
+                  destacada={vistas.destacada}
+                  portada={portada}
+                  campo={campo}
+                  edicion={edicion}
+                />
+              ) : (
+                <BloquePuerta
+                  contacto={vistas.contacto}
+                  portada={portada}
+                  campo={campo}
+                  edicion={edicion}
+                />
+              )}
             </div>
-          )}
-
-          {/* La puerta abierta. Antes vivía en el pie de TODAS las páginas;
-              aquí cierra la portada con lo único que de verdad hace falta
-              saber para pasar por la oficina: dónde y cuándo. */}
-          <div className="bg-crema border-tinta/10 relative overflow-hidden rounded-3xl border p-8">
-            <Image
-              src="/puerta.webp"
-              alt=""
-              width={416}
-              height={386}
-              className="pointer-events-none absolute right-2 bottom-2 hidden h-56 w-auto sm:block lg:h-64"
-            />
-            <div className="relative max-w-sm">
-              <h2 className="font-titulo text-tinta text-3xl leading-[1.06] font-bold tracking-[-0.015em]">
-                La puerta está <em className="text-azul-700 italic">abierta</em>
-                .
-              </h2>
-              <p className="text-gris mt-3 leading-relaxed">
-                No hace falta cita ni escribir antes. Puedes pasar, preguntar lo
-                que sea, y decidir después si quieres contarlo todo.
-              </p>
-
-              {vistas.contacto?.oficina || vistas.contacto?.horario ? (
-                <dl className="border-tinta/15 mt-6 space-y-4 border-t pt-5">
-                  {/* Rejilla, no divs anidados. Un <dl> admite dt/dd dentro de
-                      UN <div>, pero no dos niveles abajo: axe lo marca como
-                      grave. El icono ocupa las dos filas de la columna
-                      izquierda y queda como hermano del dt y el dd. */}
-                  {vistas.contacto.oficina ? (
-                    <div className="grid grid-cols-[auto_1fr] items-start gap-x-3">
-                      <IconoLugar className="text-azul-700 row-span-2 mt-0.5 h-5 w-5" />
-                      <dt className="text-azul-700 text-xs font-semibold tracking-[0.16em] uppercase">
-                        Dónde
-                      </dt>
-                      <dd className="text-tinta mt-0.5">
-                        {vistas.contacto.oficina}
-                      </dd>
-                    </div>
-                  ) : null}
-                  {vistas.contacto.horario ? (
-                    <div className="grid grid-cols-[auto_1fr] items-start gap-x-3">
-                      <IconoReloj className="text-azul-700 row-span-2 mt-0.5 h-5 w-5" />
-                      <dt className="text-azul-700 text-xs font-semibold tracking-[0.16em] uppercase">
-                        Cuándo
-                      </dt>
-                      <dd className="text-tinta mt-0.5">
-                        {vistas.contacto.horario}
-                      </dd>
-                    </div>
-                  ) : null}
-                </dl>
-              ) : null}
-
-              <Link
-                href="/calendario"
-                className="bg-ambar text-tinta hover:bg-amarillo mt-7 inline-flex items-center gap-2 rounded-full px-5 py-3 font-semibold transition-colors"
-              >
-                Ver qué días está libre
-                <span aria-hidden>→</span>
-              </Link>
-            </div>
-          </div>
+          ))}
         </div>
       </section>
 
@@ -398,5 +318,190 @@ function Buscador({
         </ul>
       ) : null}
     </section>
+  );
+}
+
+type RenderCampo = (clave: string, valor: string) => React.ReactNode;
+
+/**
+ * Enlace de verdad en el sitio, <div> en el editor.
+ *
+ * Es lo que permite que el panel monte ESTE componente y no una copia: la
+ * única diferencia entre lo que se edita y lo que se publica es que en el
+ * editor los enlaces no llevan a ningún sitio.
+ */
+function Envoltura({
+  edicion,
+  href,
+  className,
+  style,
+  children,
+}: {
+  edicion: boolean;
+  href: string;
+  className: string;
+  style?: React.CSSProperties;
+  children: React.ReactNode;
+}) {
+  if (edicion) {
+    return (
+      <div className={className} style={style}>
+        {children}
+      </div>
+    );
+  }
+  return (
+    <Link href={href} className={className} style={style}>
+      {children}
+    </Link>
+  );
+}
+
+/**
+ * Lo último publicado.
+ *
+ * La pieza del megáfono viene como TARJETA, no como recorte: es un rectángulo
+ * azul opaco con el megáfono abajo a la derecha y el resto liso para poner
+ * texto encima. Así que se usa tal cual, de fondo con `cover` anclado abajo a
+ * la derecha — el megáfono sobrevive a cualquier recorte y el azul liso
+ * rellena el resto. El color de respaldo es el mismo azul del archivo
+ * (#113d82) para que no se vea el canto si la imagen tarda. Blanco sobre ese
+ * azul mide 10.14:1.
+ */
+function BloqueNoticias({
+  destacada,
+  portada,
+  campo,
+  edicion,
+}: {
+  destacada: Vistas['destacada'];
+  portada: Portada;
+  campo: RenderCampo;
+  edicion: boolean;
+}) {
+  if (!destacada) {
+    return (
+      <div className="bg-azul-100 flex h-full flex-col items-center justify-center rounded-3xl p-10 text-center">
+        <Megafono className="h-24 w-auto opacity-60" />
+        <p className="text-gris mt-4 max-w-xs">
+          {campo('sinNoticias', portada.sinNoticias)}
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <Envoltura
+      edicion={edicion}
+      href={`/noticias/${destacada.slug}`}
+      className="group relative flex h-full flex-col overflow-hidden rounded-3xl bg-[#113d82] p-8 text-white"
+      style={{
+        backgroundImage: "url('/megafono.webp')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'right bottom',
+      }}
+    >
+      <div className="relative max-w-sm">
+        <p className="text-ambar text-xs font-semibold tracking-[0.16em] uppercase">
+          {campo('recienteEtiqueta', portada.recienteEtiqueta)}
+        </p>
+        <h2 className="font-titulo mt-4 text-3xl leading-[1.06] font-bold tracking-[-0.015em]">
+          {destacada.titulo}
+        </h2>
+        {destacada.bajada ? (
+          <p className="mt-3 leading-relaxed text-white/85">
+            {destacada.bajada}
+          </p>
+        ) : null}
+      </div>
+      <div className="relative mt-8 flex flex-wrap items-center gap-4">
+        {destacada.etiqueta ? (
+          <span className="bg-ambar text-tinta rounded-full px-4 py-1.5 text-sm font-semibold">
+            {destacada.etiqueta}
+          </span>
+        ) : null}
+        <span className="flex items-center gap-2 text-sm text-white/80">
+          <IconoCalendario className="h-4 w-4" />
+          {destacada.fecha}
+        </span>
+      </div>
+    </Envoltura>
+  );
+}
+
+/**
+ * La puerta abierta. Antes vivía en el pie de TODAS las páginas; aquí cierra
+ * la portada con lo único que de verdad hace falta saber para pasar por la
+ * oficina: dónde y cuándo.
+ */
+function BloquePuerta({
+  contacto,
+  portada,
+  campo,
+  edicion,
+}: {
+  contacto: Vistas['contacto'];
+  portada: Portada;
+  campo: RenderCampo;
+  edicion: boolean;
+}) {
+  return (
+    <div className="bg-crema border-tinta/10 relative h-full overflow-hidden rounded-3xl border p-8">
+      <Image
+        src="/puerta.webp"
+        alt=""
+        width={416}
+        height={386}
+        className="pointer-events-none absolute right-2 bottom-2 hidden h-56 w-auto sm:block lg:h-64"
+      />
+      <div className="relative max-w-sm">
+        <h2 className="font-titulo text-tinta text-3xl leading-[1.06] font-bold tracking-[-0.015em]">
+          {campo('puertaAntes', portada.puertaAntes)}{' '}
+          <em className="text-azul-700 italic">
+            {campo('puertaAcento', portada.puertaAcento)}
+          </em>
+          {campo('puertaDespues', portada.puertaDespues)}
+        </h2>
+        <p className="text-gris mt-3 leading-relaxed">
+          {campo('puertaTexto', portada.puertaTexto)}
+        </p>
+
+        {contacto?.oficina || contacto?.horario ? (
+          <dl className="border-tinta/15 mt-6 space-y-4 border-t pt-5">
+            {/* Rejilla, no divs anidados. Un <dl> admite dt/dd dentro de UN
+                <div>, pero no dos niveles abajo: axe lo marca como grave. El
+                icono ocupa las dos filas de la columna izquierda y queda como
+                hermano del dt y el dd. */}
+            {contacto.oficina ? (
+              <div className="grid grid-cols-[auto_1fr] items-start gap-x-3">
+                <IconoLugar className="text-azul-700 row-span-2 mt-0.5 h-5 w-5" />
+                <dt className="text-azul-700 text-xs font-semibold tracking-[0.16em] uppercase">
+                  Dónde
+                </dt>
+                <dd className="text-tinta mt-0.5">{contacto.oficina}</dd>
+              </div>
+            ) : null}
+            {contacto.horario ? (
+              <div className="grid grid-cols-[auto_1fr] items-start gap-x-3">
+                <IconoReloj className="text-azul-700 row-span-2 mt-0.5 h-5 w-5" />
+                <dt className="text-azul-700 text-xs font-semibold tracking-[0.16em] uppercase">
+                  Cuándo
+                </dt>
+                <dd className="text-tinta mt-0.5">{contacto.horario}</dd>
+              </div>
+            ) : null}
+          </dl>
+        ) : null}
+
+        <Envoltura
+          edicion={edicion}
+          href="/calendario"
+          className="bg-ambar text-tinta hover:bg-amarillo mt-7 inline-flex items-center gap-2 rounded-full px-5 py-3 font-semibold transition-colors"
+        >
+          {campo('puertaBoton', portada.puertaBoton)}
+          <span aria-hidden>→</span>
+        </Envoltura>
+      </div>
+    </div>
   );
 }

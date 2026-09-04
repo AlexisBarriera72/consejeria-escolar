@@ -2,6 +2,7 @@ import { Inicio, type Vistas } from '@/components/Inicio';
 import {
   obtenerNoticias,
   obtenerPerfiles,
+  obtenerPortada,
   obtenerPreguntas,
 } from '@/lib/contenido';
 import { fechaLarga } from '@/lib/fechas';
@@ -15,10 +16,13 @@ import { fechaLarga } from '@/lib/fechas';
  * llega con una duda.
  */
 export default async function PaginaInicio() {
-  const [preguntas, noticias, perfiles] = await Promise.all([
+  const [preguntas, noticias, perfiles, portada] = await Promise.all([
     obtenerPreguntas(),
     obtenerNoticias(),
     obtenerPerfiles(),
+    // El texto de la portada es contenido, no código: se edita en
+    // /edit/panel/portada como cualquier otra cosa del sitio.
+    obtenerPortada(),
   ]);
 
   const destacada = noticias[0] ?? null;
@@ -47,5 +51,5 @@ export default async function PaginaInicio() {
       : null,
   };
 
-  return <Inicio vistas={vistas} />;
+  return <Inicio vistas={vistas} portada={portada} />;
 }
