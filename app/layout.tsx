@@ -6,6 +6,7 @@ import { BannerAviso } from '@/components/BannerAviso';
 import { Encabezado } from '@/components/Encabezado';
 import { PiePagina } from '@/components/PiePagina';
 import { RegistroSW } from '@/components/RegistroSW';
+import { obtenerPortada } from '@/lib/contenido';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -26,9 +27,14 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  // El pie necesita el nombre de la escuela y su párrafo. Se leen aquí, una
+  // vez, y bajan por props: así el mismo componente vale para el sitio y para
+  // el editor de la portada, que le pasa su estado en vivo.
+  const portada = await obtenerPortada();
+
   return (
     // lang="es" no es decorativo: sin esto un lector de pantalla lee el
     // español con voz y reglas de pronunciación en inglés.
@@ -55,7 +61,7 @@ export default function RootLayout({
           <main id="contenido" className="flex-1">
             {children}
           </main>
-          <PiePagina />
+          <PiePagina portada={portada} />
           <RegistroSW />
         </ProveedorRol>
       </body>

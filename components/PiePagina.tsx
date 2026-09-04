@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import type { Portada } from '@/lib/tipos';
 import { Sello } from './Sello';
 import { Maceta, IconoLugar, IconoCalendario } from './Ilustraciones';
 
@@ -40,7 +41,27 @@ const COLUMNAS = [
  * y PRODUCT.md prohíbe inventar canales. Los dos que quedan llevan a sitios
  * que existen de verdad.
  */
-export function PiePagina() {
+/**
+ * El pie recibe el texto por props y NO lo lee él mismo.
+ *
+ * Podría leerlo: es un componente de servidor. Pero entonces el editor de la
+ * portada —que es de cliente— no podría montarlo para editarlo encima, y el
+ * párrafo del pie acabaría en un formulario, en una pantalla donde el pie no
+ * se ve. Recibiéndolo por props, el editor le pasa su estado en vivo y el pie
+ * se escribe en su sitio, igual que el resto de la portada.
+ *
+ * `campo` es el mismo gancho que usa <Inicio>: sin él devuelve el texto tal
+ * cual y el HTML público no gana ni un nodo.
+ */
+export function PiePagina({
+  portada,
+  campo,
+}: {
+  portada: Portada;
+  campo?: (clave: string, valor: string) => React.ReactNode;
+}) {
+  const escribir = campo ?? ((_c: string, v: string) => v);
+
   return (
     <footer className="mt-24">
       <svg
@@ -66,9 +87,7 @@ export function PiePagina() {
                 </span>
               </p>
               <p className="text-gris mt-4 max-w-xs leading-relaxed">
-                La oficina de consejería de la Escuela Superior [Nombre]. Guías,
-                anuncios y el apoyo que trabaja contigo — en un sitio que no te
-                pide nada a cambio.
+                {escribir('piePagina', portada.piePagina)}
               </p>
 
               <ul className="mt-6 flex gap-3">
@@ -120,7 +139,11 @@ export function PiePagina() {
 
       <div className="bg-azul-900 text-white/85">
         <div className="contenedor flex flex-wrap items-center justify-between gap-3 py-5 text-sm">
-          <p>© 2026 Consejería Escolar · Escuela Superior [Nombre]</p>
+          {/* El nombre de la escuela sale del MISMO campo que la portada.
+              Antes estaba escrito a mano aquí y en la cejilla de arriba, así
+              que cambiarlo en el panel lo cambiaba en un sitio y en el otro
+              seguía poniendo «[Nombre]», sin ninguna pista de por qué. */}
+          <p>© 2026 Consejería Escolar · {portada.escuela}</p>
           <p className="flex items-center gap-2.5">
             Este sitio no recoge datos personales.
             <svg viewBox="0 0 24 24" aria-hidden className="h-4 w-4">

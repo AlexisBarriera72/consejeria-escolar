@@ -34,6 +34,7 @@ const Entrada = z.object({
   tituloDespues: z.string().trim().max(10),
   lede: Texto(300),
   nota: Texto(80),
+  piePagina: Texto(400),
   secciones: z
     .array(
       z.object({

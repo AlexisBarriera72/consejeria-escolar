@@ -211,6 +211,14 @@ export type Portada = {
   lede: string;
   /** La nota manuscrita que señala las tarjetas, al margen del titular. */
   nota: string;
+  /**
+   * El párrafo del pie. Vive aquí y no en un archivo aparte por una razón
+   * práctica: el editor de la portada monta la página REAL para editarla
+   * encima, y una sola pieza de contenido significa un solo botón de
+   * publicar. Partirlo en dos documentos obligaría a guardar dos veces para
+   * un cambio que la consejera vive como uno.
+   */
+  piePagina: string;
   secciones: TarjetaPortada[];
   recienteEtiqueta: string;
   sinNoticias: string;

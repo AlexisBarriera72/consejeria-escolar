@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from 'react';
 import { Inicio, type Vistas } from '@/components/Inicio';
+import { PiePagina } from '@/components/PiePagina';
 import { ROLES, type Rol } from '@/lib/rol';
 import type { Portada } from '@/lib/tipos';
 import { guardarPortadaAccion } from '@/app/edit/panel/portada/acciones';
@@ -30,6 +31,7 @@ const ETIQUETAS: Record<string, string> = {
   tituloDespues: 'Titular, final',
   lede: 'Presentación debajo del titular',
   nota: 'Nota manuscrita junto a las tarjetas',
+  piePagina: 'Párrafo del pie de página',
   recienteEtiqueta: 'Etiqueta del anuncio destacado',
   sinNoticias: 'Texto cuando no hay anuncios',
   puertaAntes: 'Título de la puerta, primera parte',
@@ -266,6 +268,12 @@ export function EditorPortada({
               ) : null,
           }}
         />
+
+        {/* El pie de verdad, debajo de la portada de verdad.
+            Su párrafo se edita AQUÍ y no en un campo de formulario: en un
+            formulario habría que adivinar a qué trozo de página corresponde,
+            y justamente ese texto lleva el nombre de la escuela. */}
+        <PiePagina portada={portada} campo={campo} />
       </div>
     </div>
   );
