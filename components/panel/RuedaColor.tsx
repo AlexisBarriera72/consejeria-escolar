@@ -91,11 +91,16 @@ export function RuedaColor({
       </div>
 
       <div className="min-w-56 flex-1">
+        {/* La etiqueta decía «Tono», que es el término correcto para la
+            posición en la rueda… y jerga. Quien no viene del diseño lo lee
+            como «lo claro u oscuro que es», y entonces el control parece
+            estropeado: lo mueves esperando brillo y te cambia el color.
+            Esto lo usa una consejera escolar, no una diseñadora. */}
         <label
           htmlFor="tono"
           className="text-tinta block text-sm font-semibold"
         >
-          Tono
+          Elige el color
         </label>
         <input
           id="tono"
@@ -103,12 +108,14 @@ export function RuedaColor({
           min={0}
           max={359}
           value={tono}
+          aria-describedby="tono-nota"
           onChange={(e) => onCambio(colorDeTono(Number(e.target.value)))}
           className="mt-2 w-full"
         />
-        <p className="text-gris mt-2 text-sm">
-          Cualquier color vale. El panel le ajusta solo la claridad para que tu
-          nombre se lea encima.
+        <p id="tono-nota" className="text-gris mt-2 text-sm">
+          Mueve la rueda o la barra para recorrer los colores. Lo claro u oscuro
+          no se elige: lo ajusta el panel solo, para que tu nombre siempre se
+          lea encima.
         </p>
       </div>
     </div>
