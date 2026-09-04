@@ -74,6 +74,29 @@ export const CHAPA =
 export const PASTILLA =
   'border-tinta bg-crema text-tinta flex items-center justify-center rounded-full border-2 font-semibold';
 
+/**
+ * El color de una PERSONA no puede ser una clase de Tailwind.
+ *
+ * Tailwind analiza el código como texto plano: solo existen en el CSS final
+ * las clases que están escritas enteras en algún archivo. Un color elegido en
+ * producción con la rueda de tono no está escrito en ninguna parte, así que
+ * `bg-[${color}]` no generaría nada y el color simplemente no saldría.
+ *
+ * Por eso los perfiles pintan con estilo en línea. Las tablas de arriba
+ * siguen valiendo para las CATEGORÍAS, que sí son un conjunto cerrado escrito
+ * en el código.
+ */
+export const fondoAcento = (color: string) => ({ backgroundColor: color });
+
+export const bordeAcento = (color: string) => ({ borderColor: color });
+
+/** El lavado suave: el mismo color al 15% sobre lo que haya debajo.
+ *  `color-mix` premultiplica el alfa, así que mezclar con `transparent` no
+ *  ensucia el color — a diferencia de un degradado hacia `transparent`. */
+export const tinteAcento = (color: string) => ({
+  backgroundColor: `color-mix(in srgb, ${color} 15%, transparent)`,
+});
+
 export function Tarjeta({
   acento,
   className = '',

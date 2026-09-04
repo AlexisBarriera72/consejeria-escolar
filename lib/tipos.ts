@@ -159,7 +159,17 @@ export type Perfil = Base & {
   puesto: string;
   escuela: string;
   foto: Imagen | null;
-  acento: Acento;
+  /**
+   * El color propio, en hexadecimal (#rrggbb) y NO uno de los ocho nombres.
+   *
+   * Se abrió a cualquier color cuando el panel ganó la rueda de tono. La
+   * garantía de que se puede leer encima ya no la da la lista cerrada: la da
+   * `colorLegible()` en lib/color.ts, comprobada EN EL SERVIDOR al guardar.
+   *
+   * El acento de las categorías (arriba) sigue siendo un preset a propósito:
+   * eso es identidad del sitio, no de una persona, y lo decide el diseño.
+   */
+  acento: string;
   estadoDelDia: string | null;
   frase: string | null;
   bio: string;

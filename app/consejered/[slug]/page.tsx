@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { FotoPerfil } from '@/components/FotoPerfil';
 import { TextoRico } from '@/components/TextoRico';
-import { TINTE_ACENTO, BORDE_ACENTO } from '@/components/ui/Tarjeta';
+import { bordeAcento, tinteAcento } from '@/components/ui/Tarjeta';
 import {
   obtenerPerfil,
   obtenerPerfiles,
@@ -55,7 +55,8 @@ export default async function PaginaPerfil({ params }: Props) {
 
           {perfil.estadoDelDia ? (
             <p
-              className={`text-tinta mt-5 rounded-xl px-4 py-3 text-sm font-medium ${TINTE_ACENTO[perfil.acento]}`}
+              className="text-tinta mt-5 rounded-xl px-4 py-3 text-sm font-medium"
+              style={tinteAcento(perfil.acento)}
             >
               {perfil.estadoDelDia}
             </p>
@@ -112,7 +113,11 @@ export default async function PaginaPerfil({ params }: Props) {
 
           {perfil.frase ? (
             <blockquote
-              className={`text-tinta mt-7 rounded-xl border-l-4 px-5 py-4 italic ${BORDE_ACENTO[perfil.acento]} ${TINTE_ACENTO[perfil.acento]}`}
+              className="text-tinta mt-7 rounded-xl border-l-4 px-5 py-4 italic"
+              style={{
+                ...tinteAcento(perfil.acento),
+                ...bordeAcento(perfil.acento),
+              }}
             >
               {perfil.frase}
             </blockquote>
@@ -156,7 +161,8 @@ export default async function PaginaPerfil({ params }: Props) {
                 {perfil.trabajaEn.map((t) => (
                   <li
                     key={t}
-                    className={`text-tinta rounded-full px-3.5 py-1.5 text-sm ${TINTE_ACENTO[perfil.acento]}`}
+                    className="text-tinta rounded-full px-3.5 py-1.5 text-sm"
+                    style={tinteAcento(perfil.acento)}
                   >
                     {t}
                   </li>
@@ -175,7 +181,8 @@ export default async function PaginaPerfil({ params }: Props) {
                   <li key={c.id}>
                     <Link
                       href={`/consejered/${c.slug}`}
-                      className={`flex items-center gap-3 rounded-xl border-2 p-3 transition-shadow hover:shadow-md ${BORDE_ACENTO[c.acento]}`}
+                      className="flex items-center gap-3 rounded-xl border-2 p-3 transition-shadow hover:shadow-md"
+                      style={bordeAcento(c.acento)}
                     >
                       <FotoPerfil perfil={c} tamano="chica" />
                       <span className="min-w-0">

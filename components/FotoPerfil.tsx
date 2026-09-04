@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import type { Perfil } from '@/lib/tipos';
-import { BANDA_ACENTO, BORDE_ACENTO } from './ui/Tarjeta';
+import { bordeAcento, fondoAcento } from './ui/Tarjeta';
 
 /** "María Rivera" → "MR". Una sola palabra → una sola letra. */
 export function iniciales(nombre: string): string {
@@ -43,8 +43,9 @@ export function FotoPerfil({
         alt={perfil.foto.alt}
         width={perfil.foto.ancho}
         height={perfil.foto.alto}
-        className={`${medidas} ${BORDE_ACENTO[perfil.acento]} rounded-2xl object-cover`}
+        className={`${medidas} rounded-2xl object-cover`}
         style={{
+          ...bordeAcento(perfil.acento),
           objectPosition: `${perfil.foto.focoX * 100}% ${perfil.foto.focoY * 100}%`,
         }}
       />
@@ -53,7 +54,8 @@ export function FotoPerfil({
 
   return (
     <div
-      className={`${medidas} ${BANDA_ACENTO[perfil.acento]} text-tinta grid place-items-center rounded-2xl border-white font-bold`}
+      className={`${medidas} text-tinta grid place-items-center rounded-2xl border-white font-bold`}
+      style={fondoAcento(perfil.acento)}
       // El nombre completo ya está escrito al lado en todos los usos, así
       // que para un lector de pantalla esto es decoración repetida.
       aria-hidden

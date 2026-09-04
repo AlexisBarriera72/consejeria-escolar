@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import type { Perfil } from '@/lib/tipos';
 import { FotoPerfil } from './FotoPerfil';
-import { BANDA_ACENTO } from './ui/Tarjeta';
+import { fondoAcento } from './ui/Tarjeta';
 
 /**
  * Una ficha clavada en el tablón de corcho.
@@ -34,7 +34,8 @@ export function TarjetaPerfil({
         {/* La chincheta. Aguja fina detrás, cabeza redonda delante. */}
         <span aria-hidden className="absolute -top-2 left-1/2 -translate-x-1/2">
           <span
-            className={`block h-5 w-5 rounded-full ${BANDA_ACENTO[perfil.acento]} shadow-[0_2px_4px_rgba(0,0,0,.4)] ring-2 ring-black/10`}
+            className="block h-5 w-5 rounded-full shadow-[0_2px_4px_rgba(0,0,0,.4)] ring-2 ring-black/10"
+            style={fondoAcento(perfil.acento)}
           />
           <span className="mx-auto block h-2 w-[3px] bg-black/25" />
         </span>

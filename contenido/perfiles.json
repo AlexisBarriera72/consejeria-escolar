@@ -12,7 +12,7 @@
     "puesto": "Consejera Escolar",
     "escuela": "Escuela Superior [Nombre]",
     "foto": null,
-    "acento": "naranja",
+    "acento": "#fc7f47",
     "estadoDelDia": "Hoy: aceptando citas",
     "frase": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     "bio": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>",
@@ -34,7 +34,10 @@
       "Consectetur adipiscing",
       "Sed do eiusmod"
     ],
-    "trabajaCon": ["p-colon", "p-santos"],
+    "trabajaCon": [
+      "p-colon",
+      "p-santos"
+    ],
     "contacto": {
       "email": null,
       "extension": "204",
@@ -56,7 +59,7 @@
     "puesto": "Trabajador Social",
     "escuela": "Escuela Superior [Nombre]",
     "foto": null,
-    "acento": "turquesa",
+    "acento": "#00bdc9",
     "estadoDelDia": null,
     "frase": "Ut enim ad minim veniam, quis nostrud exercitation.",
     "bio": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit esse.</p>",
@@ -67,8 +70,13 @@
         "anio": 2017
       }
     ],
-    "trabajaEn": ["Lorem ipsum", "Dolor sit amet"],
-    "trabajaCon": ["p-rivera"],
+    "trabajaEn": [
+      "Lorem ipsum",
+      "Dolor sit amet"
+    ],
+    "trabajaCon": [
+      "p-rivera"
+    ],
     "contacto": {
       "email": null,
       "extension": "207",
@@ -90,7 +98,7 @@
     "puesto": "Bibliotecaria",
     "escuela": "Escuela Superior [Nombre]",
     "foto": null,
-    "acento": "rosa",
+    "acento": "#f83f98",
     "estadoDelDia": null,
     "frase": null,
     "bio": "<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>",
@@ -101,7 +109,11 @@
         "anio": 2012
       }
     ],
-    "trabajaEn": ["Lorem ipsum", "Consectetur adipiscing", "Sed do eiusmod"],
+    "trabajaEn": [
+      "Lorem ipsum",
+      "Consectetur adipiscing",
+      "Sed do eiusmod"
+    ],
     "trabajaCon": [],
     "contacto": {
       "email": null,
@@ -124,7 +136,7 @@
     "puesto": "Enfermera Escolar",
     "escuela": "Escuela Superior [Nombre]",
     "foto": null,
-    "acento": "salvia",
+    "acento": "#bcd298",
     "estadoDelDia": null,
     "frase": null,
     "bio": "<p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.</p>",
@@ -135,8 +147,12 @@
         "anio": 2015
       }
     ],
-    "trabajaEn": ["Lorem ipsum"],
-    "trabajaCon": ["p-colon"],
+    "trabajaEn": [
+      "Lorem ipsum"
+    ],
+    "trabajaCon": [
+      "p-colon"
+    ],
     "contacto": {
       "email": null,
       "extension": "202",

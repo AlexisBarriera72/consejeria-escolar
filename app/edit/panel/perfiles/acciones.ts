@@ -5,17 +5,7 @@ import { z } from 'zod';
 import { exigirPanel } from '@/lib/guardia';
 import { crudo, guardarPerfiles } from '@/lib/contenido';
 import type { Perfil } from '@/lib/tipos';
-
-const ACENTOS = [
-  'azul',
-  'turquesa',
-  'menta',
-  'rosa',
-  'coral',
-  'naranja',
-  'ambar',
-  'salvia',
-] as const;
+import { colorLegible } from '@/lib/color';
 
 const Entrada = z.object({
   id: z.string().min(1),
@@ -27,7 +17,27 @@ const Entrada = z.object({
     .trim()
     .regex(/^[a-z0-9-]+$/, 'Solo minúsculas, números y guiones')
     .max(120),
-  acento: z.enum(ACENTOS),
+  /**
+   * El color propio, en hexadecimal.
+   *
+   * AQUÍ está la garantía de que se puede leer, y no en la pantalla. La rueda
+   * del panel ya calcula una claridad segura, pero una acción de servidor es
+   * un punto de entrada HTTP como cualquier otro: se puede llamar sin pasar
+   * por la pantalla. Sin esta comprobación bastaría una petición hecha a mano
+   * para dejar el nombre de una persona ilegible sobre su propia tarjeta.
+   *
+   * Antes esto era `z.enum(ACENTOS)` y la garantía la daba la lista cerrada,
+   * comprobada en el build por verificar-contraste.mjs. Al abrir el color esa
+   * comprobación dejó de servir —corre sobre una lista fija, en el build— así
+   * que la garantía se mueve aquí, donde el color de verdad llega.
+   */
+  acento: z
+    .string()
+    .regex(/^#[0-9a-fA-F]{6}$/, 'El color debe ser un hexadecimal como #ff6e53')
+    .refine(colorLegible, {
+      message:
+        'Ese color es demasiado claro u oscuro: el nombre no se leería encima.',
+    }),
   estadoDelDia: z.string().trim().max(120).nullable(),
   frase: z.string().trim().max(300).nullable(),
   bio: z.string().max(20_000),

@@ -5,19 +5,24 @@ import { useRouter } from 'next/navigation';
 import { EditorTexto } from './EditorTexto';
 import { VistaPrevia } from './VistaPrevia';
 import { FotoPerfil } from '@/components/FotoPerfil';
-import { BANDA_ACENTO, TINTE_ACENTO } from '@/components/ui/Tarjeta';
+import { tinteAcento } from '@/components/ui/Tarjeta';
 import { guardarPerfil } from '@/app/edit/panel/perfiles/acciones';
-import type { Acento, Credencial, Perfil } from '@/lib/tipos';
+import type { Credencial, Perfil } from '@/lib/tipos';
+import { RuedaColor } from './RuedaColor';
 
-const ACENTOS: Acento[] = [
-  'azul',
-  'turquesa',
-  'menta',
-  'rosa',
-  'coral',
-  'naranja',
-  'ambar',
-  'salvia',
+/** Los ocho de siempre, ya en hexadecimal. Todos pasan 4.5:1 con `tinta`
+ *  encima — el antiguo `azul` (#335b96) NO, medía 2.40:1, y por eso aquí es
+ *  un azul más claro. La rueda no puede producir nada peor: la claridad se
+ *  calcula, no se elige. */
+const ATAJOS = [
+  '#4f7ec0',
+  '#00bdc9',
+  '#75d2c1',
+  '#f83f98',
+  '#ff6e53',
+  '#fc7f47',
+  '#ffc226',
+  '#bcd298',
 ];
 
 function aDireccion(t: string): string {
@@ -50,7 +55,7 @@ export function EditorPerfil({
   const [escuela, setEscuela] = useState(inicial.escuela);
   const [direccion, setDireccion] = useState(inicial.slug);
   const [tocoDireccion, setTocoDireccion] = useState(!esNuevo);
-  const [acento, setAcento] = useState<Acento>(inicial.acento);
+  const [acento, setAcento] = useState<string>(inicial.acento);
   const [estadoDelDia, setEstadoDelDia] = useState(inicial.estadoDelDia ?? '');
   const [frase, setFrase] = useState(inicial.frase ?? '');
   const [bio, setBio] = useState(inicial.bio);
@@ -162,26 +167,28 @@ export function EditorPerfil({
           <p className="text-gris mt-1 text-sm">
             Aparece en tu foto, tus etiquetas y tu tarjeta del Pasillo.
           </p>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {ACENTOS.map((a) => (
-              <label
-                key={a}
-                className={`cursor-pointer rounded-xl border-2 p-1 ${
-                  acento === a ? 'border-azul-700' : 'border-borde'
+
+          <RuedaColor valor={acento} onCambio={setAcento} />
+
+          {/* Los ocho de siempre siguen aquí como atajo. La rueda da libertad;
+              esto da rapidez a quien solo quiere uno que ya sabe que funciona
+              y no quiere pensar en tonos. */}
+          <p className="text-gris mt-5 text-sm">O uno de estos:</p>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {ATAJOS.map((hex) => (
+              <button
+                key={hex}
+                type="button"
+                onClick={() => setAcento(hex)}
+                aria-label={`Usar el color ${hex}`}
+                aria-pressed={acento.toLowerCase() === hex}
+                className={`h-9 w-14 rounded-lg border-2 ${
+                  acento.toLowerCase() === hex
+                    ? 'border-tinta'
+                    : 'border-tinta/30'
                 }`}
-              >
-                <input
-                  type="radio"
-                  name="acento"
-                  className="sr-only"
-                  checked={acento === a}
-                  onChange={() => setAcento(a)}
-                />
-                <span
-                  className={`block h-9 w-14 rounded-lg ${BANDA_ACENTO[a]}`}
-                />
-                <span className="sr-only">{a}</span>
-              </label>
+                style={{ backgroundColor: hex }}
+              />
             ))}
           </div>
         </fieldset>
@@ -426,14 +433,16 @@ export function EditorPerfil({
           </div>
           {vista.estadoDelDia ? (
             <p
-              className={`text-tinta mt-4 rounded-lg px-3 py-2 text-sm ${TINTE_ACENTO[acento]}`}
+              className="text-tinta mt-4 rounded-lg px-3 py-2 text-sm"
+              style={tinteAcento(acento)}
             >
               {vista.estadoDelDia}
             </p>
           ) : null}
           {vista.frase ? (
             <blockquote
-              className={`text-tinta mt-4 rounded-lg px-4 py-3 italic ${TINTE_ACENTO[acento]}`}
+              className="text-tinta mt-4 rounded-lg px-4 py-3 italic"
+              style={tinteAcento(acento)}
             >
               {vista.frase}
             </blockquote>
@@ -459,7 +468,8 @@ export function EditorPerfil({
             {vista.trabajaEn.map((t) => (
               <li
                 key={t}
-                className={`text-tinta rounded-full px-3 py-1 text-sm ${TINTE_ACENTO[acento]}`}
+                className="text-tinta rounded-full px-3 py-1 text-sm"
+                style={tinteAcento(acento)}
               >
                 {t}
               </li>
