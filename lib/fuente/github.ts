@@ -23,11 +23,19 @@ import type { FuenteArchivos, FuenteContenido, NombreArchivo } from './tipos';
 const API = 'https://api.github.com';
 
 function config() {
-  const token = process.env.GITHUB_TOKEN;
-  const repo = process.env.GITHUB_REPO;
-  const rama = process.env.GITHUB_BRANCH ?? 'main';
+  // Los nombres llevan prefijo del proyecto a propósito — ver la nota en
+  // lib/fuente/index.ts. Y NO hay respaldo a `GITHUB_TOKEN` a secas: si otro
+  // proyecto comparte una variable con ese nombre, heredarla en silencio
+  // significaría escribir el contenido de la consejería en el repositorio
+  // equivocado. Mejor fallar y decirlo.
+  const token = process.env.CONSEJERIA_GITHUB_TOKEN;
+  const repo = process.env.CONSEJERIA_GITHUB_REPO;
+  const rama = process.env.CONSEJERIA_GITHUB_BRANCH ?? 'main';
   if (!token || !repo) {
-    throw new Error('Faltan GITHUB_TOKEN o GITHUB_REPO. Revisa .env.example.');
+    throw new Error(
+      'Faltan CONSEJERIA_GITHUB_TOKEN o CONSEJERIA_GITHUB_REPO. ' +
+        'Revisa .env.example.',
+    );
   }
   return { token, repo, rama };
 }

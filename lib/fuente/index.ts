@@ -8,7 +8,15 @@ export type { FuenteArchivos, FuenteContenido, NombreArchivo } from './tipos';
 /**
  * Elige la fuente según el entorno.
  *
- * Con GITHUB_TOKEN y GITHUB_REPO puestos, se usa GitHub. Sin ellos, el disco.
+ * Con CONSEJERIA_GITHUB_TOKEN y CONSEJERIA_GITHUB_REPO puestos, se usa
+ * GitHub. Sin ellos, el disco.
+ *
+ * POR QUÉ EL PREFIJO `CONSEJERIA_`: en Vercel las variables compartidas del
+ * equipo son de todos los proyectos, y `GITHUB_TOKEN` es un nombre que ya
+ * suele estar cogido — GitHub Actions lo inyecta solo, y cualquier otro
+ * proyecto del mismo equipo lo reclama. Con un nombre propio no hay choque
+ * posible y, más importante, no hay forma de heredar por accidente el token
+ * de otro proyecto y escribir en el repositorio equivocado.
  * Así el proyecto arranca y el panel funciona sin configurar nada, y pasar a
  * producción es rellenar dos variables.
  *
@@ -17,7 +25,9 @@ export type { FuenteArchivos, FuenteContenido, NombreArchivo } from './tipos';
  * mandaría el token de GitHub al navegador y nadie se enteraría.
  */
 function usaGitHub(): boolean {
-  return Boolean(process.env.GITHUB_TOKEN && process.env.GITHUB_REPO);
+  return Boolean(
+    process.env.CONSEJERIA_GITHUB_TOKEN && process.env.CONSEJERIA_GITHUB_REPO,
+  );
 }
 
 export const fuente: FuenteContenido = usaGitHub() ? fuenteGitHub : fuenteLocal;
